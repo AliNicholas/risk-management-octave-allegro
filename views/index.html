@@ -5,33 +5,39 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Allegro SRM</title>
     <link rel="stylesheet" href="/index.css" />
+    <script
+      src="https://unpkg.com/htmx.org@1.9.9"
+      integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
     <div class="container">
       <div class="container-top">
         <div class="container-nav">
-          <a href="/form" class="button">New Project</a>
+          <a href="/form" class="add-button">+ New Project</a>
           <select
             name="project-selector"
             id="project-selector"
             class="project-selector"
           >
+            <option value="" disabled>NONE</option>
             <option value="1">Project 1</option>
             <option value="1">Project 2</option>
             <option value="1">Project 3</option>
           </select>
         </div>
         <div class="container-user">
-          <div>User 1</div>
-          <button>Logout</button>
+          <div class="user">User 1</div>
+          <button class="logout-button">Logout</button>
         </div>
         <div class="total-assets">
-          <p>TOTAL assets</p>
-          <p>00</p>
+          <h3>Total Assets</h3>
+          <p>number</p>
         </div>
         <div class="total-containers">
-          <p>Total Containers</p>
-          <p>00</p>
+          <h3>Total Containers</h3>
+          <p>number</p>
         </div>
         <div class="chart">
           <p>chart</p>
@@ -73,8 +79,14 @@
           </div>
         </div>
         <div class="container-side">
-          <div class="side-top"></div>
-          <div class="side-bottom"></div>
+          <div class="side-top">
+            <h3>Measurement Criteria</h3>
+            <p>text</p>
+          </div>
+          <div class="side-bottom">
+            <h3>Impact Areas Priority</h3>
+            <p>diagram</p>
+          </div>
         </div>
       </div>
     </div>

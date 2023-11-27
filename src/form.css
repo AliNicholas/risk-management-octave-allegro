@@ -1,0 +1,117 @@
+/*CSS Reset*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: "Poppins", sans-serif;
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 1.5;
+  background-color: var(--mirage);
+}
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  color: white;
+}
+
+a {
+  text-decoration: none;
+}
+
+/* COLOR */
+:root {
+  --tuna: #313b40;
+  --dark-slate-grey: #29373d;
+  --smoke-grey: #6c7376;
+  --mirage: #0f191e;
+  --butterfly-blue: #37a2ea;
+  --timber-green: #1a2b32;
+}
+
+.back-btn {
+  color: white;
+  padding: 0.5rem 1rem;
+  background-color: var(--butterfly-blue);
+}
+
+.back-btn:active {
+  transform: scale(1.1);
+}
+
+.form {
+  background-color: var(--timber-green);
+  margin: 100px auto;
+  font-family: Raleway;
+  padding: 40px;
+  width: 70%;
+  min-width: 300px;
+}
+
+h1 {
+  text-align: center;
+}
+
+input {
+  padding: 10px;
+  width: 100%;
+  font-size: 17px;
+  font-family: Raleway;
+  border: 1px solid #aaaaaa;
+}
+
+input.invalid {
+  background-color: rgb(255, 99, 99);
+}
+
+.tab {
+  display: none;
+}
+
+button {
+  background-color: var(--butterfly-blue);
+  color: #ffffff;
+  border: none;
+  border-radius: 0.2rem;
+  padding: 10px 20px;
+  font-size: 17px;
+  font-family: Raleway;
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.8;
+}
+
+#prevBtn {
+  background-color: var(--smoke-grey);
+}
+
+.step {
+  height: 15px;
+  width: 15px;
+  margin: 0 2px;
+  background-color: #bbbbbb;
+  border: none;
+  border-radius: 50%;
+  display: inline-block;
+  opacity: 0.5;
+}
+
+.step.active {
+  opacity: 1;
+}
+
+.step.finish {
+  background-color: var(--butterfly-blue);
+}
