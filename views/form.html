@@ -11,7 +11,7 @@
     <form class="form" id="form" name="form" action="/">
       <a href="/" class="back-btn">cancel</a>
 
-      <div class="tab">
+      <div class="tab title">
         <h1>Project's Title</h1>
         <p>
           <input
@@ -23,20 +23,41 @@
       </div>
 
       <div class="tab">
-        Contact Info:
+        <h1>REPUTATION AND CUSTOMER CONFIDENCE</h1>
         <p>
-          <input
+          <textarea
+            id="reputation-low"
+            rows="5"
             placeholder="E-mail..."
             oninput="this.className = ''"
-            name="email"
-          />
+            name="reputation-low"
+          >
+            Reputation is minimally affected; little or no effort or expense is required to recover.
+          </textarea>
         </p>
+
         <p>
-          <input
-            placeholder="Phone..."
+          <textarea
+            id="reputation-moderate"
+            rows="5"
+            placeholder="E-mail..."
             oninput="this.className = ''"
-            name="phone"
-          />
+            name="reputation-moderate"
+          >
+            Reputation is damaged, and some effort and expense are required to recover.
+          </textarea>
+        </p>
+
+        <p>
+          <textarea
+            id="reputation-high"
+            rows="5"
+            placeholder="E-mail..."
+            oninput="this.className = ''"
+            name="reputation-high"
+          >
+            Reputation is irrevocably destroyed or damaged.
+          </textarea>
         </p>
       </div>
       <div class="tab">
@@ -71,13 +92,18 @@
       </div>
       <div style="overflow: auto">
         <div style="float: right">
-          <button type="button" id="prevBtn" onclick="nextPrev(-1)">
+          <button type="button" id="prev-btn" onclick="nextPrev(-1)">
             Previous
           </button>
-          <button type="button" id="nextBtn" onclick="nextPrev(1)">Next</button>
+          <button type="button" id="next-btn" onclick="nextPrev(1)">
+            Next
+          </button>
+          <button type="submit" id="submit-btn" style="display: none">
+            Submit
+          </button>
         </div>
       </div>
-      <!-- Circles which indicates the steps of the form: -->
+
       <div style="text-align: center; margin-top: 40px">
         <span class="step"></span>
         <span class="step"></span>

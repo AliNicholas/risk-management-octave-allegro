@@ -5,7 +5,7 @@
 -- CREATE TABLE projects (
 --     id INT AUTO_INCREMENT PRIMARY KEY,
 --     user_id INT,
---     title VARCHAR(255) NOT NULL,
+--     title VARCHAR(255) NOT NULL, 
 --     FOREIGN KEY (user_id) REFERENCES users(id)
 -- );
 CREATE TABLE projects (
@@ -14,7 +14,7 @@ CREATE TABLE projects (
 );
 -- one to one (documents)
 -- worksheet 1-6
-CREATE TABLE risk_measurement_criteria (
+CREATE TABLE risk_criteria (
     id INT AUTO_INCREMENT PRIMARY KEY,
     project_id INT NOT NULL,
     field VARCHAR(255) NOT NULL,
@@ -26,7 +26,7 @@ CREATE TABLE risk_measurement_criteria (
 );
 -- one to one (documents)
 -- worksheet 7
-CREATE TABLE impact_area_prioritization (
+CREATE TABLE impact_priorities (
     id INT AUTO_INCREMENT PRIMARY KEY,
     project_id INT,
     reputation_confidence INT NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE impact_area_prioritization (
 );
 -- many to _ (documents)
 -- worksheet 8
-CREATE TABLE critical_information_asset_profile (
+CREATE TABLE asset_profiles (
     id INT AUTO_INCREMENT PRIMARY KEY,
     project_id INT NOT NULL,
     critical_asset VARCHAR(255) NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE critical_information_asset_profile (
 );
 -- many to one (critical_information_asset_profile)
 -- worksheet 9
-CREATE TABLE critical_asset_containers (
+CREATE TABLE asset_containers (
     id INT AUTO_INCREMENT PRIMARY KEY,
     asset_id INT NOT NULL,
     project_id INT NOT NULL,
@@ -66,7 +66,7 @@ CREATE TABLE critical_asset_containers (
 );
 -- many to (documents)
 -- worksheet 10
-CREATE TABLE information_asset_risk(
+CREATE TABLE asset_risks(
     id INT AUTO_INCREMENT PRIMARY KEY,
     container_id INT NOT NULL,
     project_id INT NOT NULL,

@@ -1,0 +1,16 @@
+<div class="container-content">
+  {{ range .Content }}
+  <div class="content">
+    <h3>Risk name{{ .RiskName}} - {{ .RelativeScore }}</h3>
+    <p>relative score</p>
+    <p>reason</p>
+  </div>
+  {{ end }}
+</div>
+
+<button hx-post="/delete" hx-target="#target" hx-swap="beforeend">tolol</button>
+<div id="target">
+  {{ block "delete-btn" .}}
+  <p>{{ .Value }}</p>
+  {{ end }}
+</div>

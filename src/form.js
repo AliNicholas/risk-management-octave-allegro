@@ -1,22 +1,23 @@
-var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
+var currentTab = 0;
+showTab(currentTab);
 
 function showTab(n) {
-  // This function will display the specified tab of the form...
   var x = document.getElementsByClassName("tab");
+
   x[n].style.display = "block";
-  //... and fix the Previous/Next buttons:
+
   if (n == 0) {
-    document.getElementById("prevBtn").style.display = "none";
+    document.getElementById("prev-btn").style.display = "none";
   } else {
-    document.getElementById("prevBtn").style.display = "inline";
+    document.getElementById("prev-btn").style.display = "inline";
   }
+
   if (n == x.length - 1) {
-    document.getElementById("nextBtn").innerHTML = "Submit";
+    document.getElementById("prev-btn").innerHTML = "Submit";
   } else {
-    document.getElementById("nextBtn").innerHTML = "Next";
+    document.getElementById("prev-btn").innerHTML = "Next";
   }
-  //... and run a function that will display the correct step indicator:
+
   fixStepIndicator(n);
 }
 

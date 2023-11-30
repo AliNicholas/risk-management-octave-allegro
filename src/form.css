@@ -50,12 +50,10 @@ a {
 }
 
 .form {
-  background-color: var(--timber-green);
-  margin: 100px auto;
-  font-family: Raleway;
-  padding: 40px;
-  width: 70%;
-  min-width: 300px;
+  background-color: var(--mirage);
+  padding: 2rem;
+  width: 100%;
+  height: 100%;
 }
 
 h1 {
@@ -65,12 +63,19 @@ h1 {
 input {
   padding: 10px;
   width: 100%;
-  font-size: 17px;
-  font-family: Raleway;
+  font-size: 1rem;
   border: 1px solid #aaaaaa;
 }
 
-input.invalid {
+textarea {
+  padding: 10px;
+  width: 50%;
+  font-size: 1rem;
+  border: 0.1rem solid #aaaaaa;
+}
+
+input.invalid,
+textarea.invalid {
   background-color: rgb(255, 99, 99);
 }
 
@@ -85,7 +90,6 @@ button {
   border-radius: 0.2rem;
   padding: 10px 20px;
   font-size: 17px;
-  font-family: Raleway;
   cursor: pointer;
 }
 
@@ -93,7 +97,7 @@ button:hover {
   opacity: 0.8;
 }
 
-#prevBtn {
+#prev-btn {
   background-color: var(--smoke-grey);
 }
 

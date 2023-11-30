@@ -14,22 +14,8 @@
   <body>
     <div class="container">
       <div class="container-top">
-        <div class="container-nav">
-          <a href="/form" class="add-button">+ New Project</a>
-          <select
-            name="project-selector"
-            id="project-selector"
-            class="project-selector"
-          >
-            <option value="" disabled>NONE</option>
-            <option value="1">Project 1</option>
-            <option value="1">Project 2</option>
-            <option value="1">Project 3</option>
-          </select>
-        </div>
-        <div class="container-user">
-          <div class="user">User 1</div>
-          <button class="logout-button">Logout</button>
+        <div class="chart">
+          <p>chart</p>
         </div>
         <div class="total-assets">
           <h3>Total Assets</h3>
@@ -39,38 +25,32 @@
           <h3>Total Containers</h3>
           <p>number</p>
         </div>
-        <div class="chart">
-          <p>chart</p>
+
+        <div class="container-nav">
+          <h3 class="user">User 1</h3>
+
+          <div class="action-btn">
+            <a href="/form" class="add-btn">➕ Create</a>
+            <button hx-delete="/form" class="delete-btn">🗑️</button>
+            <button class="logout-btn">Logout</button>
+          </div>
+
+          <select
+            name="project-selector"
+            id="project-selector"
+            class="project-selector"
+          >
+            <option value="" disabled>NONE</option>
+            <option value="1" hx-post="">Project 1</option>
+            <option value="1">Project 2</option>
+            <option value="1">Project 3</option>
+          </select>
         </div>
       </div>
+
       <div class="container-bottom">
         <div class="container-main">
           <div class="container-content">
-            <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
-            </div>
-            <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
-            </div>
-            <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
-            </div>
-            <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
-            </div>
-            <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
-            </div>
             <div class="content">
               <h3>Risk name</h3>
               <p>relative score</p>

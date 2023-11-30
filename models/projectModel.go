@@ -1,8 +1,8 @@
 package models
 
 type Projects struct {
-	ID    int
-	title string
+	ID    uint
+	Title string `gorm:"not null"`
 }
 
 type ImpactAreas struct {
