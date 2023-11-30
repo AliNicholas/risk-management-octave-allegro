@@ -1,29 +1,20 @@
 package models
 
-type Projects struct {
-	ID    uint
+import "final_allegro/database"
+
+type Project struct {
+	ID    uint   `gorm:"primaryKey"`
 	Title string `gorm:"not null"`
 }
 
-type ImpactAreas struct {
+func InsertProject(title string) error {
+	project := Project{Title: title}
+	result := database.DB.Create(&project)
+	return result.Error
 }
 
-func GetAllProjects() {
-
-}
-
-func GetAllProjectAssets() {
-
-}
-
-func GetAllProjectContainers() {
-
-}
-
-func GetAllAssetContainers() {
-
-}
-
-func GetPriorityAreas() {
-
+func GetAllProjects() ([]Project, error) {
+	var projects []Project
+	result := database.DB.Find(&projects)
+	return projects, result.Error
 }

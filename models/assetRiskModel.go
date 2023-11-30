@@ -1,7 +1,7 @@
 package models
 
 type AssetRisk struct {
-	ID                   uint
+	ID                   uint   `gorm:"primaryKey"`
 	ContainerID          uint   `gorm:"not null"`
 	ProjectID            uint   `gorm:"not null"`
 	AreaOfConcern        string `gorm:"not null"`
@@ -13,4 +13,12 @@ type AssetRisk struct {
 	Probability          string `gorm:"not null"`
 	Consequences         string `gorm:"not null"`
 	Severity             string `gorm:"not null"`
+}
+
+func GetAllProjectAssets() {
+
+}
+
+func GetAllProjectAsse() {
+
 }

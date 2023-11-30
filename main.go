@@ -1,6 +1,7 @@
 package main
 
 import (
+	"final_allegro/database"
 	"final_allegro/handlers"
 	"log"
 
@@ -9,6 +10,7 @@ import (
 )
 
 func main() {
+	database.ConnectDB()
 
 	engine := html.New("./views", ".html")
 	app := fiber.New(fiber.Config{

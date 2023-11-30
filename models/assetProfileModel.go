@@ -1,7 +1,7 @@
 package models
 
 type AssetProfile struct {
-	ID                               uint
+	ID                               uint   `gorm:"primaryKey"`
 	ProjectID                        uint   `gorm:"not null"`
 	CriticalAsset                    string `gorm:"not null"`
 	RationaleForSelection            string `gorm:"not null"`
@@ -11,4 +11,8 @@ type AssetProfile struct {
 	Integrity                        string `gorm:"not null"`
 	Availability                     string `gorm:"not null"`
 	MostImportantSecurityRequirement string `gorm:"not null"`
+}
+
+func GetAssetProfileByProjectId() {
+
 }
