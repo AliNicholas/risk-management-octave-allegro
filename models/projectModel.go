@@ -18,3 +18,8 @@ func GetAllProjects() ([]Project, error) {
 	result := database.DB.Find(&projects)
 	return projects, result.Error
 }
+
+func DeleteProjectById(id uint) error {
+	result := database.DB.Delete(&Project{}, id)
+	return result.Error
+}

@@ -13,65 +13,118 @@ function showTab(n) {
   }
 
   if (n == x.length - 1) {
-    document.getElementById("prev-btn").innerHTML = "Submit";
+    // document.getElementById("next-btn").innerHTML = "Submit";
+    document.getElementById("next-btn").style.display = "none";
+    document.getElementById("submit-btn").style.display = "inline";
   } else {
-    document.getElementById("prev-btn").innerHTML = "Next";
+    document.getElementById("next-btn").style.display = "inline";
+    document.getElementById("submit-btn").style.display = "none";
   }
 
   fixStepIndicator(n);
 }
 
-function nextPrev(n) {
-  // This function will figure out which tab to display
+function changeTab(n) {
   var x = document.getElementsByClassName("tab");
-  // Exit the function if any field in the current tab is invalid:
   if (n == 1 && !validateForm()) return false;
-  // Hide the current tab:
+
+  x[currentTab].id = "";
+
   x[currentTab].style.display = "none";
-  // Increase or decrease the current tab by 1:
   currentTab = currentTab + n;
-  // if you have reached the end of the form...
-  if (currentTab >= x.length) {
-    // ... the form gets submitted:
-    document.getElementById("regForm").submit();
-    return false;
-  }
-  // Otherwise, display the correct tab:
+
+  x[currentTab].id = "tab-" + (currentTab + 1);
   showTab(currentTab);
 }
 
 function validateForm() {
-  // This function deals with validation of the form fields
   var x,
     y,
     i,
     valid = true;
+
   x = document.getElementsByClassName("tab");
-  y = x[currentTab].getElementsByTagName("input");
-  // A loop that checks every input field in the current tab:
+  y = x[currentTab].querySelectorAll("input, select, textarea, option");
+
   for (i = 0; i < y.length; i++) {
-    // If a field is empty...
-    if (y[i].value == "") {
-      // add an "invalid" class to the field:
-      y[i].className += " invalid";
-      // and set the current valid status to false
+    if (y[i].value.trim() === "") {
+      y[i].classList.add("invalid");
       valid = false;
     }
   }
-  // If the valid status is true, mark the step as finished and valid:
+
   if (valid) {
-    document.getElementsByClassName("step")[currentTab].className += " finish";
+    document.getElementsByClassName("step")[currentTab].classList.add("finish");
   }
-  return valid; // return the valid status
+  return valid;
 }
 
 function fixStepIndicator(n) {
-  // This function removes the "active" class of all steps...
   var i,
     x = document.getElementsByClassName("step");
   for (i = 0; i < x.length; i++) {
-    x[i].className = x[i].className.replace(" active", "");
+    x[i].classList.remove("active");
   }
-  //... and adds the "active" class on the current step:
-  x[n].className += " active";
+
+  x[n].classList.add("active");
+}
+
+// select options
+// Fungsi untuk mengubah nilai opsi pada kategori lain
+function updateOptions(selectedCategory, selectedValue) {
+  // Ambil semua elemen select
+  var selects = document.getElementsByTagName("select");
+
+  // Iterasi melalui elemen select
+  for (var i = 0; i < selects.length; i++) {
+    var currentCategory = selects[i].id;
+
+    // Jika bukan kategori yang dipilih, perbarui nilai opsi
+    if (currentCategory !== selectedCategory) {
+      // Dapatkan semua opsi dalam kategori tersebut
+      var options = selects[i].getElementsByTagName("option");
+
+      // Iterasi melalui opsi dan nonaktifkan opsi yang dipilih di kategori lain
+      for (var j = 0; j < options.length; j++) {
+        if (options[j].value === selectedValue) {
+          options[j].disabled = true;
+        }
+      }
+    }
+  }
+}
+
+// Fungsi untuk menangani perubahan pada opsi
+function handleOptionChange(event) {
+  var selectedCategory = event.target.id;
+  var selectedValue = event.target.value;
+
+  // Reset semua opsi
+  resetOptions();
+
+  // Perbarui opsi pada kategori lain
+  updateOptions(selectedCategory, selectedValue);
+}
+
+// Fungsi untuk mereset nilai opsi
+function resetOptions() {
+  // Ambil semua elemen select
+  var selects = document.getElementsByTagName("select");
+
+  // Iterasi melalui elemen select
+  for (var i = 0; i < selects.length; i++) {
+    // Dapatkan semua opsi dalam kategori tersebut
+    var options = selects[i].getElementsByTagName("option");
+
+    // Iterasi melalui opsi dan aktifkan kembali semua opsi
+    for (var j = 0; j < options.length; j++) {
+      options[j].disabled = false;
+    }
+  }
+}
+
+// Tambahkan event listener pada setiap elemen select
+var selects = document.getElementsByTagName("select");
+for (var i = 0; i < selects.length; i++) {
+  selects[i].addEventListener("change", handleOptionChange);
 }

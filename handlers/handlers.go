@@ -1,37 +1,87 @@
 package handlers
 
 import (
+	"final_allegro/models"
+	"fmt"
+	"strconv"
+
 	"github.com/gofiber/fiber/v2"
 )
 
-func Home(ctx *fiber.Ctx) error {
-	return ctx.Render("index", nil)
+func LoginPage(ctx *fiber.Ctx) error {
+	return ctx.Render("login", fiber.Map{})
 }
 
-func Form(ctx *fiber.Ctx) error {
+func DashboardPage(ctx *fiber.Ctx) error {
+	return ctx.Render("dashboard", fiber.Map{})
+}
+
+func FormPage(ctx *fiber.Ctx) error {
 	return ctx.Render("form", nil)
 }
 
-func Risk(ctx *fiber.Ctx) error {
-	return ctx.Render("risk", nil)
+func FormPost(ctx *fiber.Ctx) error {
+	// body := ctx.FormValue("ok")
+	return ctx.SendString(`<div class="overlay" id="overlay"><div class="notification-box"><h4>Success</h4><a href="/notif">ok!</a></div></div>`)
 }
 
-func Detail(ctx *fiber.Ctx) error {
-	return ctx.Render("detail", nil)
+func Notification(ctx *fiber.Ctx) error {
+	return ctx.Redirect("dashboard")
 }
 
-func AddNewProject(ctx *fiber.Ctx) error {
+func AddAssetPage(ctx *fiber.Ctx) error {
+	return ctx.Render("add-asset", nil)
+}
+func AddAssetPost(ctx *fiber.Ctx) error {
 	return ctx.SendString("ok")
 }
 
-func AddNewRisk(ctx *fiber.Ctx) error {
+func AddContainerPage(ctx *fiber.Ctx) error {
+	return ctx.Render("add-container", nil)
+}
+func AddContainerPost(ctx *fiber.Ctx) error {
 	return ctx.SendString("ok")
 }
 
-func SelectProject(ctx *fiber.Ctx) error {
+func AddRiskPage(ctx *fiber.Ctx) error {
+	return ctx.Render("add-risk", nil)
+}
+func AddRiskPost(ctx *fiber.Ctx) error {
 	return ctx.SendString("ok")
 }
 
-func SelectCategory(ctx *fiber.Ctx) error {
+func DeleteProject(ctx *fiber.Ctx) error {
+	strId := ctx.Get("id")
+
+	id, err := strconv.ParseUint(strId, 10, 0)
+	if err != nil {
+		fmt.Println("Error parsing string to uint:", err)
+		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
+			"error": "Invalid project ID",
+		})
+	}
+
+	err = models.DeleteProjectById(uint(id))
+
+	if err != nil {
+		fmt.Println("Error deleting project:", err)
+		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
+			"error": "Failed to delete project",
+		})
+	}
+
+	return ctx.JSON(fiber.Map{
+		"message": "Project deleted successfully",
+	})
+}
+
+// tba
+func Logout(ctx *fiber.Ctx) error {
+	return ctx.Redirect("/")
+}
+func Login(ctx *fiber.Ctx) error {
+	return ctx.SendString("ok")
+}
+func Register(ctx *fiber.Ctx) error {
 	return ctx.SendString("ok")
 }

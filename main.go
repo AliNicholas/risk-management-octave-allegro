@@ -19,14 +19,28 @@ func main() {
 
 	app.Static("/", "./src")
 
-	app.Get("/", handlers.Home)
-	app.Get("/form", handlers.Form)
-	// app.Post("/form")
-	// app.Post("/delete", func(c *fiber.Ctx) error {
-	// 	return c.Render("index", fiber.Map{
-	// 		"Value": "Hello",
-	// 	}, "delete-btn")
-	// })
+	app.Get("/", handlers.LoginPage)
+	app.Get("/dashboard", handlers.DashboardPage)
+
+	app.Get("/form", handlers.FormPage)
+	app.Post("/form", handlers.FormPost)
+	app.Get("/notif", handlers.Notification)
+
+	app.Get("/add-asset", handlers.AddAssetPage)
+	app.Post("/add-asset", handlers.AddAssetPost)
+
+	app.Get("/add-container", handlers.AddContainerPage)
+	app.Post("/add-container", handlers.AddContainerPost)
+
+	app.Get("/add-risk", handlers.AddRiskPage)
+	app.Post("/add-risk", handlers.AddRiskPost)
+
+	app.Delete("/delete-project", handlers.DeleteProject)
+
+	// tba
+	app.Get("/logout", handlers.Logout)
+	app.Post("/login", handlers.Login)
+	app.Post("/register", handlers.Register)
 
 	log.Fatal(app.Listen(":3000"))
 
