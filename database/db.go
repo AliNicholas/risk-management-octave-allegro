@@ -11,7 +11,7 @@ var DB *gorm.DB
 func ConnectDB() {
 	var err error
 
-	dsn := mysql.Open("root:@tcp(localhost:3306)/go_db?charset=utf8mb4&parseTime=True&loc=Local")
+	dsn := mysql.Open("root:@tcp(localhost:3306)/final_allegro?charset=utf8mb4&parseTime=True&loc=Local")
 	DB, err = gorm.Open(dsn, &gorm.Config{
 		Logger: logger.Default.LogMode(logger.Info),
 	})
