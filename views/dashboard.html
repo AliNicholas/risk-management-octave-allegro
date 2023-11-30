@@ -14,16 +14,82 @@
   <body>
     <div class="container">
       <div class="container-top">
-        <div class="chart">
-          <p>chart</p>
+        <div class="prior">
+          <h4>Impact Areas Priority</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="text-align: left">
+                  Reputation and Customer Confidence
+                </td>
+                <td>✅</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Financial</td>
+                <td>✅</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Productivity</td>
+                <td>✅</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Safety and Health</td>
+                <td>✅</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td style="text-align: left">Fines and Legal Penalties</td>
+                <td>✅</td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+              </tr>
+            </tbody>
+          </table>
         </div>
+
         <div class="total-assets">
           <h3>Total Assets</h3>
-          <p>number</p>
+          {{ if .TotalAssets }} {{ if gt .TotalAssets 0 }}
+          <p>{{ .TotalAssets }}</p>
+          {{ end }} {{ else }}
+          <p>0</p>
+          {{ end }}
         </div>
-        <div class="total-containers">
-          <h3>Total Containers</h3>
-          <p>number</p>
+
+        <div class="total-risks">
+          <h3>Total Risks</h3>
+          {{ if .TotalRisks }} {{ if gt .TotalRisks 0 }}
+          <p>{{ .TotalRisks }}</p>
+          {{ end }} {{ else }}
+          <p>0</p>
+          {{ end }}
         </div>
 
         <div class="container-nav">
@@ -40,10 +106,10 @@
             id="project-selector"
             class="project-selector"
           >
-            <option value="" disabled>NONE</option>
-            <option value="1" hx-post="">Project 1</option>
-            <option value="1">Project 2</option>
-            <option value="1">Project 3</option>
+            <option value="1" selected disabled>NONE</option>
+            <option value="1">Project 1</option>
+            <option value="2">Project 2</option>
+            <option value="3">Project 3</option>
           </select>
         </div>
       </div>
@@ -52,14 +118,29 @@
         <div class="container-main">
           <div class="container-content">
             <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
-            </div>
-            <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
+              <div class="front">
+                <h3>Area of Concer</h3>
+                <p>aktor</p>
+                <p>tujuan</p>
+                <p>motif</p>
+                <p>hasil</p>
+
+                <h3>Risk name</h3>
+                <p>relative score</p>
+                <p>reason</p>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <p>
+                  1. Dapat mengurangi produktivitas staf sehingga staf hanya
+                  fokus pada memperbaiki bug/error pada aplikasi SAFANA. Selain
+                  itu mahasiswa sulit
+                </p>
+                <p>
+                  2. melakukan akses ke SAFANA hingga akhirnya mahasiswa tidak
+                  menggunakan aplikasi SAFANA.
+                </p>
+              </div>
             </div>
             <div class="content">
               <h3>Risk name</h3>
@@ -85,42 +166,11 @@
         </div>
         <div class="container-side">
           <div class="side-top">
-            <h3>Impact Areas Priority</h3>
-
-            <table>
-              <thead>
-                <tr>
-                  <th>Field</th>
-                  <th>1</th>
-                  <th>2</th>
-                  <th>3</th>
-                  <th>4</th>
-                  <th>5</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>John Doe</td>
-                  <td>30</td>
-                  <td>New York</td>
-                </tr>
-                <tr>
-                  <td>Jane Doe</td>
-                  <td>25</td>
-                  <td>Los Angeles</td>
-                </tr>
-                <tr>
-                  <td>Bob Smith</td>
-                  <td>35</td>
-                  <td>Chicago</td>
-                </tr>
-              </tbody>
-            </table>
+            <h3>Chart</h3>
           </div>
           <div class="side-bottom">
-            <a href="/add-asset" class="add-btn">Add Asset</a>
-            <a href="/add-container" class="add-btn">Add Container</a>
-            <a href="/add-risk" class="add-btn">Add Risk</a>
+            <a href="/add-asset-container">Add Asset & Container</a>
+            <a href="/add-risk" style="margin-top: 0.5rem">Add Risk</a>
           </div>
         </div>
       </div>

@@ -13,7 +13,13 @@ func LoginPage(ctx *fiber.Ctx) error {
 }
 
 func DashboardPage(ctx *fiber.Ctx) error {
-	return ctx.Render("dashboard", fiber.Map{})
+	var ProjectList []string
+
+	return ctx.Render("dashboard", fiber.Map{
+		// "TotalAssets": 1,
+		"TotalRisks":  0,
+		"ProjectList": ProjectList,
+	})
 }
 
 func FormPage(ctx *fiber.Ctx) error {
