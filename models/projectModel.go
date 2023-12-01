@@ -13,6 +13,12 @@ func InsertProject(title string) error {
 	return result.Error
 }
 
+func GetProjectById(projectId uint) (Project, error) {
+	var project Project
+	result := database.DB.First(&project, projectId)
+	return project, result.Error
+}
+
 func GetAllProjects() ([]Project, error) {
 	var projects []Project
 	result := database.DB.Find(&projects)

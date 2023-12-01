@@ -4,12 +4,13 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Allegro SRM</title>
-    <link rel="stylesheet" href="/index.css" />
+    <link rel="stylesheet" href="/dashboard.css" />
     <script
       src="https://unpkg.com/htmx.org@1.9.9"
       integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
       crossorigin="anonymous"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <div class="container">
@@ -106,10 +107,13 @@
             id="project-selector"
             class="project-selector"
           >
-            <option value="1" selected disabled>NONE</option>
-            <option value="1">Project 1</option>
-            <option value="2">Project 2</option>
-            <option value="3">Project 3</option>
+            {{ if .Projects }}
+            <option selected disabled>NONE</option>
+            {{ range .Projects }}
+            <option hx-get="/render/{{ .ID }}">{{ .Title }}</option>
+            {{ end }} {{ else }}
+            <option selected disabled>NONE</option>
+            {{ end }}
           </select>
         </div>
       </div>
@@ -119,61 +123,302 @@
           <div class="container-content">
             <div class="content">
               <div class="front">
-                <h3>Area of Concer</h3>
-                <p>aktor</p>
-                <p>tujuan</p>
-                <p>motif</p>
-                <p>hasil</p>
+                <h3>Area of Concern: blabla</h3>
 
-                <h3>Risk name</h3>
-                <p>relative score</p>
-                <p>reason</p>
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
               </div>
               <div class="back">
                 <h3>Consequences</h3>
-                <p>
-                  1. Dapat mengurangi produktivitas staf sehingga staf hanya
-                  fokus pada memperbaiki bug/error pada aplikasi SAFANA. Selain
-                  itu mahasiswa sulit
-                </p>
-                <p>
-                  2. melakukan akses ke SAFANA hingga akhirnya mahasiswa tidak
-                  menggunakan aplikasi SAFANA.
-                </p>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
               </div>
             </div>
             <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
             </div>
             <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
             </div>
             <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
             </div>
             <div class="content">
-              <h3>Risk name</h3>
-              <p>relative score</p>
-              <p>reason</p>
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
+            </div>
+            <div class="content">
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
             </div>
           </div>
         </div>
         <div class="container-side">
           <div class="side-top">
-            <h3>Chart</h3>
+            <a href="/asset-container">Add Asset & Container</a>
+            <a href="/risk" style="margin-top: 0.5rem">Add Risk</a>
           </div>
           <div class="side-bottom">
-            <a href="/add-asset-container">Add Asset & Container</a>
-            <a href="/add-risk" style="margin-top: 0.5rem">Add Risk</a>
+            <h3>Chart</h3>
+            <div class="container-chart">
+              <canvas id="myChart"></canvas>
+            </div>
           </div>
         </div>
       </div>
     </div>
+    <script>
+      const ctx = document.getElementById("myChart");
+
+      Chart.defaults.color = "#FFFFFF";
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.3)";
+      Chart.defaults.font.size = 10;
+
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["Category 1", "Category 2", "Category 3", "Category 4"],
+          datasets: [
+            {
+              label: "Total Risks",
+              data: [30, 60, 3, 5],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+          plugins: {
+            legend: {
+              labels: {
+                font: {
+                  size: 14,
+                },
+              },
+            },
+          },
+        },
+      });
+    </script>
   </body>
 </html>

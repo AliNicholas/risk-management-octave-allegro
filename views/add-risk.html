@@ -9,312 +9,311 @@
   ></script>
   <body>
     <div class="container">
-      <a href="/" class="back-btn">cancel</a>
+      <a href="/dashboard" class="back-btn">cancel</a>
       <form
         class="form"
         id="form"
         name="form"
         hx-post="http://localhost:3000/form"
+        hx-target=".container-btn"
+        hx-swap="beforeend"
       >
-        <!-- tab 1 - Project's Title -->
-        <div class="tab" id="tab-1">
-          <h1>Project's Title</h1>
-          <input
-            placeholder="type your project's title..."
-            oninput="this.className = ''"
-            name="title"
-          />
-        </div>
-
-        <!-- tab 2 - Priorities -->
-        <div class="tab">
-          <label for="c1">Reputation and Customer Confidence: </label>
-          <select
-            name="c1"
-            id="c1"
-            hx-trigger="change"
-            hx-post="/update-values"
-            hx-swap="outerHTML"
-          >
-            <option value="none" selected>None</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-
-          <br />
-
-          <label for="c2">Financial: </label>
-          <select
-            name="c2"
-            id="c2"
-            hx-trigger="change"
-            hx-post="/update-values"
-            hx-swap="outerHTML"
-          >
-            <option value="none" selected>None</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-
-          <br />
-
-          <label for="c3">Productivity: </label>
-          <select
-            name="c3"
-            id="c3"
-            hx-trigger="change"
-            hx-post="/update-values"
-            hx-swap="outerHTML"
-          >
-            <option value="none" selected>None</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-
-          <br />
-
-          <label for="c4">Safety and Health: </label>
-          <select
-            name="c4"
-            id="c4"
-            hx-trigger="change"
-            hx-post="/update-values"
-            hx-swap="outerHTML"
-          >
-            <option value="none" selected>None</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-
-          <br />
-
-          <label for="c5">Fines and Legal Penalties: </label>
-          <select
-            name="c5"
-            id="c5"
-            hx-trigger="change"
-            hx-post="/update-values"
-            hx-swap="outerHTML"
-          >
-            <option value="none" selected>None</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-
-        <!-- tab 3 - Asset Profile -->
-        <!-- <div class="tab">
-          <h1>CRITICAL INFORMATION ASSET PROFILE</h1>
-
-          <label for="critical-asset">Critical Asset:</label>
-          <input type="text" name="critical-asset" id="critical-asset" />
-
-          <br />
-
-          <label for="rationale">Rationale for Selection: </label>
-          <textarea
-            placeholder="Why is this information asset important to the organization?"
-            name="rationale"
-            id="rationale"
-            cols="70"
-            rows="5"
-          ></textarea>
-
-          <br />
-
-          <label for="description">Description: </label>
-          <textarea
-            placeholder="What is the agreed-upon description of this information asset?"
-            name="description"
-            id="description"
-            cols="70"
-            rows="5"
-          ></textarea>
-
-          <br />
+        <div class="tab" id="tab-3" style="display: block">
+          <h1>Information Asset</h1>
+          <label for="">Choose Information Assets</label>
 
           <label for="owners">Owner(s): </label>
-          <textarea
-            placeholder="Who owns this information asset?"
-            name="owners"
-            id="owners"
-            cols="50"
-            rows="5"
-          ></textarea>
 
           <br />
 
           <label>
-            Security Requirements
-
-            <br />
+            <h4>Security Requirements</h4>
 
             <label for="confidentiality">Confidentiality: </label>
-            <textarea
-              placeholder="Only authorized personnel can view this information asset, as follows:"
-              name="confidentiality"
-              id="confidentiality"
-              cols="60"
-              rows="5"
-            ></textarea>
-
-            <br />
 
             <label for="integrity">Integrity: </label>
-            <textarea
-              placeholder="Only authorized personnel can modify this information asset, as follows:"
-              name="integrity"
-              id="integrity"
-              cols="60"
-              rows="5"
-            ></textarea>
-
-            <br />
 
             <label for="availability">Availability: </label>
-            <textarea
-              placeholder="This asset must be available for _____ hours,
-              _____ days/week, _____ weeks/year."
-              name="availability"
-              id="availability"
-              cols="60"
-              rows="5"
-            ></textarea>
           </label>
 
-          <br />
+          <label for="misr">Most Important Security Requirement: </label>
 
-          <label for="misr">Most Important Security Requirement</label>
-          <select name="misr" id="misr">
-            What is the most important security requirement for this information
-            asset?
-            <option selected disabled>Choose one...</option>
-            <option value="Confidentiality">Confidentiality</option>
-            <option value="Integrity">Integrity</option>
-            <option value="Availability">Availability</option>
-          </select>
-        </div> -->
-        <div class="tab">
-          <h1>tab 3</h1>
-        </div>
+          <hr />
 
-        <!-- tab 4 - Asset Container -->
-        <div class="tab">
-          <h1>Deskripsi Kontainer</h1>
+          <h4>Deskripsi Kontainer</h4>
 
           <label for="owners">Owner(s)</label>
+
+          <label for="">
+            <h4>Technical</h4>
+            <label for="technical_internal">Internal: </label>
+            <label for="technical_external">External: </label>
+          </label>
+
+          <label for="">
+            <h4>Physical</h4>
+            <label for="physical_internal">Internal: </label>
+            <label for="physical_external">External: </label>
+          </label>
+
+          <label for="">
+            <h4>People</h4>
+            <label for="people_internal">Internal:</label>
+            <label for="people_external">External: </label>
+          </label>
+
+          <hr />
+
+          <h1>Identify Risk/Threats</h1>
+
+          <label for="concern">Area Of Concern:</label>
           <textarea
-            placeholder="Who owns this asset's container?"
-            name="technical_internal"
-            id="technical_internal"
+            placeholder="A descriptive statement that details a real-world condition or situation
+            that could affect an information asset in your organization."
+            name="concern"
+            id="concern"
+            cols="70"
+            rows="3"
+          ></textarea>
+
+          <label for="actor">Actor:</label>
+          <textarea
+            placeholder="Who would exploit the weakness?"
+            name="actor"
+            id="actor"
             cols="50"
             rows="3"
           ></textarea>
 
-          <label for="">
-            Technical
-            <label for="technical_internal">Internal</label>
-            <textarea
-              placeholder="What information systems use or process this information asset?"
-              name="technical_internal"
-              id="technical_internal"
-              cols="70"
-              rows="5"
-            ></textarea>
-            <label for="technical_external">External </label>
-            <textarea
-              placeholder="Are there customer or partner information systems that are externally managed that use or process this information asset?"
-              name="technical_external"
-              id="technical_external"
-              cols="70"
-              rows="5"
-            ></textarea>
-          </label>
+          <label for="means">Means: </label>
+          <textarea
+            placeholder="How would the actor do it? What would they do?"
+            name="means"
+            id="means"
+            cols="50"
+            rows="3"
+          ></textarea>
 
-          <label for="">
-            Physical
-            <label for="physical_internal">Internal</label>
-            <textarea
-              placeholder="Are there places, other than on technical assets, where this information asset exists?"
-              name="physical_internal"
-              id="physical_internal"
-              cols="70"
-              rows="5"
-            ></textarea>
-            <label for="physical_external">External </label>
-            <textarea
-              placeholder="Are there places external to the organization, other than on technical assets, where this information asset exists?"
-              name="physical_external"
-              id="physical_external"
-              cols="70"
-              rows="5"
-            ></textarea>
-          </label>
+          <label for="motive">Motive: </label>
+          <textarea
+            placeholder="What is the actor’s reason for doing it?"
+            name="motive"
+            id="motive"
+            cols="50"
+            rows="3"
+          ></textarea>
 
-          <label for="">
-            People
-            <label for="people_internal">Internal</label>
-            <textarea
-              placeholder="What people might have detailed knowledge of this information asset?"
-              name="people_internal"
-              id="people_internal"
-              cols="70"
-              rows="5"
-            ></textarea>
-            <label for="people_external">External </label>
-            <textarea
-              placeholder="What people, external to your organization, might know about this information asset?"
-              name="people_external"
-              id="people_external"
-              cols="70"
-              rows="5"
-            ></textarea>
-          </label>
+          <label for="outcome">Outcome: </label>
+          <p>What would be the resulting effect on the information asset?</p>
+          <select name="outcome" id="outcome">
+            <option selected disabled>Choose one...</option>
+            <option value="Disclosure">Disclosure</option>
+            <option value="Modification">Modification</option>
+            <option value="Destruction">Destruction</option>
+            <option value="Interruption">Interruption</option>
+          </select>
+
+          <label for="sr">Security Requirements: </label>
+          <textarea
+            placeholder="How would the information asset’s security requirements be breached?"
+            name="sr"
+            id="sr"
+            cols="70"
+            rows="3"
+          ></textarea>
+
+          <label for="probability">Probability: </label>
+          <p>What is the likelihood that this threat scenario could occur?</p>
+          <select name="probability" id="probability">
+            <option selected disabled>Choose one...</option>
+            <option value="High">High</option>
+            <option value="Medium">Medium</option>
+            <option value="Low">Low</option>
+          </select>
+
+          <label for="consequences">Consequences: </label>
+          <textarea
+            placeholder="What are the consequences to the organization or the information asset
+            owner as a result of the outcome and breach of security requirements?"
+            name="consequences"
+            id="consequences"
+            cols="70"
+            rows="5"
+          ></textarea>
+
+          <label for="">Severity:</label>
+          <p>
+            How severe are these consequences to the organization or asset owner
+            by impact area?
+          </p>
+          <table>
+            <thead>
+              <tr>
+                <th>Impact Area</th>
+                <th>Value</th>
+                <th>Score</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Reputation & Customer Confidence</td>
+                <td>
+                  <select
+                    name="area"
+                    id="area1"
+                    hx-post="/score/area1/{{ .ProjectId }}"
+                    hx-target="#score1"
+                  >
+                    <option selected disabled>Choose one...</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </td>
+                <td id="score1"></td>
+              </tr>
+              <tr>
+                <td>Financial</td>
+                <td>
+                  <select
+                    name="area"
+                    id="area2"
+                    hx-post="/score/area1/{{ .ProjectId }}"
+                    hx-target="#score2"
+                  >
+                    <option selected disabled>Choose one...</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </td>
+                <td id="score2"></td>
+              </tr>
+              <tr>
+                <td>Productivity</td>
+                <td>
+                  <select
+                    name="area"
+                    id="area3"
+                    hx-post="/score/area3/{{ .ProjectId }}"
+                    hx-target="#score3"
+                  >
+                    <option selected disabled>Choose one...</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </td>
+                <td id="score3"></td>
+              </tr>
+              <tr>
+                <td>Safety & Health</td>
+                <td>
+                  <select
+                    name="area4"
+                    id="area4"
+                    hx-post="/score/area4/{{ .ProjectId }}"
+                    hx-target="#score4"
+                  >
+                    <option selected disabled>Choose one...</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </td>
+                <td id="score4"></td>
+              </tr>
+              <tr>
+                <td>Fines & Legal Penalties</td>
+                <td>
+                  <select
+                    name="area5"
+                    id="area5"
+                    hx-post="/score/area5/{{ .ProjectId }}"
+                    hx-target="#score5"
+                  >
+                    <option selected disabled>Choose one...</option>
+                    <option value="High">High</option>
+                    <option value="Medium">Medium</option>
+                    <option value="Low">Low</option>
+                  </select>
+                </td>
+                <td id="score5"></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <hr />
+
+          <h1>Mitigate Risk/Threats</h1>
+          <p>
+            Based on the total score for this risk, what action will you take?
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Containers</th>
+                <th>Action/Control</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-size: 0.6rem; font-weight: 100; color: white">
+                  What administrative, technical, and physical controls would
+                  you apply on this container?
+                </td>
+                <td style="font-size: 0.6rem; font-weight: 100; color: white">
+                  What residual risk would still be accepted by the
+                  organization?
+                </td>
+              </tr>
+              <tr>
+                <td>Technical</td>
+                <td>
+                  <textarea
+                    placeholder=""
+                    name="people"
+                    id="people"
+                    cols="70"
+                    rows="3"
+                  ></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td>Physical</td>
+                <td>
+                  <textarea
+                    placeholder=""
+                    name="people"
+                    id="people"
+                    cols="70"
+                    rows="3"
+                  ></textarea>
+                </td>
+              </tr>
+              <tr>
+                <td>People</td>
+                <td>
+                  <textarea
+                    placeholder=""
+                    name="people"
+                    id="people"
+                    cols="70"
+                    rows="3"
+                  ></textarea>
+                </td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <!-- <div class="tab">
-          <h1>tab 4</h1>
-        </div> -->
 
         <div class="container-btn">
-          <button type="button" id="prev-btn" onclick="changeTab(-1)">
-            Previous
-          </button>
-          <button type="button" id="next-btn" onclick="changeTab(1)">
-            Next
-          </button>
-          <button
-            type="button"
-            id="submit-btn"
-            hx-post="/form"
-            hx-target=".container-btn"
-            hx-swap="beforeend"
-          >
+          <button style="display: inline" type="button" id="submit-btn">
             Submit
           </button>
         </div>
       </form>
-
-      <div style="text-align: center; margin-top: 0.5rem">
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-      </div>
     </div>
 
     <script src="/form.js"></script>

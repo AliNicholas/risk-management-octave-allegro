@@ -26,8 +26,14 @@ func InsertCriterion(projectId uint, field, impactArea, low, moderate, high stri
 	return result.Error
 }
 
-func GetCriterionByProjectId(projectIid uint) (RiskCriterion, error) {
+func GetCriterionById(id uint) (RiskCriterion, error) {
 	var criteria RiskCriterion
-	result := database.DB.Where("project_id = ?", projectIid).Find(&criteria)
+	result := database.DB.Where("project_id = ?", id).Find(&criteria)
+	return criteria, result.Error
+}
+
+func GetCriterionByProjectId(projectId uint) (RiskCriterion, error) {
+	var criteria RiskCriterion
+	result := database.DB.Where("project_id = ?", projectId).Find(&criteria)
 	return criteria, result.Error
 }

@@ -23,31 +23,33 @@ func main() {
 		return c.Render("contoh", nil)
 	})
 
+	// Login
 	app.Get("/", handlers.LoginPage)
-	app.Get("/dashboard", handlers.DashboardPage)
+	app.Post("/register", handlers.Register)
+	app.Post("/login", handlers.Login)
+	app.Get("/logout", handlers.Logout)
 
+	// Dashboard
+	app.Get("/dashboard", handlers.DashboardPage)
+	app.Delete("/delete-project", handlers.DeleteProject)
+
+	// Form
 	app.Get("/form", handlers.FormPage)
 	app.Post("/form", handlers.FormPost)
 	app.Get("/notif", handlers.Notification)
 
-	app.Get("/add-asset", handlers.AddAssetPage)
-	app.Post("/add-asset", handlers.AddAssetPost)
+	// Asset Container
+	app.Get("/asset-container", handlers.AddProfilePage)
+	app.Post("/add-profile", handlers.PostProfile)
 
-	app.Get("/add-container", handlers.AddContainerPage)
-	app.Post("/add-container", handlers.AddContainerPost)
+	// Risk
+	app.Get("/risk", handlers.AddRiskPage)
+	app.Post("/risk", handlers.AddRiskPost)
+	app.Post("/score/:area/:projectId", handlers.HandleScore)
 
-	app.Get("/add-risk", handlers.AddRiskPage)
-	app.Post("/add-risk", handlers.AddRiskPost)
-
-	app.Delete("/delete-project", handlers.DeleteProject)
-
-	// tba
-	app.Get("/logout", handlers.Logout)
-	app.Post("/login", handlers.Login)
-	app.Post("/register", handlers.Register)
+	// end
 
 	log.Fatal(app.Listen(":3000"))
-
 }
 
 // package main
@@ -67,7 +69,7 @@ func main() {
 // }
 
 // func main() {
-// 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+// 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.valueuest) {
 // 		if r.Method == http.MethodPost {
 // 			// Mendapatkan nilai dari form
 // 			field := r.FormValue("field")

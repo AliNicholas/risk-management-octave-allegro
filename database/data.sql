@@ -59,7 +59,6 @@ CREATE TABLE asset_containers (
 CREATE TABLE asset_risks(
     id INT AUTO_INCREMENT PRIMARY KEY,
     container_id INT NOT NULL,
-    project_id INT NOT NULL,
     area_of_concern TEXT NOT NULL,
     actor TEXT NOT NULL,
     means TEXT NOT NULL,
@@ -68,7 +67,12 @@ CREATE TABLE asset_risks(
     security_requirements TEXT NOT NULL,
     probability ENUM('high', 'medium', 'low') NOT NULL,
     consequences TEXT NOT NULL,
-    severity ENUM('high', 'medium', 'low') NOT NULL,
+    area1 ENUM('high', 'medium', 'low') NOT NULL,
+    area2 ENUM('high', 'medium', 'low') NOT NULL,
+    area3 ENUM('high', 'medium', 'low') NOT NULL,
+    area4 ENUM('high', 'medium', 'low') NOT NULL,
+    area5 ENUM('high', 'medium', 'low') NOT NULL,
+    relative_score INT NOT NULL,
     FOREIGN KEY (container_id) REFERENCES critical_asset_containers(id),
     FOREIGN KEY (project_id) REFERENCES projects(id)
 );

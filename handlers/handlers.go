@@ -8,54 +8,44 @@ import (
 	"github.com/gofiber/fiber/v2"
 )
 
+// LOGIN PAGE
 func LoginPage(ctx *fiber.Ctx) error {
 	return ctx.Render("login", fiber.Map{})
 }
 
+func Logout(ctx *fiber.Ctx) error {
+	return ctx.Redirect("/")
+}
+func Login(ctx *fiber.Ctx) error {
+	return ctx.SendString("ok")
+}
+func Register(ctx *fiber.Ctx) error {
+	return ctx.SendString("ok")
+}
+
+// Dashboard Page
 func DashboardPage(ctx *fiber.Ctx) error {
-	var ProjectList []string
+	var Projects = []models.Project{
+		{Title: "Project 1", ID: 1},
+		{Title: "Project 10", ID: 2},
+		// ... tambahkan proyek lainnya sesuai kebutuhan
+	}
+
+	var Prior = models.ImpactPriority{
+		ReputationConfidence: 1,
+		Financial:            2,
+		Productivity:         3,
+		SafetyHealth:         4,
+		FinesLegalPenalties:  5,
+	}
 
 	return ctx.Render("dashboard", fiber.Map{
-		// "TotalAssets": 1,
-		"TotalRisks":  0,
-		"ProjectList": ProjectList,
+		"TotalAssets": 1,
+		"TotalRisks":  1,
+		"Projects":    Projects,
+		"Prior":       Prior,
 	})
 }
-
-func FormPage(ctx *fiber.Ctx) error {
-	return ctx.Render("form", nil)
-}
-
-func FormPost(ctx *fiber.Ctx) error {
-	// body := ctx.FormValue("ok")
-	return ctx.SendString(`<div class="overlay" id="overlay"><div class="notification-box"><h4>Success</h4><a href="/notif">ok!</a></div></div>`)
-}
-
-func Notification(ctx *fiber.Ctx) error {
-	return ctx.Redirect("dashboard")
-}
-
-func AddAssetPage(ctx *fiber.Ctx) error {
-	return ctx.Render("add-asset", nil)
-}
-func AddAssetPost(ctx *fiber.Ctx) error {
-	return ctx.SendString("ok")
-}
-
-func AddContainerPage(ctx *fiber.Ctx) error {
-	return ctx.Render("add-container", nil)
-}
-func AddContainerPost(ctx *fiber.Ctx) error {
-	return ctx.SendString("ok")
-}
-
-func AddRiskPage(ctx *fiber.Ctx) error {
-	return ctx.Render("add-risk", nil)
-}
-func AddRiskPost(ctx *fiber.Ctx) error {
-	return ctx.SendString("ok")
-}
-
 func DeleteProject(ctx *fiber.Ctx) error {
 	strId := ctx.Get("id")
 
@@ -81,13 +71,101 @@ func DeleteProject(ctx *fiber.Ctx) error {
 	})
 }
 
-// tba
-func Logout(ctx *fiber.Ctx) error {
-	return ctx.Redirect("/")
+// Form Page
+func FormPage(ctx *fiber.Ctx) error {
+	return ctx.Render("form", nil)
 }
-func Login(ctx *fiber.Ctx) error {
+
+func FormPost(ctx *fiber.Ctx) error {
+	// body := ctx.FormValue("ok")
+	return ctx.SendString(`<div class="overlay" id="overlay"><div class="notification-box"><h4>Success</h4><a href="/notif">ok!</a></div></div>`)
+}
+
+func Notification(ctx *fiber.Ctx) error {
+	return ctx.Redirect("dashboard")
+}
+
+// Asset Container Page
+func AddProfilePage(ctx *fiber.Ctx) error {
+	return ctx.Render("add-asset-container", nil)
+}
+func PostProfile(ctx *fiber.Ctx) error {
 	return ctx.SendString("ok")
 }
-func Register(ctx *fiber.Ctx) error {
+
+// Risk Page
+func AddRiskPage(ctx *fiber.Ctx) error {
+	return ctx.Render("add-risk", nil)
+}
+func AddRiskPost(ctx *fiber.Ctx) error {
 	return ctx.SendString("ok")
+}
+
+func HandleScore(c *fiber.Ctx) error {
+	projectIdStr := c.Params("projectId")
+	area := c.Params("area")
+	value := c.FormValue("area")
+
+	projectId, err := strconv.ParseUint(projectIdStr, 10, 64)
+	if err != nil {
+		panic(err)
+	}
+
+	result, err := models.GetPriorityByProjectId(uint(projectId))
+	if err != nil {
+		panic(err)
+	}
+
+	area1 := result.ReputationConfidence
+	area2 := result.Financial
+	area3 := result.Productivity
+	area4 := result.SafetyHealth
+	area5 := result.FinesLegalPenalties
+
+	var x int
+
+	if area == "area1" {
+		if value == "High" {
+			x = area1 * 3
+		} else if value == "Medium" {
+			x = area1 * 2
+		} else if value == "Low" {
+			x = area1 * 1
+		}
+	} else if area == "area2" {
+		if value == "High" {
+			x = area2 * 3
+		} else if value == "Medium" {
+			x = area2 * 2
+		} else if value == "Low" {
+			x = area2 * 1
+		}
+	} else if area == "area3" {
+		if value == "High" {
+			x = area3 * 3
+		} else if value == "Medium" {
+			x = area3 * 2
+		} else if value == "Low" {
+			x = area3 * 1
+		}
+	} else if area == "area4" {
+		if value == "High" {
+			x = area4 * 3
+		} else if value == "Medium" {
+			x = area4 * 2
+		} else if value == "Low" {
+			x = area4 * 1
+		}
+	} else if area == "area5" {
+		if value == "High" {
+			x = area5 * 3
+		} else if value == "Medium" {
+			x = area5 * 2
+		} else if value == "Low" {
+			x = area5 * 1
+		}
+	}
+
+	response := fmt.Sprintf("<p>%s</p>", strconv.Itoa(x))
+	return c.SendString(response)
 }

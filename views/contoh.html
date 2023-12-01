@@ -3,84 +3,116 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <style>
-      table {
-        border-collapse: collapse;
-        width: 250px;
-        height: 20px;
-      }
-
-      th,
-      td {
-        border: 1px solid #dddddd;
-        text-align: center;
-        /* padding: 4px; */
-        font-size: 8px;
-      }
-
-      th {
-        background-color: #f2f2f2;
-      }
-
-      .checked {
-        color: green;
-      }
-    </style>
+    <title>Document</title>
+    <script
+      src="https://unpkg.com/htmx.org@1.9.9"
+      integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
+      crossorigin="anonymous"
+    ></script>
   </head>
   <body>
+    <label for="">Severity:</label>
+    <p>
+      How severe are these consequences to the organization or asset owner by
+      impact area?
+    </p>
     <table>
       <thead>
         <tr>
-          <th>Field</th>
-          <th>1</th>
-          <th>2</th>
-          <th>3</th>
-          <th>4</th>
-          <th>5</th>
+          <th>Impact Area</th>
+          <th>Value</th>
+          <th>Score</th>
         </tr>
       </thead>
       <tbody>
         <tr>
-          <td style="text-align: left">Reputation and Customer Confidence</td>
-          <td>✅</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>Reputation & Customer Confidence</td>
+          <td>
+            <select
+              name="area"
+              id="area1"
+              hx-post="/score/area1/{{ .ProjectId }}"
+              hx-target="#score1"
+            >
+              <option selected disabled>Choose one...</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </td>
+          <td id="score1"></td>
         </tr>
         <tr>
-          <td style="text-align: left">Financial</td>
-          <td>✅</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>Financial</td>
+          <td>
+            <select
+              name="area"
+              id="area2"
+              hx-post="/score/area1/{{ .ProjectId }}"
+              hx-target="#score2"
+            >
+              <option selected disabled>Choose one...</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </td>
+          <td id="score2"></td>
         </tr>
         <tr>
-          <td style="text-align: left">Productivity</td>
-          <td>✅</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>Productivity</td>
+          <td>
+            <select
+              name="area"
+              id="area3"
+              hx-post="/score/area3/{{ .ProjectId }}"
+              hx-target="#score3"
+            >
+              <option selected disabled>Choose one...</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </td>
+          <td id="score3"></td>
         </tr>
         <tr>
-          <td style="text-align: left">Safety and Health</td>
-          <td>✅</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>Safety & Health</td>
+          <td>
+            <select
+              name="area4"
+              id="area4"
+              hx-post="/score/area4/{{ .ProjectId }}"
+              hx-target="#score4"
+            >
+              <option selected disabled>Choose one...</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </td>
+          <td id="score4"></td>
         </tr>
         <tr>
-          <td style="text-align: left">Fines and Legal Penalties</td>
-          <td>✅</td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
+          <td>Fines & Legal Penalties</td>
+          <td>
+            <select
+              name="area5"
+              id="area5"
+              hx-post="/score/area5/{{ .ProjectId }}"
+              hx-target="#score5"
+            >
+              <option selected disabled>Choose one...</option>
+              <option value="High">High</option>
+              <option value="Medium">Medium</option>
+              <option value="Low">Low</option>
+            </select>
+          </td>
+          <td id="score5"></td>
         </tr>
       </tbody>
     </table>
+
+    <p>Relative Score {{ .RelativeScore }}</p>
   </body>
 </html>

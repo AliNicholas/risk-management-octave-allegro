@@ -9,90 +9,26 @@
   ></script>
   <body>
     <div class="container">
-      <a href="/" class="back-btn">cancel</a>
+      <a href="/dashboard" class="back-btn">cancel</a>
       <form
         class="form"
         id="form"
         name="form"
         hx-post="http://localhost:3000/form"
+        hx-target=".container-btn"
+        hx-swap="beforeend"
       >
-        <!-- tab 1 - Project's Title -->
-        <div class="tab" id="tab-1">
-          <h1>Project's Title</h1>
-          <input
-            placeholder="type your project's title..."
-            oninput="this.className = ''"
-            name="title"
-          />
-        </div>
-
-        <!-- tab 2 - Priorities -->
-        <div class="tab">
-          <label for="c1">Reputation and Customer Confidence: </label>
-          <select name="c1" id="c1">
-            <option disabled selected>None</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-
-          <br />
-
-          <label for="c2">Financial: </label>
-          <select name="c2" id="c2">
-            <option disabled selected>None</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-
-          <br />
-
-          <label for="c3">Productivity: </label>
-          <select name="c3" id="c3">
-            <option disabled selected>None</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-
-          <br />
-
-          <label for="c4">Safety and Health: </label>
-          <select name="c4" id="c4">
-            <option disabled selected>None</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-
-          <br />
-
-          <label for="c5">Fines and Legal Penalties: </label>
-          <select name="c5" id="c5">
-            <option disabled selected>None</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-          </select>
-        </div>
-
-        <!-- tab 3 - Asset Profile -->
-        <div class="tab">
+        <!-- tab 1 - Asset Profile -->
+        <div class="tab" id="tab-3" style="display: block">
           <h1>CRITICAL INFORMATION ASSET PROFILE</h1>
 
           <label for="critical-asset">Critical Asset:</label>
-          <input type="text" name="critical-asset" id="critical-asset" />
+          <input
+            type="text"
+            name="critical-asset"
+            id="critical-asset"
+            required
+          />
 
           <br />
 
@@ -130,9 +66,7 @@
           <br />
 
           <label>
-            Security Requirements
-
-            <br />
+            <h4>Security Requirements</h4>
 
             <label for="confidentiality">Confidentiality: </label>
             <textarea
@@ -143,8 +77,6 @@
               rows="5"
             ></textarea>
 
-            <br />
-
             <label for="integrity">Integrity: </label>
             <textarea
               placeholder="Only authorized personnel can modify this information asset, as follows:"
@@ -153,8 +85,6 @@
               cols="60"
               rows="5"
             ></textarea>
-
-            <br />
 
             <label for="availability">Availability: </label>
             <textarea
@@ -167,9 +97,7 @@
             ></textarea>
           </label>
 
-          <br />
-
-          <label for="misr">Most Important Security Requirement</label>
+          <label for="misr">Most Important Security Requirement: </label>
           <select name="misr" id="misr">
             What is the most important security requirement for this information
             asset?
@@ -178,13 +106,9 @@
             <option value="Integrity">Integrity</option>
             <option value="Availability">Availability</option>
           </select>
-        </div>
-        <!-- <div class="tab">
-          <h1>tab 3</h1>
-        </div> -->
 
-        <!-- tab 4 - Asset Container -->
-        <div class="tab">
+          <hr />
+
           <h1>Deskripsi Kontainer</h1>
 
           <label for="owners">Owner(s)</label>
@@ -197,8 +121,8 @@
           ></textarea>
 
           <label for="">
-            Technical
-            <label for="technical_internal">Internal</label>
+            <h4>Technical</h4>
+            <label for="technical_internal">Internal: </label>
             <textarea
               placeholder="What information systems use or process this information asset?"
               name="technical_internal"
@@ -206,7 +130,7 @@
               cols="70"
               rows="5"
             ></textarea>
-            <label for="technical_external">External </label>
+            <label for="technical_external">External: </label>
             <textarea
               placeholder="Are there customer or partner information systems that are externally managed that use or process this information asset?"
               name="technical_external"
@@ -217,8 +141,8 @@
           </label>
 
           <label for="">
-            Physical
-            <label for="physical_internal">Internal</label>
+            <h4>Physical</h4>
+            <label for="physical_internal">Internal: </label>
             <textarea
               placeholder="Are there places, other than on technical assets, where this information asset exists?"
               name="physical_internal"
@@ -226,7 +150,7 @@
               cols="70"
               rows="5"
             ></textarea>
-            <label for="physical_external">External </label>
+            <label for="physical_external">External: </label>
             <textarea
               placeholder="Are there places external to the organization, other than on technical assets, where this information asset exists?"
               name="physical_external"
@@ -237,8 +161,8 @@
           </label>
 
           <label for="">
-            People
-            <label for="people_internal">Internal</label>
+            <h4>People</h4>
+            <label for="people_internal">Internal:</label>
             <textarea
               placeholder="What people might have detailed knowledge of this information asset?"
               name="people_internal"
@@ -246,47 +170,26 @@
               cols="70"
               rows="5"
             ></textarea>
-            <label for="people_external">External </label>
+            <label for="people_external">External: </label>
             <textarea
               placeholder="What people, external to your organization, might know about this information asset?"
               name="people_external"
               id="people_external"
               cols="70"
               rows="5"
+              required
             ></textarea>
           </label>
         </div>
-        <!-- <div class="tab">
-          <h1>tab 4</h1>
-        </div> -->
 
         <div class="container-btn">
-          <button type="button" id="prev-btn" onclick="changeTab(-1)">
-            Previous
-          </button>
-          <button type="button" id="next-btn" onclick="changeTab(1)">
-            Next
-          </button>
-          <button
-            type="button"
-            id="submit-btn"
-            hx-post="/form"
-            hx-target=".container-btn"
-            hx-swap="beforeend"
-          >
+          <button style="display: inline" type="button" id="submit-btn">
             Submit
           </button>
         </div>
       </form>
-
-      <div style="text-align: center; margin-top: 0.5rem">
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-        <span class="step"></span>
-      </div>
     </div>
 
-    <script src="/form.js"></script>
+    <!-- <script src="/form.js"></script> -->
   </body>
 </html>
