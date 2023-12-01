@@ -2,21 +2,19 @@
 
 # HTMX + Go Fiber
 
-A proof of concept HTMX app with a Go Fiber backend. Displays a list of tickers from polygon.io
-and a list of news related to the ticker.
+A proof of concept HTMX app with a Go Fiber backend. This project is an application of risk management using a well-defined framework that is already popular in the field of cybersecurity, namely OCVATE ALLEGRO.
 
-<p align="center">
-  <img src=".github/assets/home-page.png?raw=true" alt="Home page" width="25%" height="auto"/>
-</p>
+<img width="960" alt="image" src="https://github.com/AliNicholas/risk-management-octave-allegro/assets/109023698/a04b539e-b07f-4a39-a249-5693fde0f8b9">
+
+<img width="960" alt="image" src="https://github.com/AliNicholas/risk-management-octave-allegro/assets/109023698/9ffcd334-aac7-432e-b417-cb2b6fb55896">
+
+<img width="960" alt="image" src="https://github.com/AliNicholas/risk-management-octave-allegro/assets/109023698/0f3f3702-8bb6-41db-bcde-1bb3ef4efd4d">
 
 ## Requirements
 
 - Go `1.21+`
-- An API key from [Polygon.io](https://polygon.io/dashboard/api-keys)
 
 ## Installation
-
-Copy `.env.example` to `.env` and add your Polygon.io API key.
 
 Fetch the dependencies
 ```sh
@@ -24,19 +22,6 @@ go get
 ```
 
 ## Development
-
-Run the following commands to build the Tailwind CSS classes:
-
-```sh
-npm install
-npm run dev
-```
-
-Or if you prefer to use [bun](https://bun.sh/):
-
-```sh
-bun install
-bun run dev
 ```
 
 There are two options to start the web server:
@@ -83,5 +68,4 @@ running...
  └───────────────────────────────────────────────────┘
 ```
 
-Then open the browser to http://localhost:3000. You should be able to search for a stock's ticker
-upon clicking on a ticker, you should see a list of news related to the ticker.
+Then open the browser to http://localhost:3000. You should be able to search for a Risk Management Application, you can create your own project and identfy the assets and threats you may have.
