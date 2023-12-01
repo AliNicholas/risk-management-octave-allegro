@@ -1,6 +1,0 @@
-- langsung bikin document dan inser ke database
-
-- di tombol back nya kasih notif apakah ingin membatalkan pembuatan. jika iya keluar dan hapus document itu beserta
-turunannya. jika tidak user melanjutkan
-
-kalo finish. kasih notif dan ok dan balik ke home dan data tersimpan aman

@@ -11,108 +11,540 @@
     ></script>
   </head>
   <body>
-    <label for="">Severity:</label>
-    <p>
-      How severe are these consequences to the organization or asset owner by
-      impact area?
-    </p>
-    <table>
-      <thead>
-        <tr>
-          <th>Impact Area</th>
-          <th>Value</th>
-          <th>Score</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Reputation & Customer Confidence</td>
-          <td>
-            <select
-              name="area"
-              id="area1"
-              hx-post="/score/area1/{{ .ProjectId }}"
-              hx-target="#score1"
-            >
-              <option selected disabled>Choose one...</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-          </td>
-          <td id="score1"></td>
-        </tr>
-        <tr>
-          <td>Financial</td>
-          <td>
-            <select
-              name="area"
-              id="area2"
-              hx-post="/score/area1/{{ .ProjectId }}"
-              hx-target="#score2"
-            >
-              <option selected disabled>Choose one...</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-          </td>
-          <td id="score2"></td>
-        </tr>
-        <tr>
-          <td>Productivity</td>
-          <td>
-            <select
-              name="area"
-              id="area3"
-              hx-post="/score/area3/{{ .ProjectId }}"
-              hx-target="#score3"
-            >
-              <option selected disabled>Choose one...</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-          </td>
-          <td id="score3"></td>
-        </tr>
-        <tr>
-          <td>Safety & Health</td>
-          <td>
-            <select
-              name="area4"
-              id="area4"
-              hx-post="/score/area4/{{ .ProjectId }}"
-              hx-target="#score4"
-            >
-              <option selected disabled>Choose one...</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-          </td>
-          <td id="score4"></td>
-        </tr>
-        <tr>
-          <td>Fines & Legal Penalties</td>
-          <td>
-            <select
-              name="area5"
-              id="area5"
-              hx-post="/score/area5/{{ .ProjectId }}"
-              hx-target="#score5"
-            >
-              <option selected disabled>Choose one...</option>
-              <option value="High">High</option>
-              <option value="Medium">Medium</option>
-              <option value="Low">Low</option>
-            </select>
-          </td>
-          <td id="score5"></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="container">
+      <div class="container-top">
+        <div class="prior">
+          <h4>Impact Areas Priority</h4>
+          <table>
+            <thead>
+              <tr>
+                <th>Field</th>
+                <th>1</th>
+                <th>2</th>
+                <th>3</th>
+                <th>4</th>
+                <th>5</th>
+              </tr>
+            </thead>
+            <tbody>
+              {{ with .AreaPriority }}
+              <tr>
+                {{ if ge .ReputationConfidence 0 }}
+                <td style="text-align: left">
+                  Reputation and Customer Confidence
+                </td>
+                {{ if eq .ReputationConfidence 1 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .ReputationConfidence 2 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .ReputationConfidence 3 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .ReputationConfidence 4 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .ReputationConfidence 5 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ else }}
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                {{ end }}
+              </tr>
+              <tr>
+                {{ if ge .Financial 0 }}
+                <td style="text-align: left">Financial</td>
+                {{ if eq .Financial 1 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Financial 2 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Financial 3 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Financial 4 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Financial 5 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ else }}
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                {{ end }}
+              </tr>
+              <tr>
+                {{ if ge .Productivity 0 }}
+                <td style="text-align: left">Productivity</td>
+                {{ if eq .Productivity 1 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Productivity 2 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Productivity 3 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Productivity 4 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Productivity 5 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ else }}
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                {{ end }}
+              </tr>
+              <tr>
+                {{ if ge .SafetyHealth 0 }}
+                <td style="text-align: left">Safety and Health</td>
+                {{ if eq .SafetyHealth 1 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .SafetyHealth 2 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .SafetyHealth 3 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .SafetyHealth 4 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .SafetyHealth 5 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ else }}
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                {{ end }}
+              </tr>
+              <tr>
+                {{ if ge .FinesLegalPenalties 0 }}
+                <td style="text-align: left">Fines and Legal Penalties</td>
+                {{ if eq .FinesLegalPenalties 1 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .FinesLegalPenalties 2 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .FinesLegalPenalties 3 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .FinesLegalPenalties 4 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .FinesLegalPenalties 5 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ else }}
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                {{ end }}
+              </tr>
+              {{ end }}
+            </tbody>
+          </table>
+        </div>
 
-    <p>Relative Score {{ .RelativeScore }}</p>
+        <div class="total-assets">
+          <h3>Total Assets</h3>
+          {{ if .TotalAssets }} {{ if gt .TotalAssets 0 }}
+          <p>{{ .TotalAssets }}</p>
+          {{ end }} {{ else }}
+          <p>0</p>
+          {{ end }}
+        </div>
+
+        <div class="total-risks">
+          <h3>Total Risks</h3>
+          {{ if .TotalRisks }} {{ if gt .TotalRisks 0 }}
+          <p>{{ .TotalRisks }}</p>
+          {{ end }} {{ else }}
+          <p>0</p>
+          {{ end }}
+        </div>
+
+        <div class="container-nav">
+          <h3 class="user">User 1</h3>
+
+          <div class="action-btn">
+            <a href="/form" class="add-btn">➕ Create</a>
+            <button hx-delete="/project/{{ .ProjectId }}" class="delete-btn">
+              🗑️
+            </button>
+            <a href="/logout" class="logout-btn">Logout</a>
+          </div>
+
+          <select
+            name="project-selector"
+            id="project-selector"
+            class="project-selector"
+            hx-get="/dashboard"
+            hx-target="body"
+          >
+            {{ if .Projects }}
+            <option>NONE</option>
+            {{ range .Projects }} {{ if eq .ID $.ProjectId }}
+            <option value="{{ .ID }}" selected>{{ .Title }}</option>
+            {{ end }}
+            <option value="{{ .ID }}">{{ .Title }}</option>
+            {{ end }} {{ else }}
+            <option>NONE</option>
+            {{ end }}
+          </select>
+        </div>
+      </div>
+
+      <div class="container-bottom">
+        <div class="container-main">
+          <div class="container-content">
+            <div class="content">
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
+            </div>
+            <div class="content">
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
+            </div>
+            <div class="content">
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
+            </div>
+            <div class="content">
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
+            </div>
+            <div class="content">
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
+            </div>
+            <div class="content">
+              <div class="front">
+                <h3>Area of Concern: blabla</h3>
+
+                <div class="bot">
+                  <div class="sec">
+                    <h5>Aktor:</h5>
+                    <p>Staf Unit ICT Fasilkom Unsri</p>
+                    <h5>Tujuan:</h5>
+                    <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Motif:</h5>
+                    <p>Human Error</p>
+                    <h5>Hasil:</h5>
+                    <p>Pengungkapan, modifikasi, dan interupsi.</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kebutuhan Keamanan:</h5>
+                    <p>Dilakukannya testing aplikasi sebelum melakukan</p>
+                  </div>
+
+                  <div class="sec">
+                    <h5>Kemungkinan:</h5>
+                    <p>Tinggi</p>
+                    <h5>Relative Score:</h5>
+                    <p>27</p>
+                  </div>
+                </div>
+              </div>
+              <div class="back">
+                <h3>Consequences</h3>
+                <ol>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                  <li>blabla</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="container-side">
+          <div class="side-top">
+            <a href="/asset-container">Add Asset & Container</a>
+            <a href="/risk" style="margin-top: 0.5rem">Add Risk</a>
+          </div>
+          <div class="side-bottom">
+            <h3>Chart</h3>
+            <div class="container-chart">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <script>
+      const ctx = document.getElementById("myChart");
+
+      Chart.defaults.color = "#FFFFFF";
+      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.3)";
+      Chart.defaults.font.size = 10;
+
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels: ["Category 1", "Category 2", "Category 3", "Category 4"],
+          datasets: [
+            {
+              label: "Risks",
+              data: [
+                "{{ .Category1 }}",
+                "{{ .Category2 }}",
+                "{{ .Category3 }}",
+                "{{ .Category4 }}",
+              ],
+              borderWidth: 1,
+            },
+          ],
+        },
+        options: {
+          scales: {
+            y: {
+              beginAtZero: true,
+            },
+          },
+          plugins: {
+            legend: {
+              labels: {
+                font: {
+                  size: 14,
+                },
+              },
+            },
+          },
+        },
+      });
+    </script>
   </body>
 </html>

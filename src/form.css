@@ -269,7 +269,6 @@ select.invalid {
   justify-content: center;
   align-items: center;
   height: 90%;
-  padding-top: 1rem;
   padding-left: 10rem;
   overflow-y: auto;
 }
@@ -291,7 +290,7 @@ select.invalid {
 #tab-4 textarea {
   padding: 0.5rem;
   width: 60%;
-  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 #tab-4 label {
   font-size: 1.2rem;
@@ -300,13 +299,14 @@ select.invalid {
 }
 
 #tab-4 h1 {
+  padding-top: 1rem;
   margin-bottom: 1rem;
   padding-left: 19rem;
 }
 
 #tab-4 h4 {
   font-size: 1.5;
-  margin-top: 2rem;
+  margin-top: 1rem;
 }
 
 .overlay {

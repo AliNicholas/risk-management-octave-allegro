@@ -30,7 +30,8 @@ func main() {
 	app.Get("/logout", handlers.Logout)
 
 	// Dashboard
-	app.Get("/dashboard", handlers.DashboardPage)
+	app.Get("/dashboard/:selector?", handlers.DashboardPage)
+	app.Get("/render/:selector", handlers.Render)
 	app.Delete("/delete-project", handlers.DeleteProject)
 
 	// Form

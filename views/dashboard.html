@@ -29,48 +29,165 @@
               </tr>
             </thead>
             <tbody>
+              {{ with .AreaPriority }}
               <tr>
+                {{ if ge .ReputationConfidence 0 }}
                 <td style="text-align: left">
                   Reputation and Customer Confidence
                 </td>
+                {{ if eq .ReputationConfidence 1 }}
                 <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .ReputationConfidence 2 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .ReputationConfidence 3 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .ReputationConfidence 4 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .ReputationConfidence 5 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ else }}
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
+                {{ end }}
               </tr>
               <tr>
+                {{ if ge .Financial 0 }}
                 <td style="text-align: left">Financial</td>
+                {{ if eq .Financial 1 }}
                 <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Financial 2 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Financial 3 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Financial 4 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Financial 5 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ else }}
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
+                {{ end }}
               </tr>
               <tr>
+                {{ if ge .Productivity 0 }}
                 <td style="text-align: left">Productivity</td>
+                {{ if eq .Productivity 1 }}
                 <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Productivity 2 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Productivity 3 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Productivity 4 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .Productivity 5 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ else }}
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
+                {{ end }}
               </tr>
               <tr>
+                {{ if ge .SafetyHealth 0 }}
                 <td style="text-align: left">Safety and Health</td>
+                {{ if eq .SafetyHealth 1 }}
                 <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .SafetyHealth 2 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .SafetyHealth 3 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .SafetyHealth 4 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .SafetyHealth 5 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ else }}
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
+                {{ end }}
               </tr>
               <tr>
+                {{ if ge .FinesLegalPenalties 0 }}
                 <td style="text-align: left">Fines and Legal Penalties</td>
+                {{ if eq .FinesLegalPenalties 1 }}
                 <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .FinesLegalPenalties 2 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .FinesLegalPenalties 3 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .FinesLegalPenalties 4 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ if eq .FinesLegalPenalties 5 }}
+                <td>✅</td>
+                {{ else }}
+                <td></td>
+                {{ end }} {{ else }}
                 <td></td>
                 <td></td>
                 <td></td>
                 <td></td>
+                <td></td>
+                {{ end }}
               </tr>
+              {{ end }}
             </tbody>
           </table>
         </div>
@@ -98,21 +215,27 @@
 
           <div class="action-btn">
             <a href="/form" class="add-btn">➕ Create</a>
-            <button hx-delete="/form" class="delete-btn">🗑️</button>
+            <button hx-delete="/project/{{ .ProjectId }}" class="delete-btn">
+              🗑️
+            </button>
             <a href="/logout" class="logout-btn">Logout</a>
           </div>
 
           <select
-            name="project-selector"
-            id="project-selector"
+            name="selector"
+            id="selector"
             class="project-selector"
+            hx-get="/dashboard"
+            hx-target="body"
           >
             {{ if .Projects }}
-            <option selected disabled>NONE</option>
-            {{ range .Projects }}
-            <option hx-get="/render/{{ .ID }}">{{ .Title }}</option>
+            <option>NONE</option>
+            {{ range .Projects }} {{ if eq .ID $.ProjectId }}
+            <option value="{{ .ID }}" selected>{{ .Title }}</option>
+            {{ end }}
+            <option value="{{ .ID }}">{{ .Title }}</option>
             {{ end }} {{ else }}
-            <option selected disabled>NONE</option>
+            <option>NONE</option>
             {{ end }}
           </select>
         </div>
@@ -396,8 +519,13 @@
           labels: ["Category 1", "Category 2", "Category 3", "Category 4"],
           datasets: [
             {
-              label: "Total Risks",
-              data: [30, 60, 3, 5],
+              label: "Risks",
+              data: [
+                "{{ .Category1 }}",
+                "{{ .Category2 }}",
+                "{{ .Category3 }}",
+                "{{ .Category4 }}",
+              ],
               borderWidth: 1,
             },
           ],

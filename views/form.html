@@ -14,7 +14,11 @@
         class="form"
         id="form"
         name="form"
-        hx-post="http://localhost:3000/form"
+        hx-post="/form"
+        hx-target=".container-btn"
+        hx-swap="beforeend"
+        hx-indicator="#indicator"
+        hx-encoding="application/x-www-form-urlencoded"
       >
         <!-- tab 1 - Project's Title -->
         <div class="tab" id="tab-1">
@@ -29,8 +33,8 @@
         <!-- tab 2 - Priorities -->
         <div class="tab">
           <h1>IMPACT AREA PRIORITIZATION</h1>
-          <label for="c1">Reputation and Customer Confidence: </label>
-          <select name="c1" id="c1">
+          <label for="area1">Reputation and Customer Confidence: </label>
+          <select name="area1" id="area1">
             <option disabled selected>None</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -41,8 +45,8 @@
 
           <br />
 
-          <label for="c2">Financial: </label>
-          <select name="c2" id="c2">
+          <label for="area2">Financial: </label>
+          <select name="area2" id="area2">
             <option disabled selected>None</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -53,8 +57,8 @@
 
           <br />
 
-          <label for="c3">Productivity: </label>
-          <select name="c3" id="c3">
+          <label for="area3">Productivity: </label>
+          <select name="area3" id="area3">
             <option disabled selected>None</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -65,8 +69,8 @@
 
           <br />
 
-          <label for="c4">Safety and Health: </label>
-          <select name="c4" id="c4">
+          <label for="area4">Safety and Health: </label>
+          <select name="area4" id="area4">
             <option disabled selected>None</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -77,8 +81,8 @@
 
           <br />
 
-          <label for="c5">Fines and Legal Penalties: </label>
-          <select name="c5" id="c5">
+          <label for="area5">Fines and Legal Penalties: </label>
+          <select name="area5" id="area5">
             <option disabled selected>None</option>
             <option value="1">1</option>
             <option value="2">2</option>
@@ -92,8 +96,14 @@
         <div class="tab">
           <h1>CRITICAL INFORMATION ASSET PROFILE</h1>
 
-          <label for="critical-asset">Critical Asset:</label>
-          <input type="text" name="critical-asset" id="critical-asset" />
+          <label for="critical_asset">Critical Asset:</label>
+          <input
+            oninput="this.className = ''"
+            type="text"
+            name="critical_asset"
+            id="critical_asset"
+            placeholder="Critical information assets are the most important assets to an organization."
+          />
 
           <br />
 
@@ -108,22 +118,22 @@
 
           <br />
 
-          <label for="description">Description: </label>
+          <label for="asset_desc">Description: </label>
           <textarea
             placeholder="What is the agreed-upon description of this information asset?"
-            name="description"
-            id="description"
+            name="asset_desc"
+            id="asset_desc"
             cols="70"
             rows="5"
           ></textarea>
 
           <br />
 
-          <label for="owners">Owner(s): </label>
+          <label for="asset_owners">Owner(s): </label>
           <textarea
             placeholder="Who owns this information asset?"
-            name="owners"
-            id="owners"
+            name="asset_owners"
+            id="asset_owners"
             cols="50"
             rows="5"
           ></textarea>
@@ -138,8 +148,9 @@
               placeholder="Only authorized personnel can view this information asset, as follows:"
               name="confidentiality"
               id="confidentiality"
-              cols="60"
-              rows="5"
+              cols="50"
+              rows="3"
+              style="width: 25rem"
             ></textarea>
 
             <label for="integrity">Integrity: </label>
@@ -147,23 +158,24 @@
               placeholder="Only authorized personnel can modify this information asset, as follows:"
               name="integrity"
               id="integrity"
-              cols="60"
-              rows="5"
+              cols="50"
+              rows="3"
+              style="width: 25rem"
             ></textarea>
 
             <label for="availability">Availability: </label>
             <textarea
-              placeholder="This asset must be available for _____ hours,
-              _____ days/week, _____ weeks/year."
+              placeholder="This asset must be available for ___ hours, ___ days/week, ___ weeks/year."
               name="availability"
               id="availability"
-              cols="60"
-              rows="5"
+              cols="100"
+              rows="3"
+              style="width: 25rem"
             ></textarea>
           </label>
 
           <label for="misr">Most Important Security Requirement: </label>
-          <select name="misr" id="misr">
+          <select name="misr" id="misr" oninput="this.className = ''">
             What is the most important security requirement for this information
             asset?
             <option selected disabled>Choose one...</option>
@@ -177,18 +189,20 @@
         <div class="tab">
           <h1>Deskripsi Kontainer</h1>
 
-          <label for="owners">Owner(s)</label>
+          <label for="container_owners">Owner(s)</label>
           <textarea
             placeholder="Who owns this asset's container?"
-            name="technical_internal"
-            id="technical_internal"
+            name="container_owners"
+            id="container_owners"
             cols="50"
             rows="3"
           ></textarea>
 
           <label for="">
             <h4>Technical</h4>
-            <label for="technical_internal">Internal: </label>
+            <label for="technical_internal" style="font-size: 0.9rem"
+              >Internal:
+            </label>
             <textarea
               placeholder="What information systems use or process this information asset?"
               name="technical_internal"
@@ -196,7 +210,9 @@
               cols="70"
               rows="5"
             ></textarea>
-            <label for="technical_external">External: </label>
+            <label for="technical_external" style="font-size: 0.9rem"
+              >External:
+            </label>
             <textarea
               placeholder="Are there customer or partner information systems that are externally managed that use or process this information asset?"
               name="technical_external"
@@ -208,7 +224,9 @@
 
           <label for="">
             <h4>Physical</h4>
-            <label for="physical_internal">Internal: </label>
+            <label for="physical_internal" style="font-size: 0.9rem"
+              >Internal:
+            </label>
             <textarea
               placeholder="Are there places, other than on technical assets, where this information asset exists?"
               name="physical_internal"
@@ -216,7 +234,9 @@
               cols="70"
               rows="5"
             ></textarea>
-            <label for="physical_external">External: </label>
+            <label for="physical_external" style="font-size: 0.9rem"
+              >External:
+            </label>
             <textarea
               placeholder="Are there places external to the organization, other than on technical assets, where this information asset exists?"
               name="physical_external"
@@ -228,7 +248,9 @@
 
           <label for="">
             <h4>People</h4>
-            <label for="people_internal">Internal:</label>
+            <label for="people_internal" style="font-size: 0.9rem"
+              >Internal:</label
+            >
             <textarea
               placeholder="What people might have detailed knowledge of this information asset?"
               name="people_internal"
@@ -236,7 +258,9 @@
               cols="70"
               rows="5"
             ></textarea>
-            <label for="people_external">External: </label>
+            <label for="people_external" style="font-size: 0.9rem"
+              >External:
+            </label>
             <textarea
               placeholder="What people, external to your organization, might know about this information asset?"
               name="people_external"
@@ -254,16 +278,10 @@
           <button type="button" id="next-btn" onclick="changeTab(1)">
             Next
           </button>
-          <button
-            type="button"
-            id="submit-btn"
-            hx-post="/form"
-            hx-target=".container-btn"
-            hx-swap="beforeend"
-          >
-            Submit
-          </button>
+          <button type="submit" id="submit-btn">Submit</button>
         </div>
+
+        <p class="htmx-indicator" id="indicator">Loading</p>
       </form>
 
       <div style="text-align: center; margin-top: 0.5rem">

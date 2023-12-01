@@ -4,8 +4,8 @@ import "final_allegro/database"
 
 type AssetRisk struct {
 	ID                   uint   `gorm:"primaryKey"`
-	ContainerID          uint   `gorm:"not null"`
 	ProjectID            uint   `gorm:"not null"`
+	AssetID              uint   `gorm:"not null"`
 	AreaOfConcern        string `gorm:"not null"`
 	Actor                string `gorm:"not null"`
 	Means                string `gorm:"not null"`
@@ -17,10 +17,10 @@ type AssetRisk struct {
 	Severity             string `gorm:"not null"`
 }
 
-func InsertRisk(containerId, projectId uint, areaOfConcern, actor, means, motive, outcome, securityRequirements, probability, consequences, severity string) error {
+func InsertRisk(projectId, assetID uint, areaOfConcern, actor, means, motive, outcome, securityRequirements, probability, consequences, severity string) error {
 	risk := AssetRisk{
-		ContainerID:          containerId,
 		ProjectID:            projectId,
+		AssetID:              assetID,
 		AreaOfConcern:        areaOfConcern,
 		Actor:                actor,
 		Means:                means,

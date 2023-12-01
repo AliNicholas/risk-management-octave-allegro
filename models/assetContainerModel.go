@@ -3,27 +3,37 @@ package models
 import "final_allegro/database"
 
 type AssetContainer struct {
-	ID        uint   `gorm:"primaryKey"`
-	AssetID   uint   `gorm:"not null"`
-	ProjectID uint   `gorm:"not null"`
-	Owners    string `gorm:"not null"`
-	Technical string `gorm:"not null"`
-	Physical  string `gorm:"not null"`
-	People    string `gorm:"not null"`
+	ID                uint   `gorm:"primaryKey"`
+	ProjectID         uint   `gorm:"not null"`
+	AssetID           uint   `gorm:"not null"`
+	Owners            string `gorm:"not null"`
+	TechnicalInternal string `gorm:"not null"`
+	TechnicalExternal string `gorm:"not null"`
+	PhysicalInternal  string `gorm:"not null"`
+	PhysicalExternal  string `gorm:"not null"`
+	PeopleInternal    string `gorm:"not null"`
+	PeopleExternal    string `gorm:"not null"`
 }
 
-func InsertContainer(assetID, projectID uint, owners, technical, physical, people string) error {
+func InsertContainer(projectID, assetID uint, owners, technicalInternal, technicalExternal, physicalInternal, physicalExternal, peopleInternal, peopleExternal string) (uint, error) {
 	container := AssetContainer{
-		AssetID:   assetID,
-		ProjectID: projectID,
-		Owners:    owners,
-		Technical: technical,
-		Physical:  physical,
-		People:    people,
+		ProjectID:         projectID,
+		AssetID:           assetID,
+		Owners:            owners,
+		TechnicalInternal: technicalInternal,
+		TechnicalExternal: technicalExternal,
+		PhysicalInternal:  physicalInternal,
+		PhysicalExternal:  physicalExternal,
+		PeopleInternal:    peopleInternal,
+		PeopleExternal:    peopleExternal,
 	}
 
 	result := database.DB.Create(&container)
-	return result.Error
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return container.ID, nil
 }
 
 func InsertContainerBatch(containers []AssetContainer) error {

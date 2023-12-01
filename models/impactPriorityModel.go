@@ -12,7 +12,7 @@ type ImpactPriority struct {
 	FinesLegalPenalties  int  `gorm:"not null"`
 }
 
-func InsertPriority(projectId uint, reputationConfidence, financial, productivity, safetyHealth, finesLegalPenalties int) error {
+func InsertPriority(projectId uint, reputationConfidence, financial, productivity, safetyHealth, finesLegalPenalties int) (uint, error) {
 	priority := ImpactPriority{
 		ProjectID:            projectId,
 		ReputationConfidence: reputationConfidence,
@@ -23,7 +23,12 @@ func InsertPriority(projectId uint, reputationConfidence, financial, productivit
 	}
 
 	result := database.DB.Create(&priority)
-	return result.Error
+
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return priority.ID, nil
 }
 
 func GetPriorityById(id uint) (ImpactPriority, error) {

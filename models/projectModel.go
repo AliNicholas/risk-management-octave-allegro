@@ -7,10 +7,15 @@ type Project struct {
 	Title string `gorm:"not null"`
 }
 
-func InsertProject(title string) error {
+func InsertProject(title string) (uint, error) {
 	project := Project{Title: title}
 	result := database.DB.Create(&project)
-	return result.Error
+
+	if result.Error != nil {
+		return 0, result.Error
+	}
+
+	return project.ID, nil
 }
 
 func GetProjectById(projectId uint) (Project, error) {

@@ -12,7 +12,6 @@ import (
 func LoginPage(ctx *fiber.Ctx) error {
 	return ctx.Render("login", fiber.Map{})
 }
-
 func Logout(ctx *fiber.Ctx) error {
 	return ctx.Redirect("/")
 }
@@ -24,26 +23,131 @@ func Register(ctx *fiber.Ctx) error {
 }
 
 // Dashboard Page
-func DashboardPage(ctx *fiber.Ctx) error {
-	var Projects = []models.Project{
-		{Title: "Project 1", ID: 1},
-		{Title: "Project 10", ID: 2},
-		// ... tambahkan proyek lainnya sesuai kebutuhan
+func DashboardPage(c *fiber.Ctx) error {
+
+	projectIdStr := c.FormValue("selector")
+
+	projects, err := models.GetAllProjects()
+	if err != nil {
+		return err
 	}
 
-	var Prior = models.ImpactPriority{
-		ReputationConfidence: 1,
-		Financial:            2,
-		Productivity:         3,
-		SafetyHealth:         4,
-		FinesLegalPenalties:  5,
+	var totalAssets int
+	var totalRisks int
+	var category1 int
+	var category2 int
+	var category3 int
+	var category4 int
+	var selected int
+
+	var assets []models.AssetInformation
+	var risks models.AssetRisk
+	var areaPriority models.ImpactPriority
+
+	if projectIdStr != "" {
+		projectId, err := strconv.Atoi(projectIdStr)
+		if err != nil {
+			panic(err)
+		}
+
+		selected = projectId
+
+		assets, err = models.GetAllAssetByProjectId(uint(projectId))
+		if err != nil {
+			panic(err)
+		}
+
+		totalAssets = len(assets)
+
+		risks, err := models.GetAllRisksByProjectId(uint(projectId))
+		if err != nil {
+			panic(err)
+		}
+
+		totalRisks = len(risks)
+
+		areaPriority, err = models.GetPriorityByProjectId(uint(projectId))
+		if err != nil {
+			panic(err)
+		}
+	}
+	return c.Render("dashboard", fiber.Map{
+		"TotalAssets":  totalAssets,
+		"TotalRisks":   totalRisks,
+		"Projects":     projects,
+		"AreaPriority": areaPriority,
+		"ProjectId":    selected,
+		"Category1":    category1,
+		"Category2":    category2,
+		"Category3":    category3,
+		"Category4":    category4,
+		"Risks":        risks,
+		"Assets":       assets,
+		"Selected":     selected,
+	})
+}
+
+func Render(c *fiber.Ctx) error {
+	projectIdStr := c.Params("project-selector")
+
+	projects, err := models.GetAllProjects()
+	if err != nil {
+		return err
 	}
 
-	return ctx.Render("dashboard", fiber.Map{
-		"TotalAssets": 1,
-		"TotalRisks":  1,
-		"Projects":    Projects,
-		"Prior":       Prior,
+	var totalAssets int
+	var totalRisks int
+	var category1 int
+	var category2 int
+	var category3 int
+	var category4 int
+	var selected int
+
+	var assets []models.AssetInformation
+	var risks models.AssetRisk
+	var areaPriority models.ImpactPriority
+
+	if projectIdStr != "" {
+		projectId, err := strconv.Atoi(projectIdStr)
+		if err != nil {
+			panic(err)
+		}
+
+		selected = projectId
+
+		assets, err = models.GetAllAssetByProjectId(uint(projectId))
+		if err != nil {
+			panic(err)
+		}
+
+		totalAssets = len(assets)
+
+		risks, err := models.GetAllRisksByProjectId(uint(projectId))
+		if err != nil {
+			panic(err)
+		}
+
+		totalRisks = len(risks)
+
+		areaPriority, err = models.GetPriorityByProjectId(uint(projectId))
+		if err != nil {
+			panic(err)
+		}
+	}
+
+	return c.Render("contoh", fiber.Map{
+		"TotalAssets":  totalAssets,
+		"TotalRisks":   totalRisks,
+		"Projects":     projects,
+		"AreaPriority": areaPriority,
+		"ProjectId":    selected,
+		"Category1":    category1,
+		"Category2":    category2,
+		"Category3":    category3,
+		"Category4":    category4,
+		"Risks":        risks,
+		"Assets":       assets,
+		"Selected":     selected,
 	})
 }
 func DeleteProject(ctx *fiber.Ctx) error {
@@ -76,9 +180,87 @@ func FormPage(ctx *fiber.Ctx) error {
 	return ctx.Render("form", nil)
 }
 
-func FormPost(ctx *fiber.Ctx) error {
-	// body := ctx.FormValue("ok")
-	return ctx.SendString(`<div class="overlay" id="overlay"><div class="notification-box"><h4>Success</h4><a href="/notif">ok!</a></div></div>`)
+type FormRequest struct {
+	Title             string `form:"title"`
+	Area1             string `form:"area1"`
+	Area2             string `form:"area2"`
+	Area3             string `form:"area3"`
+	Area4             string `form:"area4"`
+	Area5             string `form:"area5"`
+	CriticalAsset     string `form:"critical_asset"`
+	Rationale         string `form:"rationale"`
+	AssetDesc         string `form:"asset_desc"`
+	AssetOwners       string `form:"asset_owners"`
+	Confidentiality   string `form:"confidentiality"`
+	Integrity         string `form:"integrity"`
+	Availability      string `form:"availability"`
+	Misr              string `form:"misr"`
+	ContainerOwners   string `form:"container_owners"`
+	TechnicalInternal string `form:"technical_internal"`
+	TechnicalExternal string `form:"technical_external"`
+	PhysicalInternal  string `form:"physical_internal"`
+	PhysicalExternal  string `form:"physical_external"`
+	PeopleInternal    string `form:"people_internal"`
+	PeopleExternal    string `form:"people_external"`
+}
+
+func FormPost(c *fiber.Ctx) error {
+	r := new(FormRequest)
+	err := c.BodyParser(r)
+	if err != nil {
+		panic(err)
+	}
+
+	// Insert Project
+	projectId, err := models.InsertProject(r.Title)
+	if err != nil {
+		panic(err)
+	}
+
+	area1, err := strconv.Atoi(r.Area1)
+	if err != nil {
+		panic(err)
+	}
+
+	area2, err := strconv.Atoi(r.Area2)
+	if err != nil {
+		return err
+	}
+
+	area3, err := strconv.Atoi(r.Area3)
+	if err != nil {
+		return err
+	}
+
+	area4, err := strconv.Atoi(r.Area4)
+	if err != nil {
+		return err
+	}
+
+	area5, err := strconv.Atoi(r.Area5)
+	if err != nil {
+		return err
+	}
+
+	// Insert Impact Area Priority
+	_, err = models.InsertPriority(projectId, area1, area2, area3, area4, area5)
+	if err != nil {
+		return err
+	}
+
+	// Insert Critical Asset Information
+	assetId, err := models.InsertAssetProfile(projectId, r.CriticalAsset, r.Rationale, r.AssetDesc, r.AssetOwners, r.Confidentiality, r.Integrity, r.Availability, r.Misr)
+	if err != nil {
+		return err
+	}
+
+	// Insert Container
+	_, err = models.InsertContainer(projectId, assetId, r.ContainerOwners, r.TechnicalInternal, r.TechnicalExternal, r.PhysicalInternal, r.PhysicalExternal, r.PeopleInternal, r.PeopleExternal)
+	if err != nil {
+		return err
+	}
+
+	return c.SendString(`<div class="overlay" id="overlay"><div class="notification-box"><h4>Success</h4><a href="/notif">ok!</a></div></div>`)
 }
 
 func Notification(ctx *fiber.Ctx) error {
@@ -100,7 +282,6 @@ func AddRiskPage(ctx *fiber.Ctx) error {
 func AddRiskPost(ctx *fiber.Ctx) error {
 	return ctx.SendString("ok")
 }
-
 func HandleScore(c *fiber.Ctx) error {
 	projectIdStr := c.Params("projectId")
 	area := c.Params("area")
