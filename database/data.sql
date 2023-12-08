@@ -52,17 +52,13 @@
 --     security_requirements TEXT NOT NULL,
 --     probability ENUM('High', 'Medium', 'Low') NOT NULL,
 --     consequences TEXT NOT NULL,
---     area1 ENUM('High', 'Medium', 'Low') NOT NULL,
---     area2 ENUM('High', 'Medium', 'Low') NOT NULL,
---     area3 ENUM('High', 'Medium', 'Low') NOT NULL,
---     area4 ENUM('High', 'Medium', 'Low') NOT NULL,
---     area5 ENUM('High', 'Medium', 'Low') NOT NULL,
+--     reputation_confidence  ENUM('High', 'Medium', 'Low') NOT NULL,
+--     financial ENUM('High', 'Medium', 'Low') NOT NULL,
+--     productivity ENUM('High', 'Medium', 'Low') NOT NULL,
+--     safety_health ENUM('High', 'Medium', 'Low') NOT NULL,
+--     fines_legal_penalties ENUM('High', 'Medium', 'Low') NOT NULL,
 --     relative_score INT NOT NULL,
 --     FOREIGN KEY (asset_id) REFERENCES asset_informations(id),
 --     FOREIGN KEY (project_id) REFERENCES projects(id)
 -- );
--- desc asset_containers;
--- desc asset_informations;
--- select * from asset_containers;
-select *
-from asset_informations;
+CREATE TABLE

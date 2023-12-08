@@ -13,6 +13,9 @@ type AssetContainer struct {
 	PhysicalExternal  string `gorm:"not null"`
 	PeopleInternal    string `gorm:"not null"`
 	PeopleExternal    string `gorm:"not null"`
+
+	Project          Project          `gorm:"foreignKey:ProjectID"`
+	AssetInformation AssetInformation `gorm:"foreignKey:AssetID"`
 }
 
 func InsertContainer(projectID, assetID uint, owners, technicalInternal, technicalExternal, physicalInternal, physicalExternal, peopleInternal, peopleExternal string) (uint, error) {
@@ -47,10 +50,10 @@ func GetContainerById(id uint) (AssetContainer, error) {
 	return container, result.Error
 }
 
-func GetAllContainersByAssetId(assetId uint) ([]AssetContainer, error) {
-	var containers []AssetContainer
-	result := database.DB.Where("asset_id = ?", assetId).Find(&containers)
-	return containers, result.Error
+func GetContainerByAssetId(assetId uint) (AssetContainer, error) {
+	var container AssetContainer
+	result := database.DB.Where("asset_id = ?", assetId).Find(&container)
+	return container, result.Error
 }
 
 func GetAllContainersByProjectId(projectId uint) ([]AssetContainer, error) {

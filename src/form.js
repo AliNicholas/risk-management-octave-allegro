@@ -69,62 +69,32 @@ function fixStepIndicator(n) {
   x[n].classList.add("active");
 }
 
-// select options
-// Fungsi untuk mengubah nilai opsi pada kategori lain
-function updateOptions(selectedCategory, selectedValue) {
-  // Ambil semua elemen select
-  var selects = document.getElementsByTagName("select");
+document.addEventListener("DOMContentLoaded", function () {
+  // Daftar semua elemen select
+  var selects = document.querySelectorAll("select");
 
-  // Iterasi melalui elemen select
-  for (var i = 0; i < selects.length; i++) {
-    var currentCategory = selects[i].id;
+  // Tambahkan event listener untuk setiap elemen select
+  selects.forEach(function (select) {
+    select.addEventListener("change", function () {
+      // Ambil nilai yang dipilih
+      var selectedValue = this.value;
 
-    // Jika bukan kategori yang dipilih, perbarui nilai opsi
-    if (currentCategory !== selectedCategory) {
-      // Dapatkan semua opsi dalam kategori tersebut
-      var options = selects[i].getElementsByTagName("option");
+      // Nonaktifkan nilai yang dipilih dalam dropdown lainnya
+      selects.forEach(function (otherSelect) {
+        if (otherSelect !== select) {
+          // Aktifkan kembali semua opsi
+          otherSelect.querySelectorAll("option").forEach(function (option) {
+            option.disabled = false;
+          });
 
-      // Iterasi melalui opsi dan nonaktifkan opsi yang dipilih di kategori lain
-      for (var j = 0; j < options.length; j++) {
-        if (options[j].value === selectedValue) {
-          options[j].disabled = true;
+          // Nonaktifkan opsi yang sudah dipilih di dropdown lainnya
+          if (selectedValue !== "None") {
+            otherSelect.querySelector(
+              "option[value='" + selectedValue + "']"
+            ).disabled = true;
+          }
         }
-      }
-    }
-  }
-}
-
-// Fungsi untuk menangani perubahan pada opsi
-function handleOptionChange(event) {
-  var selectedCategory = event.target.id;
-  var selectedValue = event.target.value;
-
-  // Reset semua opsi
-  resetOptions();
-
-  // Perbarui opsi pada kategori lain
-  updateOptions(selectedCategory, selectedValue);
-}
-
-// Fungsi untuk mereset nilai opsi
-function resetOptions() {
-  // Ambil semua elemen select
-  var selects = document.getElementsByTagName("select");
-
-  // Iterasi melalui elemen select
-  for (var i = 0; i < selects.length; i++) {
-    // Dapatkan semua opsi dalam kategori tersebut
-    var options = selects[i].getElementsByTagName("option");
-
-    // Iterasi melalui opsi dan aktifkan kembali semua opsi
-    for (var j = 0; j < options.length; j++) {
-      options[j].disabled = false;
-    }
-  }
-}
-
-// Tambahkan event listener pada setiap elemen select
-var selects = document.getElementsByTagName("select");
-for (var i = 0; i < selects.length; i++) {
-  selects[i].addEventListener("change", handleOptionChange);
-}
+      });
+    });
+  });
+});

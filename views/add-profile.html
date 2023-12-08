@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/form.css" />
+  <script
+    src="https://unpkg.com/htmx.org@1.9.9"
+    integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
+    crossorigin="anonymous"
+  ></script>
+  <body>
+    <div class="container">
+      <a href="/dashboard" class="back-btn">cancel</a>
+      <form
+        class="form"
+        id="form"
+        name="form"
+        hx-post="http://localhost:3000/add-profile/{{ .ProjectId }}"
+        hx-target=".container-btn"
+        hx-swap="beforeend"
+      >
+        <div class="tab" id="tab-3" style="display: block">
+          <h1>CRITICAL INFORMATION ASSET PROFILE</h1>
+
+          <label for="critical_asset">Critical Asset:</label>
+          <input
+            type="text"
+            name="critical_asset"
+            id="critical_asset"
+            required
+          />
+
+          <br />
+
+          <label for="rationale">Rationale for Selection: </label>
+          <textarea
+            placeholder="Why is this information asset important to the organization?"
+            name="rationale"
+            id="rationale"
+            cols="70"
+            rows="5"
+          ></textarea>
+
+          <br />
+
+          <label for="description">Description: </label>
+          <textarea
+            placeholder="What is the agreed-upon description of this information asset?"
+            name="description"
+            id="description"
+            cols="70"
+            rows="5"
+          ></textarea>
+
+          <br />
+
+          <label for="owners">Owner(s): </label>
+          <textarea
+            placeholder="Who owns this information asset?"
+            name="owners"
+            id="owners"
+            cols="50"
+            rows="5"
+          ></textarea>
+
+          <br />
+
+          <label>
+            <h4>Security Requirements</h4>
+
+            <label for="confidentiality">Confidentiality: </label>
+            <textarea
+              placeholder="Only authorized personnel can view this information asset, as follows:"
+              name="confidentiality"
+              id="confidentiality"
+              cols="60"
+              rows="5"
+            ></textarea>
+
+            <label for="integrity">Integrity: </label>
+            <textarea
+              placeholder="Only authorized personnel can modify this information asset, as follows:"
+              name="integrity"
+              id="integrity"
+              cols="60"
+              rows="5"
+            ></textarea>
+
+            <label for="availability">Availability: </label>
+            <textarea
+              placeholder="This asset must be available for _____ hours,
+              _____ days/week, _____ weeks/year."
+              name="availability"
+              id="availability"
+              cols="60"
+              rows="5"
+            ></textarea>
+          </label>
+
+          <label for="misr">Most Important Security Requirement: </label>
+          <select name="misr" id="misr">
+            What is the most important security requirement for this information
+            asset?
+            <option selected disabled>Choose one...</option>
+            <option value="Confidentiality">Confidentiality</option>
+            <option value="Integrity">Integrity</option>
+            <option value="Availability">Availability</option>
+          </select>
+
+          <hr />
+
+          <h1 style="margin-right: 12rem; text-align: center">
+            Container Description
+          </h1>
+
+          <label for="owners">Owner(s)</label>
+          <textarea
+            placeholder="Who owns this asset's container?"
+            name="technical_internal"
+            id="technical_internal"
+            cols="50"
+            rows="3"
+          ></textarea>
+
+          <label for="">
+            <h4>Technical</h4>
+            <label for="technical_internal">Internal: </label>
+            <textarea
+              placeholder="What information systems use or process this information asset?"
+              name="technical_internal"
+              id="technical_internal"
+              cols="70"
+              rows="5"
+            ></textarea>
+            <label for="technical_external">External: </label>
+            <textarea
+              placeholder="Are there customer or partner information systems that are externally managed that use or process this information asset?"
+              name="technical_external"
+              id="technical_external"
+              cols="70"
+              rows="5"
+            ></textarea>
+          </label>
+
+          <label for="">
+            <h4>Physical</h4>
+            <label for="physical_internal">Internal: </label>
+            <textarea
+              placeholder="Are there places, other than on technical assets, where this information asset exists?"
+              name="physical_internal"
+              id="physical_internal"
+              cols="70"
+              rows="5"
+            ></textarea>
+            <label for="physical_external">External: </label>
+            <textarea
+              placeholder="Are there places external to the organization, other than on technical assets, where this information asset exists?"
+              name="physical_external"
+              id="physical_external"
+              cols="70"
+              rows="5"
+            ></textarea>
+          </label>
+
+          <label for="">
+            <h4>People</h4>
+            <label for="people_internal">Internal:</label>
+            <textarea
+              placeholder="What people might have detailed knowledge of this information asset?"
+              name="people_internal"
+              id="people_internal"
+              cols="70"
+              rows="5"
+            ></textarea>
+            <label for="people_external">External: </label>
+            <textarea
+              placeholder="What people, external to your organization, might know about this information asset?"
+              name="people_external"
+              id="people_external"
+              cols="70"
+              rows="5"
+              required
+            ></textarea>
+          </label>
+        </div>
+
+        <div class="container-btn">
+          <button style="display: inline" type="submit" id="submit-btn">
+            Submit
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- <script src="/form.js"></script> -->
+  </body>
+</html>

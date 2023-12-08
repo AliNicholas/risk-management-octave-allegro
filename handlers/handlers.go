@@ -25,6 +25,91 @@ func Register(ctx *fiber.Ctx) error {
 // Dashboard Page
 func DashboardPage(c *fiber.Ctx) error {
 
+	projects, err := models.GetAllProjects()
+	if err != nil {
+		return err
+	}
+
+	return c.Render("dashboard", fiber.Map{
+		"Projects": projects,
+	})
+}
+
+func Render(c *fiber.Ctx) error {
+	projectIdStr := c.FormValue("project-selector")
+
+	projects, err := models.GetAllProjects()
+	if err != nil {
+		return err
+	}
+
+	var (
+		totalAssets  int
+		totalRisks   int
+		category1    int
+		category2    int
+		category3    int
+		category4    int
+		projectId    int
+		assets       []models.AssetInformation
+		risks        []models.AssetRisk
+		areaPriority models.ImpactPriority
+	)
+
+	var isTable bool = false
+
+	if projectIdStr != "NONE" {
+		projectId, err = strconv.Atoi(projectIdStr)
+		if err != nil {
+			return err
+		}
+
+		assets, err = models.GetAllAssetByProjectId(uint(projectId))
+		if err != nil {
+			return err
+		}
+
+		totalAssets = len(assets)
+
+		risks, err = models.GetAllRisksByProjectId(uint(projectId))
+		if err != nil {
+			return err
+		}
+
+		totalRisks = len(risks)
+
+		areaPriority, err = models.GetPriorityByProjectId(uint(projectId))
+		if err != nil {
+			return err
+		}
+		isTable = true
+		// isContent = true
+	}
+
+	data := map[string]interface{}{
+		"TotalAssets": totalAssets,
+		"TotalRisks":  totalRisks,
+		"Projects":    projects,
+		"Category1":   category1,
+		"Category2":   category2,
+		"Category3":   category3,
+		"Category4":   category4,
+		"Risks":       risks,
+		"Assets":      assets,
+	}
+
+	if isTable {
+		data["AreaPriority"] = areaPriority
+	}
+
+	if projectId > 0 {
+		data["ProjectId"] = projectId
+	}
+
+	return c.Render("renderDashboard", data)
+}
+
+func RenderRiskContent(c *fiber.Ctx) error {
 	projectIdStr := c.FormValue("selector")
 
 	projects, err := models.GetAllProjects()
@@ -44,7 +129,7 @@ func DashboardPage(c *fiber.Ctx) error {
 	var risks models.AssetRisk
 	var areaPriority models.ImpactPriority
 
-	if projectIdStr != "" {
+	if projectIdStr != "NONE" {
 		projectId, err := strconv.Atoi(projectIdStr)
 		if err != nil {
 			panic(err)
@@ -71,7 +156,8 @@ func DashboardPage(c *fiber.Ctx) error {
 			panic(err)
 		}
 	}
-	return c.Render("dashboard", fiber.Map{
+
+	return c.Render("renderDashboard", fiber.Map{
 		"TotalAssets":  totalAssets,
 		"TotalRisks":   totalRisks,
 		"Projects":     projects,
@@ -86,93 +172,20 @@ func DashboardPage(c *fiber.Ctx) error {
 		"Selected":     selected,
 	})
 }
+func DeleteProject(c *fiber.Ctx) error {
+	projectIdStr := c.Params("projectId")
 
-func Render(c *fiber.Ctx) error {
-	projectIdStr := c.Params("project-selector")
-
-	projects, err := models.GetAllProjects()
+	projectId, err := strconv.Atoi(projectIdStr)
 	if err != nil {
 		return err
 	}
 
-	var totalAssets int
-	var totalRisks int
-	var category1 int
-	var category2 int
-	var category3 int
-	var category4 int
-	var selected int
-
-	var assets []models.AssetInformation
-	var risks models.AssetRisk
-	var areaPriority models.ImpactPriority
-
-	if projectIdStr != "" {
-		projectId, err := strconv.Atoi(projectIdStr)
-		if err != nil {
-			panic(err)
-		}
-
-		selected = projectId
-
-		assets, err = models.GetAllAssetByProjectId(uint(projectId))
-		if err != nil {
-			panic(err)
-		}
-
-		totalAssets = len(assets)
-
-		risks, err := models.GetAllRisksByProjectId(uint(projectId))
-		if err != nil {
-			panic(err)
-		}
-
-		totalRisks = len(risks)
-
-		areaPriority, err = models.GetPriorityByProjectId(uint(projectId))
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	return c.Render("contoh", fiber.Map{
-		"TotalAssets":  totalAssets,
-		"TotalRisks":   totalRisks,
-		"Projects":     projects,
-		"AreaPriority": areaPriority,
-		"ProjectId":    selected,
-		"Category1":    category1,
-		"Category2":    category2,
-		"Category3":    category3,
-		"Category4":    category4,
-		"Risks":        risks,
-		"Assets":       assets,
-		"Selected":     selected,
-	})
-}
-func DeleteProject(ctx *fiber.Ctx) error {
-	strId := ctx.Get("id")
-
-	id, err := strconv.ParseUint(strId, 10, 0)
+	err = models.DeleteProjectById(uint(projectId))
 	if err != nil {
-		fmt.Println("Error parsing string to uint:", err)
-		return ctx.Status(fiber.StatusBadRequest).JSON(fiber.Map{
-			"error": "Invalid project ID",
-		})
+		return err
 	}
 
-	err = models.DeleteProjectById(uint(id))
-
-	if err != nil {
-		fmt.Println("Error deleting project:", err)
-		return ctx.Status(fiber.StatusInternalServerError).JSON(fiber.Map{
-			"error": "Failed to delete project",
-		})
-	}
-
-	return ctx.JSON(fiber.Map{
-		"message": "Project deleted successfully",
-	})
+	return c.SendString(`<div class="overlay" id="overlay"><div class="notification-box"><h4>Success</h4><a href="/notif">ok!</a></div></div>`)
 }
 
 // Form Page
@@ -268,85 +281,249 @@ func Notification(ctx *fiber.Ctx) error {
 }
 
 // Asset Container Page
-func AddProfilePage(ctx *fiber.Ctx) error {
-	return ctx.Render("add-asset-container", nil)
+func AddProfilePage(c *fiber.Ctx) error {
+	projectId := c.Params("projectId")
+
+	return c.Render("add-profile", fiber.Map{
+		"ProjectId": projectId,
+	})
 }
-func PostProfile(ctx *fiber.Ctx) error {
-	return ctx.SendString("ok")
+
+type AddProfileRequest struct {
+	CriticalAsset     string `form:"critical_asset"`
+	Rationale         string `form:"rationale"`
+	AssetDesc         string `form:"asset_desc"`
+	AssetOwners       string `form:"asset_owners"`
+	Confidentiality   string `form:"confidentiality"`
+	Integrity         string `form:"integrity"`
+	Availability      string `form:"availability"`
+	Misr              string `form:"misr"`
+	ContainerOwners   string `form:"container_owners"`
+	TechnicalInternal string `form:"technical_internal"`
+	TechnicalExternal string `form:"technical_external"`
+	PhysicalInternal  string `form:"physical_internal"`
+	PhysicalExternal  string `form:"physical_external"`
+	PeopleInternal    string `form:"people_internal"`
+	PeopleExternal    string `form:"people_external"`
+}
+
+func PostProfile(c *fiber.Ctx) error {
+	projectIdStr := c.Params("projectId")
+	fmt.Println(projectIdStr)
+
+	projectId, err := strconv.Atoi(projectIdStr)
+	if err != nil {
+		return err
+	}
+
+	r := new(AddProfileRequest)
+	err = c.BodyParser(r)
+	if err != nil {
+		return err
+	}
+
+	assetId, err := models.InsertAssetProfile(uint(projectId), r.CriticalAsset, r.Rationale, r.AssetDesc, r.AssetOwners, r.Confidentiality, r.Integrity, r.Availability, r.Misr)
+	if err != nil {
+		return err
+	}
+
+	_, err = models.InsertContainer(uint(projectId), assetId, r.ContainerOwners, r.TechnicalInternal, r.TechnicalExternal, r.PhysicalInternal, r.PhysicalExternal, r.PeopleInternal, r.PeopleExternal)
+	if err != nil {
+		return err
+	}
+
+	return c.SendString(`<div class="overlay" id="overlay"><div class="notification-box"><h4>Success</h4><a href="/notif">ok!</a></div></div>`)
 }
 
 // Risk Page
-func AddRiskPage(ctx *fiber.Ctx) error {
-	return ctx.Render("add-risk", nil)
+func AddRiskPage(c *fiber.Ctx) error {
+	projectIdStr := c.Params("projectId")
+
+	projectId, err := strconv.Atoi(projectIdStr)
+	if err != nil {
+		return err
+	}
+
+	assets, err := models.GetAllAssetByProjectId(uint(projectId))
+	if err != nil {
+		return err
+	}
+
+	return c.Render("add-risk", fiber.Map{
+		"Assets":    assets,
+		"ProjectId": projectId,
+	})
 }
-func AddRiskPost(ctx *fiber.Ctx) error {
-	return ctx.SendString("ok")
+
+func RenderAsset(c *fiber.Ctx) error {
+	assetIdStr := c.FormValue("asset-selector")
+
+	assetId, err := strconv.Atoi(assetIdStr)
+	if err != nil {
+		return err
+	}
+
+	asset, err := models.GetAssetInformationById(uint(assetId))
+	if err != nil {
+		return err
+	}
+
+	container, err := models.GetContainerByAssetId(uint(assetId))
+	if err != nil {
+		return err
+	}
+
+	return c.Render("renderAsset", fiber.Map{
+		"Asset":     asset,
+		"Container": container,
+	})
+}
+
+type AddRiskRequest struct {
+	AssetId             string `form:"asset_id"`
+	Concern             string `form:"concern"`
+	Actor               string `form:"actor"`
+	Means               string `form:"means"`
+	Motive              string `form:"motive"`
+	Outcome             string `form:"outcome"`
+	SecurityReq         string `form:"security_req"`
+	Probability         string `form:"probability"`
+	Consequences        string `form:"consequences"`
+	Area1               string `form:"area1"`
+	Area2               string `form:"area2"`
+	Area3               string `form:"area3"`
+	Area4               string `form:"area4"`
+	Area5               string `form:"area5"`
+	TechnicalMitigation string `form:"technical_mitigation"`
+	PhysicalMitigation  string `form:"physical_mitigation"`
+	PeopleMitigation    string `form:"people_mitigation"`
+}
+
+func PostRisk(c *fiber.Ctx) error {
+	projectIdStr := c.Params("projectId")
+
+	projectId, err := strconv.Atoi(projectIdStr)
+	if err != nil {
+		return err
+	}
+
+	r := new(AddRiskRequest)
+	err = c.BodyParser(r)
+	if err != nil {
+		return err
+	}
+
+	assetId, err := strconv.Atoi(r.AssetId)
+	if err != nil {
+		fmt.Println(assetId)
+		fmt.Println("atas")
+		fmt.Println(r.AssetId)
+		fmt.Println("bawah")
+		return err
+	}
+
+	riskId, err := models.InsertRisk(models.AssetRisk{ProjectID: uint(projectId), AssetID: uint(assetId), AreaOfConcern: r.Concern, Actor: r.Actor, Means: r.Means, Motive: r.Motive, Outcome: r.Outcome, SecurityRequirements: r.SecurityReq, Probability: r.Probability, Consequences: r.Consequences, ReputationConfidence: r.Area1, Financial: r.Area2, Productivity: r.Area3, SafetyHealth: r.Area4, FinesLegalPenalties: r.Area5})
+	if err != nil {
+		return err
+	}
+
+	_, err = models.InsertRiskMitigation(models.RiskMitigation{ProjectID: uint(projectId), RiskID: riskId, TechnicalMitigation: r.TechnicalMitigation, PhysicalMitigation: r.PhysicalMitigation, PeopleMitigation: r.PeopleMitigation})
+	if err != nil {
+		return err
+	}
+
+	return c.SendString(`<div class="overlay" id="overlay"><div class="notification-box"><h4>Success</h4><a href="/notif">ok!</a></div></div>`)
 }
 func HandleScore(c *fiber.Ctx) error {
 	projectIdStr := c.Params("projectId")
-	area := c.Params("area")
-	value := c.FormValue("area")
+	areaStr := c.Params("area")
+	recentScoreStr := c.Params("recentScore")
+	totalScoreStr := c.FormValue("total_score")
 
-	projectId, err := strconv.ParseUint(projectIdStr, 10, 64)
+	var newScore int
+	var multiplier int
+
+	projectId, err := strconv.Atoi(projectIdStr)
 	if err != nil {
-		panic(err)
+		return err
 	}
-
-	result, err := models.GetPriorityByProjectId(uint(projectId))
+	area, err := strconv.Atoi(areaStr)
 	if err != nil {
-		panic(err)
+		return err
+	}
+	recentscore, err := strconv.Atoi(recentScoreStr)
+	if err != nil {
+		return err
+	}
+	totalScore, err := strconv.Atoi(totalScoreStr)
+	if err != nil {
+		return err
+	}
+	priority, err := models.GetPriorityByProjectId(uint(projectId))
+	if err != nil {
+		return err
 	}
 
-	area1 := result.ReputationConfidence
-	area2 := result.Financial
-	area3 := result.Productivity
-	area4 := result.SafetyHealth
-	area5 := result.FinesLegalPenalties
+	if area == 1 {
+		multiplierStr := c.FormValue("area1")
+		multiplier, err = strconv.Atoi(multiplierStr)
+		if err != nil {
+			return err
+		}
 
-	var x int
+		totalScore -= recentscore
+		newScore = multiplier * priority.ReputationConfidence
+		totalScore += newScore
 
-	if area == "area1" {
-		if value == "High" {
-			x = area1 * 3
-		} else if value == "Medium" {
-			x = area1 * 2
-		} else if value == "Low" {
-			x = area1 * 1
+	} else if area == 2 {
+		multiplierStr := c.FormValue("area2")
+		multiplier, err = strconv.Atoi(multiplierStr)
+		if err != nil {
+			return err
 		}
-	} else if area == "area2" {
-		if value == "High" {
-			x = area2 * 3
-		} else if value == "Medium" {
-			x = area2 * 2
-		} else if value == "Low" {
-			x = area2 * 1
+		totalScore -= recentscore
+		newScore = multiplier * priority.Financial
+		totalScore += newScore
+
+	} else if area == 3 {
+		multiplierStr := c.FormValue("area3")
+		multiplier, err = strconv.Atoi(multiplierStr)
+		if err != nil {
+			return err
 		}
-	} else if area == "area3" {
-		if value == "High" {
-			x = area3 * 3
-		} else if value == "Medium" {
-			x = area3 * 2
-		} else if value == "Low" {
-			x = area3 * 1
+
+		totalScore -= recentscore
+		newScore = multiplier * priority.Productivity
+		totalScore += newScore
+
+	} else if area == 4 {
+		multiplierStr := c.FormValue("area4")
+		multiplier, err = strconv.Atoi(multiplierStr)
+		if err != nil {
+			return err
 		}
-	} else if area == "area4" {
-		if value == "High" {
-			x = area4 * 3
-		} else if value == "Medium" {
-			x = area4 * 2
-		} else if value == "Low" {
-			x = area4 * 1
+
+		totalScore -= recentscore
+		newScore = multiplier * priority.SafetyHealth
+		totalScore += newScore
+
+	} else if area == 5 {
+		multiplierStr := c.FormValue("area5")
+		multiplier, err = strconv.Atoi(multiplierStr)
+		if err != nil {
+			return err
 		}
-	} else if area == "area5" {
-		if value == "High" {
-			x = area5 * 3
-		} else if value == "Medium" {
-			x = area5 * 2
-		} else if value == "Low" {
-			x = area5 * 1
-		}
+
+		totalScore -= recentscore
+		newScore = multiplier * priority.FinesLegalPenalties
+		totalScore += newScore
 	}
 
-	response := fmt.Sprintf("<p>%s</p>", strconv.Itoa(x))
-	return c.SendString(response)
+	return c.Render("handleScore", fiber.Map{
+		"TotalScore": totalScore,
+		"NewScore":   newScore,
+		"Area":       area,
+		"Selected":   multiplier,
+		"ProjectId":  projectId,
+	})
 }

@@ -13,6 +13,8 @@ type AssetInformation struct {
 	Integrity                        string `gorm:"not null"`
 	Availability                     string `gorm:"not null"`
 	MostImportantSecurityRequirement string `gorm:"not null"`
+
+	Project Project `gorm:"foreignKey:ProjectID"`
 }
 
 func InsertAssetProfile(projectId uint, criticalAsset, rationaleForSelection, description, owners, confidentiality, integrity, availability, mostImportantSecurityRequirement string) (uint, error) {
@@ -37,11 +39,11 @@ func InsertAssetProfile(projectId uint, criticalAsset, rationaleForSelection, de
 	return assetInformation.ID, nil
 }
 
-// func GetAssetProfileById(id uint) (AssetProfile, error) {
-// 	var assetProfile AssetProfile
-// 	result := database.DB.First(&assetProfile, id)
-// 	return assetProfile, result.Error
-// }
+func GetAssetInformationById(id uint) (AssetInformation, error) {
+	var assetInformation AssetInformation
+	result := database.DB.First(&assetInformation, id)
+	return assetInformation, result.Error
+}
 
 func GetAllAssetByProjectId(projectID uint) ([]AssetInformation, error) {
 	var assetProfiles []AssetInformation

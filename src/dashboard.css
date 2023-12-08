@@ -66,16 +66,42 @@ a {
 
 .prior {
   height: 100%;
-  width: 32%;
-  padding: 0.5rem 2rem;
+  width: 35%;
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: center; /* Menengahkan secara horizontal */
+  align-items: center;
   background-color: var(--timber-green);
   border-radius: 0.7rem;
   text-align: center;
 }
 
+table {
+  border-collapse: collapse;
+  width: 70%;
+  height: 20px;
+  padding-right: 1rem;
+}
+
+th,
+td {
+  border: 1px solid var(--smoke-grey);
+  text-align: center;
+  font-size: 0.6rem;
+  padding: 0 0.2rem;
+}
+
+th {
+  background-color: var(--tuna);
+}
+
+.checked {
+  color: green;
+}
+
 .total-assets {
   height: 100%;
-  width: 15%;
+  width: 14%;
   background-color: var(--timber-green);
   border-radius: 0.7rem;
   display: flex;
@@ -87,7 +113,7 @@ a {
 
 .total-risks {
   height: 100%;
-  width: 15%;
+  width: 14%;
   background-color: var(--timber-green);
   border-radius: 0.7rem;
   display: flex;
@@ -99,10 +125,12 @@ a {
 
 .container-nav {
   width: 35%;
-  background-color: var(--timber-green);
+  /* background-color: var(--timber-green); */
   border-radius: 0.7rem;
   display: flex;
   flex-direction: column;
+  /* justify-content: space-between;
+  align-items: flex-start; */
 }
 
 .user {
@@ -112,11 +140,12 @@ a {
 }
 
 .action-btn {
+  /* background-color: red; */
   display: flex;
   flex: row;
-  justify-content: center;
+  justify-content: end;
   gap: 0.5rem;
-  align-items: center;
+  align-items: end;
   height: 2.1rem;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -127,7 +156,7 @@ a {
   color: white;
   cursor: pointer;
   font-size: 1rem;
-  width: 7rem;
+  width: 7.5rem;
   padding: 0.3rem 0.3rem;
   text-align: center;
   border-radius: 0.3rem;
@@ -143,12 +172,13 @@ a {
 .delete-btn {
   background-color: var(--butterfly-blue);
   font-size: 1.1rem;
-  width: 3rem;
+  width: 3.5rem;
   padding: 0.3rem 0.5rem;
   text-align: center;
   border-radius: 0.3rem;
   transition: all 0.1s ease-in-out;
   border: none;
+  cursor: pointer;
 }
 .delete-btn:hover {
   background-color: red;
@@ -159,12 +189,14 @@ a {
 
 .logout-btn {
   border: none;
-  font-size: 0.9rem;
+  cursor: pointer;
+  font-size: 1rem;
   border-radius: 0.3rem;
-  padding: 0.5rem;
+  padding: 0.3rem 0.7rem;
+  text-align: center;
   color: white;
   background-color: var(--butterfly-blue);
-  width: 4rem;
+  width: 6rem;
 }
 .logout-btn:hover {
   background-color: red;
@@ -173,14 +205,34 @@ a {
   transform: scale(1.1);
 }
 
+.container-selector {
+  width: 100%;
+  /* background-color: red; */
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: row;
+}
+
 .project-selector {
   background-color: var(--tuna);
   color: white;
   cursor: pointer;
-  width: 80%;
-  display: block;
-  align-self: center;
+  width: 58%;
+  display: inline-block;
+  padding: 0.3rem 0.1rem;
   text-align: center;
+  border-radius: 0.3rem;
+  margin-right: 0.4rem;
+}
+
+.asset-selector {
+  background-color: var(--tuna);
+  color: white;
+  cursor: pointer;
+  padding: 0.3rem 0.1rem;
+  width: 40%;
+  text-align: center;
+  display: inline-block;
   border-radius: 0.3rem;
 }
 
@@ -338,6 +390,7 @@ a {
   text-align: center;
   align-self: center;
   justify-self: center;
+  cursor: pointer;
 }
 
 .side-top a:active {
@@ -365,24 +418,43 @@ a {
   width: 100%;
 }
 
-table {
-  border-collapse: collapse;
-  width: 250px;
-  height: 20px;
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 999;
 }
 
-th,
-td {
-  border: 1px solid var(--smoke-grey);
+.notification-box {
+  background-color: var(--dark-slate-grey);
+  padding: 1.2rem;
   text-align: center;
-  font-size: 8px;
-  padding: 0 0.3rem;
+  border-radius: 0.2rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  width: 25%;
 }
 
-th {
-  background-color: var(--tuna);
+.notification-box h4 {
+  font-size: 2rem;
+  margin-bottom: 2rem;
 }
 
-.checked {
-  color: green;
+.notification-box a {
+  background-color: var(--butterfly-blue);
+  border: none;
+  padding: 0.3rem 1rem;
+  font-size: 1rem;
+  font-weight: bold;
+  border-radius: 0.2rem;
+  cursor: pointer;
+  margin-top: 2rem;
+}
+.notification-box a:active {
+  transform: scale(1.2);
 }

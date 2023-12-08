@@ -1,0 +1,154 @@
+<!-- area 1 -->
+{{ if eq .Area 1 }}
+<select
+  style="width: fit-content; margin: 0 auto"
+  name="area1"
+  id="area1"
+  hx-post="/score/{{ .ProjectId }}/1/{{ .NewScore }}"
+  hx-include="[name='total_score']"
+  hx-swap-oob="true"
+>
+  <option disabled>Choose one...</option>
+  {{ if eq .Selected 3 }}
+  <option selected value="3">High</option>
+  {{ else }}
+  <option value="3">High</option>
+  {{ end }} {{ if eq .Selected 2 }}
+  <option selected value="2">Medium</option>
+  {{ else }}
+  <option value="2">Medium</option>
+  {{ end }} {{ if eq .Selected 1 }}
+  <option selected value="1">Low</option>
+  {{ else }}
+  <option value="1">Low</option>
+  {{ end }}
+</select>
+
+<p id="score1" style="text-align: center" hx-swap-oob="true">{{ .NewScore }}</p>
+
+{{ else if eq .Area 2 }}
+<!-- area 2 -->
+<select
+  style="width: fit-content; margin: 0 auto"
+  name="area2"
+  id="area2"
+  hx-post="/score/{{ .ProjectId }}/2/{{ .NewScore }}"
+  hx-include="[name='total_score']"
+  hx-swap-oob="true"
+>
+  <option disabled>Choose one...</option>
+  {{ if eq .Selected 3 }}
+  <option selected value="3">High</option>
+  {{ else }}
+  <option value="3">High</option>
+  {{ end }} {{ if eq .Selected 2 }}
+  <option selected value="2">Medium</option>
+  {{ else }}
+  <option value="2">Medium</option>
+  {{ end }} {{ if eq .Selected 1 }}
+  <option selected value="1">Low</option>
+  {{ else }}
+  <option value="1">Low</option>
+  {{ end }}
+</select>
+
+<p id="score2" style="text-align: center" hx-swap-oob="true">{{ .NewScore }}</p>
+
+{{ else if eq .Area 3 }}
+<!-- area 3 -->
+<select
+  style="width: fit-content; margin: 0 auto"
+  name="area3"
+  id="area3"
+  hx-post="/score/{{ .ProjectId }}/3/{{ .NewScore }}"
+  hx-include="[name='total_score']"
+  hx-swap-oob="true"
+>
+  <option disabled>Choose one...</option>
+  {{ if eq .Selected 3 }}
+  <option selected value="3">High</option>
+  {{ else }}
+  <option value="3">High</option>
+  {{ end }} {{ if eq .Selected 2 }}
+  <option selected value="2">Medium</option>
+  {{ else }}
+  <option value="2">Medium</option>
+  {{ end }} {{ if eq .Selected 1 }}
+  <option selected value="1">Low</option>
+  {{ else }}
+  <option value="1">Low</option>
+  {{ end }}
+</select>
+
+<p id="score3" style="text-align: center" hx-swap-oob="true">{{ .NewScore }}</p>
+
+{{ else if eq .Area 4 }}
+<!-- area 4 -->
+<select
+  style="width: fit-content; margin: 0 auto"
+  name="area4"
+  id="area4"
+  hx-post="/score/{{ .ProjectId }}/4/{{ .NewScore }}"
+  hx-include="[name='total_score']"
+  hx-swap-oob="true"
+>
+  <option disabled>Choose one...</option>
+  {{ if eq .Selected 3 }}
+  <option selected value="3">High</option>
+  {{ else }}
+  <option value="3">High</option>
+  {{ end }} {{ if eq .Selected 2 }}
+  <option selected value="2">Medium</option>
+  {{ else }}
+  <option value="2">Medium</option>
+  {{ end }} {{ if eq .Selected 1 }}
+  <option selected value="1">Low</option>
+  {{ else }}
+  <option value="1">Low</option>
+  {{ end }}
+</select>
+
+<p id="score4" style="text-align: center" hx-swap-oob="true">{{ .NewScore }}</p>
+
+{{ else if eq .Area 5 }}
+<!-- area 5 -->
+<select
+  style="width: fit-content; margin: 0 auto"
+  name="area5"
+  id="area5"
+  hx-post="/score/{{ .ProjectId }}/5/{{ .NewScore }}"
+  hx-include="[name='total_score']"
+  hx-swap-oob="true"
+>
+  <option disabled>Choose one...</option>
+  {{ if eq .Selected 3 }}
+  <option selected value="3">High</option>
+  {{ else }}
+  <option value="3">High</option>
+  {{ end }} {{ if eq .Selected 2 }}
+  <option selected value="2">Medium</option>
+  {{ else }}
+  <option value="2">Medium</option>
+  {{ end }} {{ if eq .Selected 1 }}
+  <option selected value="1">Low</option>
+  {{ else }}
+  <option value="1">Low</option>
+  {{ end }}
+</select>
+
+<p id="score5" style="text-align: center" hx-swap-oob="true">{{ .NewScore }}</p>
+{{ end }}
+
+<!-- total score -->
+<input
+  type="text"
+  id="total_score"
+  name="total_score"
+  hidden
+  value="{{ .TotalScore }}"
+  hx-swap-oob="true"
+/>
+
+<p id="display_score" style="text-align: center" hx-swap-oob="true">
+  {{ .TotalScore }}
+</p>

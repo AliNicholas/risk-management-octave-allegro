@@ -1,0 +1,190 @@
+<!-- Asset -->
+{{with .Asset }}
+<textarea
+  style="width: 60%"
+  id="asset-owners"
+  rows="3"
+  class="display_text"
+  placeholder="{{ .Owners }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 60%"
+  id="rationale"
+  rows="3"
+  placeholder="{{ .RationaleForSelection }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 60%"
+  id="desc"
+  rows="3"
+  placeholder="{{ .Description }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 100%"
+  id="confidentiality"
+  rows="3"
+  placeholder="{{ .Confidentiality }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 100%"
+  id="integrity"
+  rows="3"
+  placeholder="{{ .Integrity }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 100%"
+  id="availability"
+  rows="3"
+  placeholder="{{ .Availability }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 40%"
+  id="misr"
+  rows="1"
+  placeholder="{{ .MostImportantSecurityRequirement}}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<input
+  type="text"
+  hidden
+  value="{{ .ID }}"
+  id="asset_id"
+  name="asset_id"
+  hx-swap-oob="true"
+/>
+
+<button
+  style="display: inline"
+  type="submit"
+  id="submit-btn"
+  hx-swap-oob="true"
+>
+  Submit
+</button>
+
+{{ else }}
+
+<button
+  style="display: inline"
+  type="button"
+  id="submit-btn"
+  hx-swap-oob="true"
+>
+  Submit
+</button>
+
+{{ end }}
+
+<!-- Container -->
+{{ with .Container }}
+<textarea
+  class="display_text"
+  style="width: 50%"
+  id="container_owners"
+  rows="3"
+  placeholder="{{ .Owners }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 100%"
+  id="technical_internal"
+  rows="3"
+  placeholder="{{ .TechnicalInternal }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 100%"
+  id="technical_external"
+  rows="3"
+  placeholder="{{ .TechnicalExternal }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 100%"
+  id="physical_internal"
+  rows="3"
+  placeholder="{{ .PhysicalInternal }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 100%"
+  id="physical_external"
+  rows="3"
+  placeholder="{{ .PhysicalExternal }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 100%"
+  id="people_internal"
+  rows="3"
+  placeholder="{{ .PeopleInternal }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+<textarea
+  class="display_text"
+  style="width: 100%"
+  id="people_external"
+  rows="3"
+  placeholder="{{ .PeopleExternal }}"
+  disabled
+  selected
+  hx-swap-oob="true"
+></textarea>
+
+{{ end }}

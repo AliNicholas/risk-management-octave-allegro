@@ -14,26 +14,23 @@ type AssetRisk struct {
 	SecurityRequirements string `gorm:"not null"`
 	Probability          string `gorm:"not null"`
 	Consequences         string `gorm:"not null"`
-	Severity             string `gorm:"not null"`
+	ReputationConfidence string `gorm:"not null"`
+	Financial            string `gorm:"not null"`
+	Productivity         string `gorm:"not null"`
+	SafetyHealth         string `gorm:"not null"`
+	FinesLegalPenalties  string `gorm:"not null"`
+
+	Project          Project          `gorm:"foreignKey:ProjectID"`
+	AssetInformation AssetInformation `gorm:"foreignKey:AssetID"`
 }
 
-func InsertRisk(projectId, assetID uint, areaOfConcern, actor, means, motive, outcome, securityRequirements, probability, consequences, severity string) error {
-	risk := AssetRisk{
-		ProjectID:            projectId,
-		AssetID:              assetID,
-		AreaOfConcern:        areaOfConcern,
-		Actor:                actor,
-		Means:                means,
-		Motive:               motive,
-		Outcome:              outcome,
-		SecurityRequirements: securityRequirements,
-		Probability:          probability,
-		Consequences:         consequences,
-		Severity:             severity,
-	}
+func InsertRisk(risk AssetRisk) (uint, error) {
 
 	result := database.DB.Create(&risk)
-	return result.Error
+	if result.Error != nil {
+		return 0, result.Error
+	}
+	return risk.ID, nil
 }
 
 func InsertRiskBatch(risks []AssetRisk) error {

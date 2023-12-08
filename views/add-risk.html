@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="stylesheet" href="/form.css" />
+  <link rel="stylesheet" href="/add-risk.css" />
   <script
     src="https://unpkg.com/htmx.org@1.9.9"
     integrity="sha384-QFjmbokDn2DjBjq+fM+8LUIVrAgqcNW2s0PjAxHETgRn9l4fvX31ZxDxvwQnyMOX"
@@ -14,62 +14,221 @@
         class="form"
         id="form"
         name="form"
-        hx-post="http://localhost:3000/form"
+        hx-post="http://localhost:3000/add-risk/{{ .ProjectId }}"
         hx-target=".container-btn"
         hx-swap="beforeend"
       >
-        <div class="tab" id="tab-3" style="display: block">
+        <input type="text" hidden value="" id="asset_id" name="asset_id" />
+        <input
+          type="text"
+          value="0"
+          hidden
+          name="total_score"
+          id="total_score"
+        />
+        <div class="tab" id="container-tab" style="display: block">
           <h1>Information Asset</h1>
-          <label for="">Choose Information Assets</label>
+          <h4>Choose Information Assets:</h4>
 
-          <label for="owners">Owner(s): </label>
+          <select
+            name="asset-selector"
+            id="asset-selector"
+            hx-post="/asset"
+            hx-target="#target"
+            hx-swap="outerHTML"
+          >
+            {{ if .Assets }}
+            <option selected disabled>Select the asset to be identified</option>
+            {{ range .Assets }}
+            <option value="{{ .ID }}">{{ .CriticalAsset }}</option>
+            {{ end }} {{ else }}
+            <option>NONE</option>
+            {{ end }}
+          </select>
 
-          <br />
+          <div id="target"></div>
+
+          <h4 style="margin-top: 1rem">Asset Owner(s):</h4>
+          <textarea
+            style="width: 60%"
+            id="asset-owners"
+            rows="3"
+            class="display_text"
+            placeholder="none"
+            disabled
+            selected
+          ></textarea>
+
+          <h4 style="margin-top: 1rem">Rationale For Selection:</h4>
+          <textarea
+            class="display_text"
+            style="width: 60%"
+            id="rationale"
+            rows="3"
+            placeholder="none"
+            disabled
+            selected
+          ></textarea>
+
+          <h4 style="margin-top: 1rem">Description:</h4>
+          <textarea
+            class="display_text"
+            style="width: 60%"
+            id="desc"
+            rows="3"
+            placeholder="none"
+            disabled
+            selected
+          ></textarea>
 
           <label>
-            <h4>Security Requirements</h4>
+            <h4>Security Requirements:</h4>
 
-            <label for="confidentiality">Confidentiality: </label>
-
-            <label for="integrity">Integrity: </label>
-
-            <label for="availability">Availability: </label>
+            <ol>
+              <li>Confidentiality:</li>
+              <textarea
+                class="display_text"
+                style="width: 100%"
+                id="confidentiality"
+                rows="3"
+                placeholder="none"
+                disabled
+                selected
+              ></textarea>
+              <li>Integrity:</li>
+              <textarea
+                class="display_text"
+                style="width: 100%"
+                id="integrity"
+                rows="3"
+                placeholder="none"
+                disabled
+                selected
+              ></textarea>
+              <li>Availability:</li>
+              <textarea
+                class="display_text"
+                style="width: 100%"
+                id="availability"
+                rows="3"
+                placeholder="none"
+                disabled
+                selected
+              ></textarea>
+            </ol>
           </label>
 
-          <label for="misr">Most Important Security Requirement: </label>
+          <h4 style="margin-top: 1rem">Most Important Security Requirement:</h4>
+          <textarea
+            class="display_text"
+            style="width: 40%"
+            id="misr"
+            rows="1"
+            placeholder="none"
+            disabled
+            selected
+          ></textarea>
 
           <hr />
 
-          <h4>Deskripsi Kontainer</h4>
+          <h1>Container Description</h1>
 
-          <label for="owners">Owner(s)</label>
+          <label>Container Owner(s):</label>
+          <textarea
+            class="display_text"
+            style="width: 50%"
+            id="container_owners"
+            rows="3"
+            placeholder="none"
+            disabled
+            selected
+          ></textarea>
 
-          <label for="">
-            <h4>Technical</h4>
-            <label for="technical_internal">Internal: </label>
-            <label for="technical_external">External: </label>
+          <label>
+            <h4>Technical:</h4>
+            <ul>
+              <li>Internal:</li>
+              <textarea
+                class="display_text"
+                style="width: 100%"
+                id="technical_internal"
+                rows="3"
+                placeholder="none"
+                disabled
+                selected
+              ></textarea>
+              <li>External:</li>
+              <textarea
+                class="display_text"
+                style="width: 100%"
+                id="technical_external"
+                rows="3"
+                placeholder="none"
+                disabled
+                selected
+              ></textarea>
+            </ul>
           </label>
 
-          <label for="">
-            <h4>Physical</h4>
-            <label for="physical_internal">Internal: </label>
-            <label for="physical_external">External: </label>
+          <label>
+            <h4>Physical:</h4>
+            <ul>
+              <li>Internal:</li>
+              <textarea
+                class="display_text"
+                style="width: 100%"
+                id="physical_internal"
+                rows="3"
+                placeholder="none"
+                disabled
+                selected
+              ></textarea>
+              <li>External:</li>
+              <textarea
+                class="display_text"
+                style="width: 100%"
+                id="physical_external"
+                rows="3"
+                placeholder="none"
+                disabled
+                selected
+              ></textarea>
+            </ul>
           </label>
 
-          <label for="">
-            <h4>People</h4>
-            <label for="people_internal">Internal:</label>
-            <label for="people_external">External: </label>
+          <label>
+            <h4>People:</h4>
+            <ul>
+              <li>Internal:</li>
+              <textarea
+                class="display_text"
+                style="width: 100%"
+                id="people_internal"
+                rows="3"
+                placeholder="none"
+                disabled
+                selected
+              ></textarea>
+              <li>External:</li>
+              <textarea
+                class="display_text"
+                style="width: 100%"
+                id="people_external"
+                rows="3"
+                placeholder="none"
+                disabled
+                selected
+              ></textarea>
+            </ul>
           </label>
 
           <hr />
 
-          <h1>Identify Risk/Threats</h1>
+          <h1 style="margin-top: 1rem">Identify Risk/Threats</h1>
 
           <label for="concern">Area Of Concern:</label>
           <textarea
-            placeholder="A descriptive statement that details a real-world condition or situation
-            that could affect an information asset in your organization."
+            placeholder="A descriptive statement that details a real-world condition or situation that could affect an information asset in your organization."
             name="concern"
             id="concern"
             cols="70"
@@ -116,8 +275,8 @@
           <label for="sr">Security Requirements: </label>
           <textarea
             placeholder="How would the information asset’s security requirements be breached?"
-            name="sr"
-            id="sr"
+            name="security_req"
+            id="security_req"
             cols="70"
             rows="3"
           ></textarea>
@@ -133,15 +292,14 @@
 
           <label for="consequences">Consequences: </label>
           <textarea
-            placeholder="What are the consequences to the organization or the information asset
-            owner as a result of the outcome and breach of security requirements?"
+            placeholder="What are the consequences to the organization or the information asset owner as a result of the outcome and breach of security requirements?"
             name="consequences"
             id="consequences"
             cols="70"
             rows="5"
           ></textarea>
 
-          <label for="">Severity:</label>
+          <h4 style="margin-top: 1rem; font-size: 1.2rem">Severity:</h4>
           <p>
             How severe are these consequences to the organization or asset owner
             by impact area?
@@ -150,8 +308,8 @@
             <thead>
               <tr>
                 <th>Impact Area</th>
-                <th>Value</th>
-                <th>Score</th>
+                <th style="width: 10rem">Value</th>
+                <th style="width: 6rem">Score</th>
               </tr>
             </thead>
             <tbody>
@@ -159,96 +317,117 @@
                 <td>Reputation & Customer Confidence</td>
                 <td>
                   <select
-                    name="area"
+                    style="width: fit-content; margin: 0 auto"
+                    name="area1"
                     id="area1"
-                    hx-post="/score/area1/{{ .ProjectId }}"
-                    hx-target="#score1"
+                    hx-post="/score/{{ .ProjectId }}/1/0"
                   >
-                    <option selected disabled>Choose one...</option>
-                    <option value="High">High</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
+                    <option selected disabled value="">Choose one...</option>
+                    <option value="3">High</option>
+                    <option value="2">Medium</option>
+                    <option value="1">Low</option>
                   </select>
                 </td>
-                <td id="score1"></td>
+                <td><p id="score1" style="text-align: center">0</p></td>
               </tr>
               <tr>
                 <td>Financial</td>
                 <td>
                   <select
-                    name="area"
+                    style="width: fit-content; margin: 0 auto"
+                    name="area2"
                     id="area2"
-                    hx-post="/score/area1/{{ .ProjectId }}"
-                    hx-target="#score2"
+                    hx-post="/score/{{ .ProjectId }}/2/0"
                   >
-                    <option selected disabled>Choose one...</option>
-                    <option value="High">High</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
+                    <option selected disabled value="">Choose one...</option>
+                    <option value="3">High</option>
+                    <option value="2">Medium</option>
+                    <option value="1">Low</option>
                   </select>
                 </td>
-                <td id="score2"></td>
+                <td><p id="score2" style="text-align: center">0</p></td>
               </tr>
               <tr>
                 <td>Productivity</td>
                 <td>
                   <select
-                    name="area"
+                    style="width: fit-content; margin: 0 auto"
+                    name="area3"
                     id="area3"
-                    hx-post="/score/area3/{{ .ProjectId }}"
-                    hx-target="#score3"
+                    hx-post="/score/{{ .ProjectId }}/3/0"
+                    hx-include="[name='total_score']"
                   >
                     <option selected disabled>Choose one...</option>
-                    <option value="High">High</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
+                    <option value="3">High</option>
+                    <option value="2">Medium</option>
+                    <option value="1">Low</option>
                   </select>
                 </td>
-                <td id="score3"></td>
+                <td><p id="score3" style="text-align: center">0</p></td>
               </tr>
               <tr>
                 <td>Safety & Health</td>
                 <td>
                   <select
+                    style="width: fit-content; margin: 0 auto"
                     name="area4"
                     id="area4"
-                    hx-post="/score/area4/{{ .ProjectId }}"
-                    hx-target="#score4"
+                    hx-post="/score/{{ .ProjectId }}/4/0"
+                    hx-include="[name='total_score']"
                   >
                     <option selected disabled>Choose one...</option>
-                    <option value="High">High</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
+                    <option value="3">High</option>
+                    <option value="2">Medium</option>
+                    <option value="1">Low</option>
                   </select>
                 </td>
-                <td id="score4"></td>
+                <td><p id="score4" style="text-align: center">0</p></td>
               </tr>
               <tr>
                 <td>Fines & Legal Penalties</td>
                 <td>
                   <select
+                    style="width: fit-content; margin: 0 auto"
                     name="area5"
                     id="area5"
-                    hx-post="/score/area5/{{ .ProjectId }}"
-                    hx-target="#score5"
+                    hx-post="/score/{{ .ProjectId }}/5/0"
+                    hx-include="[name='total_score']"
                   >
                     <option selected disabled>Choose one...</option>
-                    <option value="High">High</option>
-                    <option value="Medium">Medium</option>
-                    <option value="Low">Low</option>
+                    <option value="3">High</option>
+                    <option value="2">Medium</option>
+                    <option value="1">Low</option>
                   </select>
                 </td>
-                <td id="score5"></td>
+                <td><p id="score5" style="text-align: center">0</p></td>
+              </tr>
+              <tr>
+                <td>Total Score:</td>
+
+                <td><p id="display_score" style="text-align: center">0</p></td>
               </tr>
             </tbody>
           </table>
 
           <hr />
 
-          <h1>Mitigate Risk/Threats</h1>
-          <p>
-            Based on the total score for this risk, what action will you take?
-          </p>
+          <h1 style="margin-top: 1rem; margin-bottom: 2rem">
+            Mitigate Risk/Threats
+          </h1>
+
+          <h4>The question that should be considered before filling out:</h4>
+          <ol style="margin-bottom: 2rem">
+            <li>
+              Based on the total score for this risk, what action will you take?
+            </li>
+            <li>
+              What administrative, technical, and physical controls would you
+              apply on this container?
+            </li>
+            <li>
+              What residual risk would still be accepted by the organization?
+            </li>
+          </ol>
 
           <table>
             <thead>
@@ -259,22 +438,12 @@
             </thead>
             <tbody>
               <tr>
-                <td style="font-size: 0.6rem; font-weight: 100; color: white">
-                  What administrative, technical, and physical controls would
-                  you apply on this container?
-                </td>
-                <td style="font-size: 0.6rem; font-weight: 100; color: white">
-                  What residual risk would still be accepted by the
-                  organization?
-                </td>
-              </tr>
-              <tr>
                 <td>Technical</td>
                 <td>
                   <textarea
-                    placeholder=""
-                    name="people"
-                    id="people"
+                    placeholder="type here..."
+                    name="technical"
+                    id="technical"
                     cols="70"
                     rows="3"
                   ></textarea>
@@ -284,9 +453,9 @@
                 <td>Physical</td>
                 <td>
                   <textarea
-                    placeholder=""
-                    name="people"
-                    id="people"
+                    placeholder="type here..."
+                    name="physical"
+                    id="physical"
                     cols="70"
                     rows="3"
                   ></textarea>
@@ -296,7 +465,7 @@
                 <td>People</td>
                 <td>
                   <textarea
-                    placeholder=""
+                    placeholder="type here..."
                     name="people"
                     id="people"
                     cols="70"
@@ -308,14 +477,12 @@
           </table>
         </div>
 
-        <div class="container-btn">
+        <div class="container-btn" id="container-btn">
           <button style="display: inline" type="button" id="submit-btn">
             Submit
           </button>
         </div>
       </form>
     </div>
-
-    <script src="/form.js"></script>
   </body>
 </html>

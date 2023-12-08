@@ -10,6 +10,8 @@ type ImpactPriority struct {
 	Productivity         int  `gorm:"not null"`
 	SafetyHealth         int  `gorm:"not null"`
 	FinesLegalPenalties  int  `gorm:"not null"`
+
+	Project Project `gorm:"foreignKey:ProjectID"`
 }
 
 func InsertPriority(projectId uint, reputationConfidence, financial, productivity, safetyHealth, finesLegalPenalties int) (uint, error) {
