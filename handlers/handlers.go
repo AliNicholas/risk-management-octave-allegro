@@ -1,10 +1,12 @@
 package handlers
 
 import (
+	"encoding/json"
 	"final_allegro/helper"
 	"final_allegro/models"
 	"fmt"
 	"strconv"
+	"strings"
 
 	"github.com/gofiber/fiber/v2"
 )
@@ -48,18 +50,19 @@ func Render(c *fiber.Ctx) error {
 	}
 
 	var (
-		totalAssets  int
-		totalRisks   int
-		category1    int
-		category2    int
-		category3    int
-		category4    int
-		projectId    int
-		assets       []models.AssetInformation
-		risks        []models.AssetRisk
-		mitigations  []models.RiskMitigation
-		areaPriority models.ImpactPriority
-		contents     []Content
+		totalAssets   int
+		totalRisks    int
+		category1     int
+		category2     int
+		category3     int
+		category4     int
+		totalCategory int
+		projectId     int
+		assets        []models.AssetInformation
+		risks         []models.AssetRisk
+		mitigations   []models.RiskMitigation
+		areaPriority  models.ImpactPriority
+		contents      []Content
 	)
 
 	var isTable bool = false
@@ -107,6 +110,8 @@ func Render(c *fiber.Ctx) error {
 		category2 = categoryNum[1]
 		category3 = categoryNum[2]
 		category4 = categoryNum[3]
+
+		totalCategory = category1 + category2 + category3 + category4
 	}
 
 	for i := 0; i < len(risks); i++ {
@@ -154,6 +159,7 @@ func Render(c *fiber.Ctx) error {
 		"Category4":     category4,
 		"Risks":         risks,
 		"Assets":        assets,
+		"TotalCategory": totalCategory,
 	}
 
 	if isTable {
@@ -201,18 +207,19 @@ func RenderByAsset(c *fiber.Ctx) error {
 		}
 
 		var (
-			totalAssets  int
-			totalRisks   int
-			category1    int
-			category2    int
-			category3    int
-			category4    int
-			projectId    int
-			assets       []models.AssetInformation
-			risks        []models.AssetRisk
-			mitigations  []models.RiskMitigation
-			areaPriority models.ImpactPriority
-			contents     []Content
+			totalAssets   int
+			totalRisks    int
+			category1     int
+			category2     int
+			category3     int
+			category4     int
+			totalCategory int
+			projectId     int
+			assets        []models.AssetInformation
+			risks         []models.AssetRisk
+			mitigations   []models.RiskMitigation
+			areaPriority  models.ImpactPriority
+			contents      []Content
 		)
 
 		var isTable bool = false
@@ -260,6 +267,7 @@ func RenderByAsset(c *fiber.Ctx) error {
 			category2 = categoryNum[1]
 			category3 = categoryNum[2]
 			category4 = categoryNum[3]
+			totalCategory = category1 + category2 + category3 + category4
 		}
 
 		for i := 0; i < len(risks); i++ {
@@ -307,6 +315,7 @@ func RenderByAsset(c *fiber.Ctx) error {
 			"Category4":     category4,
 			"Risks":         risks,
 			"Assets":        assets,
+			"TotalCategory": totalCategory,
 		}
 
 		if isTable {
@@ -326,13 +335,14 @@ func RenderByAsset(c *fiber.Ctx) error {
 	}
 
 	var (
-		category1   int
-		category2   int
-		category3   int
-		category4   int
-		risks       []models.AssetRisk
-		mitigations []models.RiskMitigation
-		contents    []Content
+		category1     int
+		category2     int
+		category3     int
+		category4     int
+		totalCategory int
+		risks         []models.AssetRisk
+		mitigations   []models.RiskMitigation
+		contents      []Content
 	)
 
 	assetId, err := strconv.Atoi(assetIdStr)
@@ -401,14 +411,16 @@ func RenderByAsset(c *fiber.Ctx) error {
 	category2 = categoryNum[1]
 	category3 = categoryNum[2]
 	category4 = categoryNum[3]
+	totalCategory = category1 + category2 + category3 + category4
 
 	data := map[string]interface{}{
-		"AssetId":   assetId,
-		"Contents":  contents,
-		"Category1": category1,
-		"Category2": category2,
-		"Category3": category3,
-		"Category4": category4,
+		"AssetId":       assetId,
+		"Contents":      contents,
+		"Category1":     category1,
+		"Category2":     category2,
+		"Category3":     category3,
+		"Category4":     category4,
+		"TotalCategory": totalCategory,
 	}
 
 	return c.Render("renderContentByAsset", data)
@@ -520,6 +532,103 @@ func FormPost(c *fiber.Ctx) error {
 
 func Notification(ctx *fiber.Ctx) error {
 	return ctx.Redirect("/")
+}
+
+func ImpactSelector(c *fiber.Ctx) error {
+	selectedArea := c.Params("area")
+	dataStr := c.FormValue("selector_state")
+
+	var datas []int
+	err := json.Unmarshal([]byte(dataStr), &datas)
+	if err != nil {
+		fmt.Println("Error:", err)
+		fmt.Println("ok error")
+		return err
+	}
+
+	if selectedArea == "area1" {
+		selectedValueStr := c.FormValue("area1")
+
+		selectedValue, err := strconv.Atoi(selectedValueStr)
+		if err != nil {
+			return err
+		}
+
+		datas[0] = selectedValue
+	} else if selectedArea == "area2" {
+		selectedValueStr := c.FormValue("area2")
+
+		selectedValue, err := strconv.Atoi(selectedValueStr)
+		if err != nil {
+			return err
+		}
+
+		datas[1] = selectedValue
+	} else if selectedArea == "area3" {
+		selectedValueStr := c.FormValue("area3")
+
+		selectedValue, err := strconv.Atoi(selectedValueStr)
+		if err != nil {
+			return err
+		}
+
+		datas[2] = selectedValue
+	} else if selectedArea == "area4" {
+		selectedValueStr := c.FormValue("area4")
+
+		selectedValue, err := strconv.Atoi(selectedValueStr)
+		if err != nil {
+			return err
+		}
+
+		datas[3] = selectedValue
+	} else if selectedArea == "area5" {
+		selectedValueStr := c.FormValue("area5")
+
+		selectedValue, err := strconv.Atoi(selectedValueStr)
+		if err != nil {
+			return err
+		}
+
+		datas[4] = selectedValue
+	} else {
+		return fmt.Errorf("error area not found")
+	}
+
+	var tData [5][6]string
+	for i := 0; i < 5; i++ {
+		for j := 0; j < 6; j++ {
+			tData[i][j] = "available"
+		}
+	}
+
+	for i, data := range datas {
+
+		tData[i][data] = "selected"
+
+		for k := 0; k < len(datas); k++ {
+			if k == i {
+				continue
+			}
+			tData[k][data] = "disabled"
+		}
+	}
+
+	// konversi array ke string
+	var stringArray []string
+	for _, num := range datas {
+		stringArray = append(stringArray, strconv.Itoa(num))
+	}
+	resultString := "[" + strings.Join(stringArray, ",") + "]"
+
+	return c.Render("handleImpactSelector", fiber.Map{
+		"Data":  resultString,
+		"Data1": tData[0],
+		"Data2": tData[1],
+		"Data3": tData[2],
+		"Data4": tData[3],
+		"Data5": tData[4],
+	})
 }
 
 // Asset Container Page

@@ -32,10 +32,23 @@
 
         <!-- tab 2 - Priorities -->
         <div class="tab">
+          <input
+            type="text"
+            value="[0,0,0,0,0]"
+            id="selector_state"
+            name="selector_state"
+            hx-swap-oob="true"
+            hidden
+          />
           <h1>IMPACT AREA PRIORITIZATION</h1>
           <label for="area1">Reputation and Customer Confidence: </label>
-          <select name="area1" id="area1">
-            <option disabled selected>None</option>
+          <select
+            name="area1"
+            id="area1"
+            hx-get="/impact/area1"
+            hx-include="[name='selector_state']"
+          >
+            <option disabled selected value="0">None</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -46,8 +59,13 @@
           <br />
 
           <label for="area2">Financial: </label>
-          <select name="area2" id="area2">
-            <option disabled selected>None</option>
+          <select
+            name="area2"
+            id="area2"
+            hx-get="/impact/area2"
+            hx-include="[name='selector_state']"
+          >
+            <option disabled selected value="0">None</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -58,8 +76,13 @@
           <br />
 
           <label for="area3">Productivity: </label>
-          <select name="area3" id="area3">
-            <option disabled selected>None</option>
+          <select
+            name="area3"
+            id="area3"
+            hx-get="/impact/area3"
+            hx-include="[name='selector_state']"
+          >
+            <option disabled selected value="0">None</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -70,8 +93,13 @@
           <br />
 
           <label for="area4">Safety and Health: </label>
-          <select name="area4" id="area4">
-            <option disabled selected>None</option>
+          <select
+            name="area4"
+            id="area4"
+            hx-get="/impact/area4"
+            hx-include="[name='selector_state']"
+          >
+            <option disabled selected value="0">None</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -82,8 +110,13 @@
           <br />
 
           <label for="area5">Fines and Legal Penalties: </label>
-          <select name="area5" id="area5">
-            <option disabled selected>None</option>
+          <select
+            name="area5"
+            id="area5"
+            hx-get="/impact/area5"
+            hx-include="[name='selector_state']"
+          >
+            <option disabled selected value="0">None</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>

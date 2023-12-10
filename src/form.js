@@ -69,32 +69,32 @@ function fixStepIndicator(n) {
   x[n].classList.add("active");
 }
 
-document.addEventListener("DOMContentLoaded", function () {
-  // Daftar semua elemen select
-  var selects = document.querySelectorAll("select");
+// document.addEventListener("DOMContentLoaded", function () {
+//   // Daftar semua elemen select
+//   var selects = document.querySelectorAll("select");
 
-  // Tambahkan event listener untuk setiap elemen select
-  selects.forEach(function (select) {
-    select.addEventListener("change", function () {
-      // Ambil nilai yang dipilih
-      var selectedValue = this.value;
+//   // Tambahkan event listener untuk setiap elemen select
+//   selects.forEach(function (select) {
+//     select.addEventListener("change", function () {
+//       // Ambil nilai yang dipilih
+//       var selectedValue = this.value;
 
-      // Nonaktifkan nilai yang dipilih dalam dropdown lainnya
-      selects.forEach(function (otherSelect) {
-        if (otherSelect !== select) {
-          // Aktifkan kembali semua opsi
-          otherSelect.querySelectorAll("option").forEach(function (option) {
-            option.disabled = false;
-          });
+//       // Nonaktifkan nilai yang dipilih dalam dropdown lainnya
+//       selects.forEach(function (otherSelect) {
+//         if (otherSelect !== select) {
+//           // Aktifkan kembali semua opsi
+//           otherSelect.querySelectorAll("option").forEach(function (option) {
+//             option.disabled = false;
+//           });
 
-          // Nonaktifkan opsi yang sudah dipilih di dropdown lainnya
-          if (selectedValue !== "None") {
-            otherSelect.querySelector(
-              "option[value='" + selectedValue + "']"
-            ).disabled = true;
-          }
-        }
-      });
-    });
-  });
-});
+//           // Nonaktifkan opsi yang sudah dipilih di dropdown lainnya
+//           if (selectedValue !== "None") {
+//             otherSelect.querySelector(
+//               "option[value='" + selectedValue + "']"
+//             ).disabled = true;
+//           }
+//         }
+//       });
+//     });
+//   });
+// });

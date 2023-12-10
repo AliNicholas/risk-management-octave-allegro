@@ -1,0 +1,129 @@
+<!-- data -->
+<input
+  type="text"
+  value="{{ .Data }}"
+  id="selector_state"
+  name="selector_state"
+  hx-swap-oob="true"
+  hidden
+/>
+
+<!-- area1 -->
+<select
+  name="area1"
+  id="area1"
+  hx-get="/impact/area1"
+  hx-include="[name='selector_state']"
+  hx-swap-oob="true"
+>
+  {{ range $index, $value := .Data1 }} {{ if eq $index 0 }} {{ if eq $value
+  "selected" }}
+  <option selected value="{{ $index }}">none</option>
+  {{ else }}
+  <option value="{{ $index }}">none</option>
+  {{ end }} {{ continue }} {{ end }} {{ if eq $value "selected" }}
+  <option selected value="{{ $index  }}">{{ $index }}</option>
+  {{ else if eq $value "disabled" }}
+  <option disabled value="{{ $index  }}">{{ $index }}</option>
+  {{ else if eq $value "available" }}
+  <option value="{{ $index }}">{{ $index }}</option>
+  {{ else }}
+  <option value="">error</option>
+  {{ end }} {{ end }}
+</select>
+
+<!-- area2 -->
+<select
+  name="area2"
+  id="area2"
+  hx-get="/impact/area2"
+  hx-include="[name='selector_state']"
+  hx-swap-oob="true"
+>
+  {{range $index, $value := .Data2}} {{ if eq $index 0 }} {{ if eq $value
+  "selected" }}
+  <option selected value="{{ $index }}">none</option>
+  {{ else }}
+  <option value="{{ $index }}">none</option>
+  {{ end }} {{ continue }} {{ end }} {{if eq $value "selected"}}
+  <option selected value="{{ $index }}">{{ $index }}</option>
+  {{else if eq $value "disabled"}}
+  <option disabled value="{{ $index }}">{{ $index }}</option>
+  {{else if eq $value "available"}}
+  <option value="{{ $index }}">{{ $index }}</option>
+  {{ else }}
+  <option value="">error</option>
+  {{ end }} {{ end }}
+</select>
+
+<!-- area3 -->
+<select
+  name="area3"
+  id="area3"
+  hx-get="/impact/area3"
+  hx-include="[name='selector_state']"
+  hx-swap-oob="true"
+>
+  {{range $index, $value := .Data3}} {{ if eq $index 0 }} {{ if eq $value
+  "selected" }}
+  <option selected value="{{ $index }}">none</option>
+  {{ else }}
+  <option value="{{ $index }}">none</option>
+  {{ end }} {{ continue }} {{ end }} {{if eq $value "selected"}}
+  <option selected value="{{ $index }}">{{ $index }}</option>
+  {{else if eq $value "disabled"}}
+  <option disabled value="{{ $index }}">{{ $index }}</option>
+  {{else if eq $value "available"}}
+  <option value="{{ $index }}">{{ $index }}</option>
+  {{ else }}
+  <option value="">error</option>
+  {{ end }} {{ end }}
+</select>
+
+<!-- area4 -->
+<select
+  name="area4"
+  id="area4"
+  hx-get="/impact/area4"
+  hx-include="[name='selector_state']"
+  hx-swap-oob="true"
+>
+  {{range $index, $value := .Data4}} {{ if eq $index 0 }} {{ if eq $value
+  "selected" }}
+  <option selected value="{{ $index }}">none</option>
+  {{ else }}
+  <option value="{{ $index }}">none</option>
+  {{ end }} {{ continue }} {{ end }} {{if eq $value "selected"}}
+  <option selected value="{{ $index }}">{{ $index }}</option>
+  {{else if eq $value "disabled"}}
+  <option disabled value="{{ $index }}">{{ $index }}</option>
+  {{else if eq $value "available"}}
+  <option value="{{ $index }}">{{ $index }}</option>
+  {{ else }}
+  <option value="">error</option>
+  {{ end }} {{ end }}
+</select>
+
+<!-- area5 -->
+<select
+  name="area5"
+  id="area5"
+  hx-get="/impact/area5"
+  hx-include="[name='selector_state']"
+  hx-swap-oob="true"
+>
+  {{range $index, $value := .Data5}} {{ if eq $index 0 }} {{ if eq $value
+  "selected" }}
+  <option selected value="{{ $index }}">none</option>
+  {{ else }}
+  <option value="{{ $index }}">none</option>
+  {{ end }} {{ continue }} {{ end }} {{if eq $value "selected"}}
+  <option selected value="{{ $index }}">{{ $index }}</option>
+  {{else if eq $value "disabled"}}
+  <option disabled value="{{ $index }}">{{ $index }}</option>
+  {{else if eq $value "available"}}
+  <option value="{{ $index }}">{{ $index }}</option>
+  {{ else }}
+  <option value="">error</option>
+  {{ end }} {{ end }}
+</select>

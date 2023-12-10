@@ -40,6 +40,7 @@ func main() {
 	app.Get("/form", handlers.FormPage)
 	app.Post("/form", handlers.FormPost)
 	app.Get("/notif", handlers.Notification)
+	app.Get("/impact/:area", handlers.ImpactSelector)
 
 	// Asset Profile
 	app.Get("/add-profile/:projectId", handlers.AddProfilePage)
