@@ -24,16 +24,17 @@ func main() {
 	})
 
 	// Login
-	app.Get("/", handlers.LoginPage)
-	app.Post("/register", handlers.Register)
-	app.Post("/login", handlers.Login)
-	app.Get("/logout", handlers.Logout)
+	// app.Get("/", handlers.LoginPage)
+	// app.Post("/register", handlers.Register)
+	// app.Post("/login", handlers.Login)
+	// app.Get("/logout", handlers.Logout)
 
 	// Dashboard
-	app.Get("/dashboard/:selector?", handlers.DashboardPage)
+	app.Get("//:selector?", handlers.DashboardPage)
 	app.Get("/render", handlers.Render)
-	app.Get("/risk-by-asset", handlers.RenderRiskContent)
 	app.Delete("/project/:projectId", handlers.DeleteProject)
+	app.Get("/asset/:projectId", handlers.RenderByAsset)
+	app.Delete("/asset/:assetId", handlers.DeleteAsset)
 
 	// Form
 	app.Get("/form", handlers.FormPage)

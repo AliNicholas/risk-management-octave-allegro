@@ -15,7 +15,7 @@
     <div class="container">
       <div class="container-top">
         <div class="prior" id="prior">
-          <h4>Impact Areas Priority</h4>
+          <h3>Impact Areas Priority</h3>
         </div>
 
         <div class="total-assets" id="total-assets">
@@ -28,13 +28,31 @@
           <p>0</p>
         </div>
 
-        <div class="container-nav">
-          <!-- <h3 class="user">User 1</h3> -->
+        <div class="total-projects" id="total-projects">
+          <h3>Total Project</h3>
+          <p>0</p>
+        </div>
 
+        <div class="container-nav">
           <div class="action-btn">
-            <a href="/form" class="add-btn">➕ Create</a>
-            <button class="delete-btn" id="delete-project">🗑️</button>
-            <a href="/logout" class="logout-btn">Logout</a>
+            <div class="container-row-btn">
+              <a href="/form" class="add-btn">Create Project</a>
+              <button class="delete-btn" id="delete-project">
+                Delete Project
+              </button>
+              <button id="delete-asset" class="delete-asset">
+                Delete Asset
+              </button>
+            </div>
+
+            <div
+              class="container-row-btn"
+              style="margin-top: 0.2rem"
+              id="add-btn"
+            >
+              <a class="asset_btn" style="width: 43%">Add Asset Pofile</a>
+              <a class="risk_btn" style="width: 55%">Add Risk & Mitigation</a>
+            </div>
           </div>
 
           <div class="container-selector">
@@ -44,7 +62,6 @@
               class="project-selector"
               hx-get="/render"
               hx-target="#target"
-              hx-swap="outerHTML"
             >
               {{ if .Projects }}
               <option value="NONE">CHOOSE PROJECT...</option>
@@ -62,7 +79,6 @@
               id="asset-selector"
               hx-post="/asset"
               hx-target="#target"
-              hx-swap="outerHTML"
               class="asset-selector"
             >
               <option selected disabled value="NONE">NONE</option>
@@ -77,19 +93,83 @@
         <div class="container-main">
           <div class="container-content" id="container-content">
             <div style="background-color: var(--mirage)">
-              <h3 style="margin: 10rem 25rem">None</h3>
+              <h1 style="margin: 10rem 28rem">NONE</h1>
             </div>
           </div>
         </div>
+
         <div class="container-side">
           <div class="side-top" id="side-top">
-            <a>Add Asset & Container</a>
-            <a style="margin-top: 0.5rem">Add Risk</a>
-          </div>
-          <div class="side-bottom">
             <h3>Chart</h3>
+
             <div class="container-chart" id="container-chart">
-              <canvas id="myChart"></canvas>
+              <canvas id="myChart" width="130" height="130"></canvas>
+            </div>
+
+            <div class="matrix" id="matrix">
+              <table>
+                <thead>
+                  <tr>
+                    <th colspan="4">Relative Risk Scoring Matrix</th>
+                  </tr>
+                  <tr>
+                    <th rowspan="2">PROBABILITY</th>
+                    <th colspan="3">RISK SCORE</th>
+                  </tr>
+                  <tr>
+                    <th>30 TO 45</th>
+                    <th>16 TO 29</th>
+                    <th>0 TO 15</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>High</td>
+                    <td>
+                      (Category 1) <br />
+                      Mitigate
+                    </td>
+                    <td>
+                      (Category 2) <br />
+                      Mitigate/Defer
+                    </td>
+                    <td>
+                      (Category 2) <br />
+                      Mitigate/Defer
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Medium</td>
+                    <td>
+                      (Category 2) <br />
+                      Mitigate/Defer
+                    </td>
+                    <td>
+                      (Category 2) <br />
+                      Mitigate/Defer
+                    </td>
+                    <td>
+                      (Category 3) <br />
+                      Defer/Accept
+                    </td>
+                  </tr>
+                  <tr>
+                    <td>Low</td>
+                    <td>
+                      (Category 3) <br />
+                      Defer/Accept
+                    </td>
+                    <td>
+                      (Category 3) <br />
+                      Defer/Accept
+                    </td>
+                    <td>
+                      (Category 4) <br />
+                      Accept
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </div>
         </div>
@@ -97,43 +177,45 @@
     </div>
     <script src="https://cdn.jsdelivr.net/npm/chart.js" id="lib"></script>
     <script id="script">
-      const ctx = document.getElementById("myChart");
+      function myCallBack() {
+        const ctx = document.getElementById("myChart");
 
-      Chart.defaults.color = "#FFFFFF";
-      Chart.defaults.borderColor = "rgba(255, 255, 255, 0.3)";
-      Chart.defaults.font.size = 10;
+        Chart.defaults.color = "#FFFFFF";
+        Chart.defaults.borderColor = "rgba(255, 255, 255, 0.3)";
+        Chart.defaults.font.size = 10;
 
-      new Chart(ctx, {
-        type: "bar",
-        data: {
-          labels: ["Category 1", "Category 2", "Category 3", "Category 4"],
-          datasets: [
-            {
-              label: "Risks",
-              data: ["5", "3", "0", "0"],
-              borderWidth: 1,
-            },
-          ],
-        },
-        options: {
-          scales: {
-            y: {
-              beginAtZero: true,
-            },
+        new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Category 1", "Category 2", "Category 3", "Category 4"],
+            datasets: [
+              {
+                label: "Risks",
+                data: [0, 0, 0, 0],
+                borderWidth: 1,
+              },
+            ],
           },
-          plugins: {
-            legend: {
-              labels: {
-                font: {
-                  size: 14,
+          options: {
+            scales: {
+              y: {
+                beginAtZero: true,
+              },
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  font: {
+                    size: 14,
+                  },
                 },
               },
             },
           },
-        },
-      });
-    </script>
+        });
+      }
 
-    <script id="coba"></script>
+      myCallBack();
+    </script>
   </body>
 </html>

@@ -35,8 +35,8 @@ func GetAllMitigationByProjectId(projectId uint) ([]RiskMitigation, error) {
 	return riskMitigations, result.Error
 }
 
-func GetAllMitigationByRiskId(riskId uint) ([]RiskMitigation, error) {
-	var riskMitigations []RiskMitigation
+func GetMitigationByRiskId(riskId uint) (RiskMitigation, error) {
+	var riskMitigations RiskMitigation
 	result := database.DB.Where("risk_id = ?", riskId).Find(&riskMitigations)
 	return riskMitigations, result.Error
 }

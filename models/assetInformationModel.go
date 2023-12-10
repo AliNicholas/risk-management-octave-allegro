@@ -50,3 +50,49 @@ func GetAllAssetByProjectId(projectID uint) ([]AssetInformation, error) {
 	result := database.DB.Where("project_id = ?", projectID).Find(&assetProfiles)
 	return assetProfiles, result.Error
 }
+
+func DeleteAssetByAssetId(assetId uint) error {
+	container, err := GetContainerByAssetId(assetId)
+	if err != nil {
+		return err
+	}
+
+	risks, err := GetAllRisksByAssetId(assetId)
+	if err != nil {
+		return err
+	}
+
+	// Delete Container
+	result := database.DB.Delete(&AssetContainer{}, container.ID)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	// Delete Risk
+	for _, risk := range risks {
+
+		// Delete Mitigation
+		mitigation, err := GetMitigationByRiskId(risk.ID)
+		if err != nil {
+			return err
+		}
+
+		result = database.DB.Delete(&RiskMitigation{}, mitigation.ID)
+		if result.Error != nil {
+			return result.Error
+		}
+
+		result := database.DB.Delete(&AssetRisk{}, risk.ID)
+		if result.Error != nil {
+			return result.Error
+		}
+	}
+
+	// Delete Asset
+	result = database.DB.Delete(&AssetInformation{}, assetId)
+	if result.Error != nil {
+		return result.Error
+	}
+
+	return nil
+}

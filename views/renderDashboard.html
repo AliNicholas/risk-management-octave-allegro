@@ -1,25 +1,29 @@
-<div id="target"></div>
-
+<!-- Delete Project Button -->
+{{ if .ProjectId }}
 <button
-  hx-delete="/project/{{ .ProjectId }}"
   class="delete-btn"
   id="delete-project"
+  hx-delete="/project/{{ .ProjectId }}"
   hx-swap-oob="true"
 >
-  🗑️
+  Delete Project
 </button>
+{{ else }}
+<button class="delete-btn" id="delete-project" hx-swap-oob="true">
+  Delete Project
+</button>
+{{ end }}
 
 <select
   name="asset-selector"
   id="asset-selector"
   class="asset-selector"
-  hx-post="/risk-by-asset"
+  hx-get="/asset/{{ .ProjectId }}"
   hx-target="#target"
-  hx-swap="outerHTML"
   hx-swap-oob="true"
 >
   {{ if .Assets }}
-  <option selected>All Assets</option>
+  <option selected value="all">All Assets</option>
   {{ range .Assets }}
   <option value="{{ .ID }}">{{ .CriticalAsset }}</option>
   {{ end }} {{ else }}
@@ -30,7 +34,7 @@
 <!-- Impact Priority -->
 <div class="prior" id="prior" hx-swap-oob="true">
   {{ with .AreaPriority }}
-  <h5 style="width: 5rem">Impact Areas Priority</h5>
+  <h3 style="width: 5rem">Impact Areas Priority</h3>
   <table>
     <thead>
       <tr>
@@ -176,7 +180,7 @@
   {{ if .TotalAssets }} {{ if gt .TotalAssets 0 }}
   <p>{{ .TotalAssets }}</p>
   {{ end }} {{ else }}
-  <p>3</p>
+  <p>0</p>
   {{ end }}
 </div>
 
@@ -190,116 +194,112 @@
   {{ end }}
 </div>
 
+<!-- Total Projects -->
+<div class="total-projects" id="total-projects" hx-swap-oob="true">
+  <h3>Total Projects</h3>
+  {{ if .TotalProjects }} {{ if gt .TotalProjects 0 }}
+  <p>{{ .TotalProjects }}</p>
+  {{ end }} {{ else }}
+  <p>0</p>
+  {{ end }}
+</div>
+
 <!-- Add  -->
-<div class="side-top" id="side-top" hx-swap-oob="true">
+<div
+  class="container-row-btn"
+  style="margin-top: 0.2rem"
+  id="add-btn"
+  hx-swap-oob="true"
+>
   {{ if .ProjectId }}
-  <a href="/add-profile/{{ .ProjectId }}">Add Asset & Container</a>
-  <a href="/add-risk/{{ .ProjectId }}" style="margin-top: 0.5rem">Add Risk</a>
+  <a class="asset_btn" href="/add-profile/{{ .ProjectId }}" style="width: 43%"
+    >Add Asset Pofile</a
+  >
+  <a class="risk_btn" href="/add-risk/{{ .ProjectId }}" style="width: 55%"
+    >Add Risk & Mitigation</a
+  >
   {{ else }}
-  <a>Add Asset & Container</a>
-  <a style="margin-top: 0.5rem">Add Risk</a> {{ end }}
+  <a class="asset_btn" style="width: 43%">Add Asset Pofile</a>
+  <a class="risk_btn" style="width: 55%">Add Risk & Mitigation</a>
+  {{ end }}
 </div>
 
 <!-- Content -->
 <div class="container-content" id="container-content" hx-swap-oob="true">
-  {{ if .Contents }}
+  {{ range .Contents }}
   <div class="content">
     <div class="front">
-      <h3>Area of Concern: blabla</h3>
-
       <div class="bot">
-        <div class="sec">
-          <h5>Aktor:</h5>
-          <p>Staf Unit ICT Fasilkom Unsri</p>
-          <h5>Tujuan:</h5>
-          <p>Akses dalam memodifikasi aplikasi SAFANA</p>
+        <div class="sec" style="min-width: 10rem; max-width: 14rem">
+          <h3>Area of Concern:</h3>
+          <p>{{ .AreaOfConcern }}</p>
+        </div>
+
+        <div class="sec" style="min-width: 9rem">
+          <h5>Actor:</h5>
+          <p>{{ .Actor }}</p>
+
+          <h5>Motive:</h5>
+          <p>{{ .Motive }}</p>
+        </div>
+
+        <div class="sec" style="min-width: 9rem">
+          <h5>Means:</h5>
+          <p>{{ .Means }}</p>
+          <h5>Outcome:</h5>
+          <p>{{ .Outcome }}</p>
         </div>
 
         <div class="sec">
-          <h5>Motif:</h5>
-          <p>Human Error</p>
-          <h5>Hasil:</h5>
-          <p>Pengungkapan, modifikasi, dan interupsi.</p>
+          <h5 style="min-width: 10rem">Security Requirement:</h5>
+          <p>{{ .SecurityRequirement }}</p>
+          <h5>Probability:</h5>
+          <p>{{ .Probability }}</p>
         </div>
 
-        <div class="sec">
-          <h5>Kebutuhan Keamanan:</h5>
-          <p>Dilakukannya testing aplikasi sebelum melakukan</p>
-        </div>
-
-        <div class="sec">
-          <h5>Kemungkinan:</h5>
-          <p>Tinggi</p>
+        <div class="sec" style="min-width: 9rem">
+          <h5>Consequences:</h5>
+          <p>{{ .Consequences }}</p>
           <h5>Relative Score:</h5>
-          <p>27</p>
+          <p>{{ .RelativeScore }}</p>
         </div>
       </div>
     </div>
     <div class="back">
-      <h3>Consequences</h3>
-      <ol>
-        <li>blabla</li>
-        <li>blabla</li>
-        <li>blabla</li>
-      </ol>
-    </div>
-    <div class="content">
-      <div class="front">
-        <h3>Area of Concern: blabla</h3>
+      <h3>Mitigation Approach: {{ .CategoryStr }}</h3>
 
-        <div class="bot">
-          <div class="sec">
-            <h5>Aktor:</h5>
-            <p>Staf Unit ICT Fasilkom Unsri</p>
-            <h5>Tujuan:</h5>
-            <p>Akses dalam memodifikasi aplikasi SAFANA</p>
-          </div>
-
-          <div class="sec">
-            <h5>Motif:</h5>
-            <p>Human Error</p>
-            <h5>Hasil:</h5>
-            <p>Pengungkapan, modifikasi, dan interupsi.</p>
-          </div>
-
-          <div class="sec">
-            <h5>Kebutuhan Keamanan:</h5>
-            <p>Dilakukannya testing aplikasi sebelum melakukan</p>
-          </div>
-
-          <div class="sec">
-            <h5>Kemungkinan:</h5>
-            <p>Tinggi</p>
-            <h5>Relative Score:</h5>
-            <p>27</p>
-          </div>
+      <div class="bot">
+        <div class="sec">
+          <h5>Action/Control (Technical):</h5>
+          <p>{{ .TechnicalAction }}</p>
         </div>
-      </div>
-      <div class="back">
-        <h3>Consequences</h3>
-        <ol>
-          <li>blabla</li>
-          <li>blabla</li>
-          <li>blabla</li>
-        </ol>
+
+        <div class="sec">
+          <h5>Action/Control (Physical):</h5>
+          <p>{{ .PhysicalAction }}</p>
+        </div>
+
+        <div class="sec">
+          <h5>Action/Control (People):</h5>
+          <p>{{ .PeopleAction }}</p>
+        </div>
       </div>
     </div>
   </div>
   {{ else }}
   <div style="background-color: var(--mirage)">
-    <h3 style="margin: 10rem 25rem">None</h3>
+    <h1 style="margin: 10rem 28rem">NONE</h1>
   </div>
   {{ end }}
 </div>
 
 <!-- script -->
 <div class="container-chart" id="container-chart" hx-swap-oob="true">
-  <canvas id="myChart"></canvas>
+  <canvas id="myChart" width="130" height="130"></canvas>
 </div>
 
 <script id="script" hx-swap-oob="true" hx-on="htmx:afterSwap">
   function myCallBack() {
-    console.log("Script dijalankan setelah htmx:afterSwap");
     const ctx = document.getElementById("myChart");
 
     Chart.defaults.color = "#FFFFFF";
@@ -313,7 +313,12 @@
         datasets: [
           {
             label: "Risks",
-            data: [1, 3, 5, 2],
+            data: [
+              "{{ .Category1 }}",
+              "{{ .Category2 }}",
+              "{{ .Category3 }}",
+              "{{ .Category4 }}",
+            ],
             borderWidth: 1,
           },
         ],

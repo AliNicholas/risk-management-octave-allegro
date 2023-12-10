@@ -42,6 +42,7 @@ a {
 
 /* LAYOUT */
 .container {
+  /* background-color: red; */
   width: 100%;
   height: 100%;
   display: flex;
@@ -53,9 +54,10 @@ a {
 .container-top {
   background-color: var(--mirage);
   color: white;
-  height: 20%;
-  width: 90%;
+  height: 19%;
   margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  width: 98%;
   align-self: center;
   justify-self: center;
   display: flex;
@@ -66,21 +68,20 @@ a {
 
 .prior {
   height: 100%;
-  width: 35%;
-  padding: 0.5rem 0;
+  width: 37%;
+  padding: 1rem 0;
   display: flex;
-  justify-content: center; /* Menengahkan secara horizontal */
+  justify-content: center;
   align-items: center;
   background-color: var(--timber-green);
   border-radius: 0.7rem;
-  text-align: center;
+  text-align: start;
 }
 
 table {
   border-collapse: collapse;
   width: 70%;
   height: 20px;
-  padding-right: 1rem;
 }
 
 th,
@@ -101,7 +102,7 @@ th {
 
 .total-assets {
   height: 100%;
-  width: 14%;
+  width: 12%;
   background-color: var(--timber-green);
   border-radius: 0.7rem;
   display: flex;
@@ -111,7 +112,7 @@ th {
   text-align: center;
 }
 
-.total-risks {
+.total-projects {
   height: 100%;
   width: 14%;
   background-color: var(--timber-green);
@@ -122,46 +123,71 @@ th {
   align-content: center;
   text-align: center;
 }
+.total-risks {
+  height: 100%;
+  width: 12%;
+  background-color: var(--timber-green);
+  border-radius: 0.7rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  text-align: center;
+}
 
 .container-nav {
-  width: 35%;
+  width: 21%;
   /* background-color: var(--timber-green); */
   border-radius: 0.7rem;
   display: flex;
   flex-direction: column;
-  /* justify-content: space-between;
-  align-items: flex-start; */
-}
-
-.user {
-  background-color: var(--timber-green);
-  margin-top: 0.5rem;
-  margin-left: 1rem;
 }
 
 .action-btn {
   /* background-color: red; */
   display: flex;
-  flex: row;
-  justify-content: end;
-  gap: 0.5rem;
-  align-items: end;
-  height: 2.1rem;
+  flex-direction: column;
+  gap: 0.2rem;
+  height: 3rem;
+  font-size: 0.5rem;
+}
+
+.container-row-btn {
+  display: flex;
+  flex-direction: row;
   margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0.3rem;
+  /* padding: 0 0.2rem; */
+  width: 100%;
+  height: 2rem;
+  gap: 0.2rem;
+  justify-content: end;
 }
 
 .add-btn {
   background-color: var(--butterfly-blue);
   color: white;
   cursor: pointer;
-  font-size: 1rem;
-  width: 7.5rem;
-  padding: 0.3rem 0.3rem;
+  font-size: 0.9rem;
+  width: 7rem;
+  padding: 0.2rem 0.2rem;
   text-align: center;
   border-radius: 0.3rem;
   font-weight: 600;
   transition: all 0.1s ease-in-out;
+  align-self: center;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  padding-right: 1.4rem;
+  line-height: 1;
+}
+
+.add-btn::before {
+  content: "➕";
+  font-size: 1.3rem; /* Sesuaikan ukuran sesuai kebutuhan */
+  margin-left: 0.4rem;
 }
 .add-btn:hover {
   background-color: green;
@@ -171,14 +197,18 @@ th {
 }
 .delete-btn {
   background-color: var(--butterfly-blue);
-  font-size: 1.1rem;
-  width: 3.5rem;
-  padding: 0.3rem 0.5rem;
+  font-size: 0.8rem;
+  width: 4.5rem;
+  padding: 0.2rem 0.2rem;
   text-align: center;
   border-radius: 0.3rem;
   transition: all 0.1s ease-in-out;
   border: none;
   cursor: pointer;
+  color: white;
+  height: 2.5rem;
+  font-weight: 600;
+  align-self: center;
 }
 .delete-btn:hover {
   background-color: red;
@@ -187,28 +217,33 @@ th {
   transform: scale(1.1);
 }
 
-.logout-btn {
+.delete-asset {
+  background-color: var(--butterfly-blue);
+  font-size: 0.8rem;
+  width: 4.5rem;
+  padding: 0.2rem 0.2rem;
+  text-align: center;
+  border-radius: 0.3rem;
+  transition: all 0.1s ease-in-out;
   border: none;
   cursor: pointer;
-  font-size: 1rem;
-  border-radius: 0.3rem;
-  padding: 0.3rem 0.7rem;
-  text-align: center;
   color: white;
-  background-color: var(--butterfly-blue);
-  width: 6rem;
+  height: 2.5rem;
+  font-weight: 600;
+  align-self: center;
 }
-.logout-btn:hover {
+.delete-asset:hover {
   background-color: red;
 }
-.logout-btn:active {
+.delete-asset:active {
   transform: scale(1.1);
 }
 
 .container-selector {
   width: 100%;
-  /* background-color: red; */
-  margin-top: 2rem;
+  /* background-color: white; */
+  margin-top: 2.1rem;
+  margin-left: 0.1rem;
   display: flex;
   flex-direction: row;
 }
@@ -217,12 +252,13 @@ th {
   background-color: var(--tuna);
   color: white;
   cursor: pointer;
-  width: 58%;
+  width: 57%;
   display: inline-block;
   padding: 0.3rem 0.1rem;
   text-align: center;
   border-radius: 0.3rem;
   margin-right: 0.4rem;
+  font-size: 0.8rem;
 }
 
 .asset-selector {
@@ -234,14 +270,50 @@ th {
   text-align: center;
   display: inline-block;
   border-radius: 0.3rem;
+  font-size: 0.8rem;
+}
+
+.asset_btn {
+  padding: 0.1rem 0.3rem;
+  font-size: 0.8rem;
+  color: white;
+  border-radius: 0.4rem;
+  background-color: var(--butterfly-blue);
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+  cursor: pointer;
+  font-weight: 400;
+}
+
+.asset_btn:active {
+  transform: scale(1.1);
+}
+
+.risk_btn {
+  padding: 0.1rem 0.2rem;
+  font-size: 0.8rem;
+  color: white;
+  border-radius: 0.4rem;
+  background-color: var(--butterfly-blue);
+  text-align: center;
+  align-self: center;
+  justify-self: center;
+  cursor: pointer;
+  width: 4rem;
+}
+
+.risk_btn:active {
+  transform: scale(1.1);
 }
 
 /*  bottom  */
 .container-bottom {
-  background-color: var(--mirage);
+  /* background-color: blue; */
+  /* background-color: var(--mirage); */
   color: white;
-  height: 70%;
-  width: 90%;
+  height: 72%;
+  width: 98%;
   display: flex;
   flex-direction: row;
   align-self: center;
@@ -249,12 +321,15 @@ th {
 }
 
 .container-main {
-  background-color: var(--mirage);
-  width: 80%;
-  height: 100%;
+  /* background-color: var(--mirage); */
+  /* background-color: palegoldenrod; */
+  width: 85%;
+  height: 96.5%;
   overflow-y: auto;
   display: flex;
   flex-direction: column;
+  padding-right: 0.2rem;
+  margin-right: 0.3rem;
 
   scrollbar-width: thin;
   scrollbar-color: var(--smoke-grey) var(--timber-green);
@@ -274,13 +349,16 @@ th {
 }
 
 .container-content {
-  background-color: var(--mirage);
+  /* background-color: var(--mirage); */
+  /* background-color: blue; */
+  height: 100%;
+  width: 100%;
 }
 
 .content {
   background-color: var(--timber-green);
-  height: 8.5rem;
-  width: 99%;
+  height: 10rem;
+  width: 100%;
   border-radius: 0.6rem;
   margin-bottom: 0.7rem;
   perspective: 1000px;
@@ -299,7 +377,7 @@ th {
   will-change: transform;
   backface-visibility: hidden;
   border-radius: 0.6rem;
-  padding: 0.4rem 0.5rem;
+  padding: 0.9rem 1rem 0.2rem 1rem;
   width: 100%;
   height: 100%;
   display: flex;
@@ -313,33 +391,37 @@ th {
 .front h3 {
   font-size: 1rem;
   margin-bottom: 0.3rem;
+  margin-top: 0.5rem;
 }
 
 .front h5 {
-  margin-top: 0.2rem;
+  margin-top: 0.5rem;
   font-size: 0.8rem;
 }
 
-.front .bot {
+.bot {
+  /* background-color: var(--tuna); */
   display: flex;
   flex-direction: row;
+  width: 100%;
+  height: 100%;
   justify-content: space-between;
+  gap: 1rem;
 }
 
-.front .sec {
-  margin-right: 0.2rem;
-}
+/* .sec {
+  margin-right: 0.4rem;
+} */
 
 .back {
   background-color: var(--tuna);
   transform: rotateX(180deg);
-  background-color: var(--timber-green);
   color: white;
   position: absolute;
   will-change: transform;
   backface-visibility: hidden;
   border-radius: 0.6rem;
-  padding: 0rem 0.3rem;
+  padding: 0.6rem 1rem 0.2rem 1rem;
   width: 100%;
   height: 100%;
   display: flex;
@@ -348,8 +430,17 @@ th {
 
 .back h3 {
   text-align: center;
-  margin-top: 0.5rem;
-  margin-bottom: 0.3rem;
+  /* margin-top: 0.5rem; */
+  margin-bottom: 0.7rem;
+}
+
+.back p {
+  font-size: 0.6rem;
+}
+
+.back h5 {
+  margin-top: 0.2rem;
+  font-size: 0.9rem;
 }
 
 .back ol {
@@ -358,64 +449,55 @@ th {
 }
 
 .container-side {
+  /* background-color: red; */
   background-color: var(--mirage);
-  width: 27%;
+  width: 23%;
   height: 100%;
   display: flex;
   flex-direction: column;
 }
 
 .side-top {
-  /* background-color: var(--timber-green); */
-  width: 97%;
-  /* height: 20%; */
+  background-color: var(--timber-green);
+  width: 99%;
+  height: 100%;
   align-self: end;
   margin-bottom: 1rem;
   font-size: 1rem;
   border-radius: 0.7rem;
   display: flex;
   flex-direction: column;
-  justify-content: start;
-  align-content: center;
   text-align: center;
 }
 
-.side-top a {
-  padding: 0.2rem 0.2rem;
-  font-size: 0.8rem;
-  color: white;
-  width: 100%;
-  border-radius: 0.4rem;
-  background-color: var(--butterfly-blue);
-  text-align: center;
-  align-self: center;
-  justify-self: center;
-  cursor: pointer;
-}
-
-.side-top a:active {
-  transform: scale(1.1);
-}
-
-.side-bottom {
-  background-color: var(--timber-green);
-  width: 97%;
-  height: 60%;
-  align-self: end;
-  margin-bottom: 1rem;
-  border-radius: 0.7rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  /* align-content: space-between; */
-  text-align: center;
-  padding: 0 0.2rem;
+.side-top h3 {
+  /* background-color: red; */
+  margin-top: 0.7rem;
+  font-size: 1.5rem;
 }
 
 .container-chart {
-  /* background-color: red; */
-  height: 70%;
+  /* background-color: blue; */
+  height: 50%;
   width: 100%;
+  display: flex;
+  margin-top: 0.7rem;
+  justify-content: center;
+}
+
+.matrix {
+  /* background-color: blue; */
+  /* font-size: 0.3rem; */
+  height: 50%;
+  width: 100%;
+  display: flex;
+  margin-top: 1.2rem;
+  justify-content: center;
+}
+
+.matrix th,
+.matrix td {
+  font-size: 0.5rem;
 }
 
 .overlay {

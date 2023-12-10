@@ -1,6 +1,10 @@
 package models
 
-import "final_allegro/database"
+import (
+	"final_allegro/database"
+	"final_allegro/helper"
+	"strconv"
+)
 
 type AssetRisk struct {
 	ID                   uint   `gorm:"primaryKey"`
@@ -14,11 +18,7 @@ type AssetRisk struct {
 	SecurityRequirements string `gorm:"not null"`
 	Probability          string `gorm:"not null"`
 	Consequences         string `gorm:"not null"`
-	ReputationConfidence string `gorm:"not null"`
-	Financial            string `gorm:"not null"`
-	Productivity         string `gorm:"not null"`
-	SafetyHealth         string `gorm:"not null"`
-	FinesLegalPenalties  string `gorm:"not null"`
+	RelativeScore        string `gorm:"not null"`
 
 	Project          Project          `gorm:"foreignKey:ProjectID"`
 	AssetInformation AssetInformation `gorm:"foreignKey:AssetID"`
@@ -44,9 +44,9 @@ func GetRiskById(id uint) (AssetRisk, error) {
 	return risk, result.Error
 }
 
-func GetAllRisksByContainerId(containerId uint) ([]AssetRisk, error) {
+func GetAllRisksByAssetId(assetId uint) ([]AssetRisk, error) {
 	var risks []AssetRisk
-	result := database.DB.Where("container_id = ?", containerId).Find(&risks)
+	result := database.DB.Where("asset_id = ?", assetId).Find(&risks)
 	return risks, result.Error
 }
 
@@ -54,4 +54,78 @@ func GetAllRisksByProjectId(projectId uint) ([]AssetRisk, error) {
 	var risks []AssetRisk
 	result := database.DB.Where("project_id = ?", projectId).Find(&risks)
 	return risks, result.Error
+}
+
+func GetCategoryMatrix(projectId uint) ([]int, error) {
+	var categoryCounts []int
+	var risks []AssetRisk
+
+	results := database.DB.Where("project_id = ?", projectId).Find(&risks)
+	if results.Error != nil {
+		return nil, results.Error
+	}
+
+	categoryCounts = make([]int, 4)
+
+	for _, risk := range risks {
+		score, err := strconv.Atoi(risk.RelativeScore)
+		if err != nil {
+			return categoryCounts, err
+		}
+
+		categoryNum, _, err := helper.ScoringMatrix(risk.Probability, score)
+		if err != nil {
+			return categoryCounts, err
+		}
+
+		switch categoryNum {
+		case 1:
+			categoryCounts[0]++
+		case 2:
+			categoryCounts[1]++
+		case 3:
+			categoryCounts[2]++
+		case 4:
+			categoryCounts[3]++
+		}
+	}
+
+	return categoryCounts, nil
+}
+
+func GetCategoryMatrixByAssetId(assetId uint) ([]int, error) {
+	var categoryCounts []int
+	var risks []AssetRisk
+
+	results := database.DB.Where("asset_id = ?", assetId).Find(&risks)
+	if results.Error != nil {
+		return nil, results.Error
+	}
+
+	categoryCounts = make([]int, 4)
+
+	for _, risk := range risks {
+		score, err := strconv.Atoi(risk.RelativeScore)
+		if err != nil {
+			return categoryCounts, err
+		}
+
+		categoryNum, _, err := helper.ScoringMatrix(risk.Probability, score)
+		if err != nil {
+			return categoryCounts, err
+		}
+
+		switch categoryNum {
+		case 1:
+			categoryCounts[0]++
+		case 2:
+			categoryCounts[1]++
+		case 3:
+			categoryCounts[2]++
+		case 4:
+			categoryCounts[3]++
+		}
+	}
+
+	return categoryCounts, nil
 }

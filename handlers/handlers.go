@@ -1,26 +1,13 @@
 package handlers
 
 import (
+	"final_allegro/helper"
 	"final_allegro/models"
 	"fmt"
 	"strconv"
 
 	"github.com/gofiber/fiber/v2"
 )
-
-// LOGIN PAGE
-func LoginPage(ctx *fiber.Ctx) error {
-	return ctx.Render("login", fiber.Map{})
-}
-func Logout(ctx *fiber.Ctx) error {
-	return ctx.Redirect("/")
-}
-func Login(ctx *fiber.Ctx) error {
-	return ctx.SendString("ok")
-}
-func Register(ctx *fiber.Ctx) error {
-	return ctx.SendString("ok")
-}
 
 // Dashboard Page
 func DashboardPage(c *fiber.Ctx) error {
@@ -33,6 +20,23 @@ func DashboardPage(c *fiber.Ctx) error {
 	return c.Render("dashboard", fiber.Map{
 		"Projects": projects,
 	})
+}
+
+type Content struct {
+	AreaOfConcern       string
+	Actor               string
+	Means               string
+	Motive              string
+	Outcome             string
+	SecurityRequirement string
+	Probability         string
+	Consequences        string
+	RelativeScore       string
+	TechnicalAction     string
+	PhysicalAction      string
+	PeopleAction        string
+	CategoryNum         int
+	CategoryStr         string
 }
 
 func Render(c *fiber.Ctx) error {
@@ -53,10 +57,13 @@ func Render(c *fiber.Ctx) error {
 		projectId    int
 		assets       []models.AssetInformation
 		risks        []models.AssetRisk
+		mitigations  []models.RiskMitigation
 		areaPriority models.ImpactPriority
+		contents     []Content
 	)
 
 	var isTable bool = false
+	var isContent bool = false
 
 	if projectIdStr != "NONE" {
 		projectId, err = strconv.Atoi(projectIdStr)
@@ -82,24 +89,79 @@ func Render(c *fiber.Ctx) error {
 		if err != nil {
 			return err
 		}
+
+		mitigations, err = models.GetAllMitigationByProjectId(uint(projectId))
+		if err != nil {
+			return err
+		}
+
 		isTable = true
-		// isContent = true
+		isContent = true
+
+		categoryNum, err := models.GetCategoryMatrix(uint(projectId))
+		if err != nil {
+			return err
+		}
+
+		category1 = categoryNum[0]
+		category2 = categoryNum[1]
+		category3 = categoryNum[2]
+		category4 = categoryNum[3]
+	}
+
+	for i := 0; i < len(risks); i++ {
+		risk := risks[i]
+		mitigation := mitigations[i]
+
+		score, err := strconv.Atoi(risk.RelativeScore)
+		if err != nil {
+			return err
+		}
+
+		categoryNum, categoryStr, err := helper.ScoringMatrix(risk.Probability, score)
+		if err != nil {
+			return err
+		}
+
+		content := Content{
+			AreaOfConcern:       risk.AreaOfConcern,
+			Actor:               risk.Actor,
+			Means:               risk.Means,
+			Motive:              risk.Motive,
+			Outcome:             risk.Outcome,
+			SecurityRequirement: risk.SecurityRequirements,
+			Probability:         risk.Probability,
+			Consequences:        risk.Consequences,
+			RelativeScore:       risk.RelativeScore,
+			TechnicalAction:     mitigation.TechnicalMitigation,
+			PhysicalAction:      mitigation.PhysicalMitigation,
+			PeopleAction:        mitigation.PeopleMitigation,
+			CategoryNum:         categoryNum,
+			CategoryStr:         categoryStr,
+		}
+
+		contents = append(contents, content)
 	}
 
 	data := map[string]interface{}{
-		"TotalAssets": totalAssets,
-		"TotalRisks":  totalRisks,
-		"Projects":    projects,
-		"Category1":   category1,
-		"Category2":   category2,
-		"Category3":   category3,
-		"Category4":   category4,
-		"Risks":       risks,
-		"Assets":      assets,
+		"TotalAssets":   totalAssets,
+		"TotalRisks":    totalRisks,
+		"TotalProjects": len(projects),
+		"Projects":      projects,
+		"Category1":     category1,
+		"Category2":     category2,
+		"Category3":     category3,
+		"Category4":     category4,
+		"Risks":         risks,
+		"Assets":        assets,
 	}
 
 	if isTable {
 		data["AreaPriority"] = areaPriority
+	}
+
+	if isContent {
+		data["Contents"] = contents
 	}
 
 	if projectId > 0 {
@@ -109,69 +171,6 @@ func Render(c *fiber.Ctx) error {
 	return c.Render("renderDashboard", data)
 }
 
-func RenderRiskContent(c *fiber.Ctx) error {
-	projectIdStr := c.FormValue("selector")
-
-	projects, err := models.GetAllProjects()
-	if err != nil {
-		return err
-	}
-
-	var totalAssets int
-	var totalRisks int
-	var category1 int
-	var category2 int
-	var category3 int
-	var category4 int
-	var selected int
-
-	var assets []models.AssetInformation
-	var risks models.AssetRisk
-	var areaPriority models.ImpactPriority
-
-	if projectIdStr != "NONE" {
-		projectId, err := strconv.Atoi(projectIdStr)
-		if err != nil {
-			panic(err)
-		}
-
-		selected = projectId
-
-		assets, err = models.GetAllAssetByProjectId(uint(projectId))
-		if err != nil {
-			panic(err)
-		}
-
-		totalAssets = len(assets)
-
-		risks, err := models.GetAllRisksByProjectId(uint(projectId))
-		if err != nil {
-			panic(err)
-		}
-
-		totalRisks = len(risks)
-
-		areaPriority, err = models.GetPriorityByProjectId(uint(projectId))
-		if err != nil {
-			panic(err)
-		}
-	}
-
-	return c.Render("renderDashboard", fiber.Map{
-		"TotalAssets":  totalAssets,
-		"TotalRisks":   totalRisks,
-		"Projects":     projects,
-		"AreaPriority": areaPriority,
-		"ProjectId":    selected,
-		"Category1":    category1,
-		"Category2":    category2,
-		"Category3":    category3,
-		"Category4":    category4,
-		"Risks":        risks,
-		"Assets":       assets,
-		"Selected":     selected,
-	})
-}
 func DeleteProject(c *fiber.Ctx) error {
 	projectIdStr := c.Params("projectId")
 
@@ -181,6 +180,249 @@ func DeleteProject(c *fiber.Ctx) error {
 	}
 
 	err = models.DeleteProjectById(uint(projectId))
+	if err != nil {
+		fmt.Println(err)
+		return err
+	}
+
+	return c.SendString(`<div class="overlay" id="overlay"><div class="notification-box"><h4>Success</h4><a href="/notif">ok!</a></div></div>`)
+}
+
+// Asset
+func RenderByAsset(c *fiber.Ctx) error {
+	assetIdStr := c.FormValue("asset-selector")
+
+	if assetIdStr == "all" {
+		projectIdStr := c.Params("projectId")
+
+		projects, err := models.GetAllProjects()
+		if err != nil {
+			return err
+		}
+
+		var (
+			totalAssets  int
+			totalRisks   int
+			category1    int
+			category2    int
+			category3    int
+			category4    int
+			projectId    int
+			assets       []models.AssetInformation
+			risks        []models.AssetRisk
+			mitigations  []models.RiskMitigation
+			areaPriority models.ImpactPriority
+			contents     []Content
+		)
+
+		var isTable bool = false
+		var isContent bool = false
+
+		if projectIdStr != "NONE" {
+			projectId, err = strconv.Atoi(projectIdStr)
+			if err != nil {
+				return err
+			}
+
+			assets, err = models.GetAllAssetByProjectId(uint(projectId))
+			if err != nil {
+				return err
+			}
+
+			totalAssets = len(assets)
+
+			risks, err = models.GetAllRisksByProjectId(uint(projectId))
+			if err != nil {
+				return err
+			}
+
+			totalRisks = len(risks)
+
+			areaPriority, err = models.GetPriorityByProjectId(uint(projectId))
+			if err != nil {
+				return err
+			}
+
+			mitigations, err = models.GetAllMitigationByProjectId(uint(projectId))
+			if err != nil {
+				return err
+			}
+
+			isTable = true
+			isContent = true
+
+			categoryNum, err := models.GetCategoryMatrix(uint(projectId))
+			if err != nil {
+				return err
+			}
+
+			category1 = categoryNum[0]
+			category2 = categoryNum[1]
+			category3 = categoryNum[2]
+			category4 = categoryNum[3]
+		}
+
+		for i := 0; i < len(risks); i++ {
+			risk := risks[i]
+			mitigation := mitigations[i]
+
+			score, err := strconv.Atoi(risk.RelativeScore)
+			if err != nil {
+				return err
+			}
+
+			categoryNum, categoryStr, err := helper.ScoringMatrix(risk.Probability, score)
+			if err != nil {
+				return err
+			}
+
+			content := Content{
+				AreaOfConcern:       risk.AreaOfConcern,
+				Actor:               risk.Actor,
+				Means:               risk.Means,
+				Motive:              risk.Motive,
+				Outcome:             risk.Outcome,
+				SecurityRequirement: risk.SecurityRequirements,
+				Probability:         risk.Probability,
+				Consequences:        risk.Consequences,
+				RelativeScore:       risk.RelativeScore,
+				TechnicalAction:     mitigation.TechnicalMitigation,
+				PhysicalAction:      mitigation.PhysicalMitigation,
+				PeopleAction:        mitigation.PeopleMitigation,
+				CategoryNum:         categoryNum,
+				CategoryStr:         categoryStr,
+			}
+
+			contents = append(contents, content)
+		}
+
+		data := map[string]interface{}{
+			"TotalAssets":   totalAssets,
+			"TotalRisks":    totalRisks,
+			"TotalProjects": len(projects),
+			"Projects":      projects,
+			"Category1":     category1,
+			"Category2":     category2,
+			"Category3":     category3,
+			"Category4":     category4,
+			"Risks":         risks,
+			"Assets":        assets,
+		}
+
+		if isTable {
+			data["AreaPriority"] = areaPriority
+		}
+
+		if isContent {
+			data["Contents"] = contents
+		}
+
+		if projectId > 0 {
+			data["ProjectId"] = projectId
+		}
+
+		return c.Render("renderDashboard", data)
+
+	}
+
+	var (
+		category1   int
+		category2   int
+		category3   int
+		category4   int
+		risks       []models.AssetRisk
+		mitigations []models.RiskMitigation
+		contents    []Content
+	)
+
+	assetId, err := strconv.Atoi(assetIdStr)
+	if err != nil {
+		return err
+	}
+
+	// Get All Risk
+	risks, err = models.GetAllRisksByAssetId(uint(assetId))
+	if err != nil {
+		return err
+	}
+
+	// Get All mitigation
+	for _, risk := range risks {
+		mitigation, err := models.GetMitigationByRiskId(risk.ID)
+		if err != nil {
+			return err
+		}
+
+		mitigations = append(mitigations, mitigation)
+	}
+
+	// Fill Content
+	for i := 0; i < len(risks); i++ {
+		risk := risks[i]
+		mitigation := mitigations[i]
+
+		score, err := strconv.Atoi(risk.RelativeScore)
+		if err != nil {
+			return err
+		}
+
+		categoryNum, categoryStr, err := helper.ScoringMatrix(risk.Probability, score)
+		if err != nil {
+			return err
+		}
+
+		content := Content{
+			AreaOfConcern:       risk.AreaOfConcern,
+			Actor:               risk.Actor,
+			Means:               risk.Means,
+			Motive:              risk.Motive,
+			Outcome:             risk.Outcome,
+			SecurityRequirement: risk.SecurityRequirements,
+			Probability:         risk.Probability,
+			Consequences:        risk.Consequences,
+			RelativeScore:       risk.RelativeScore,
+			TechnicalAction:     mitigation.TechnicalMitigation,
+			PhysicalAction:      mitigation.PhysicalMitigation,
+			PeopleAction:        mitigation.PeopleMitigation,
+			CategoryNum:         categoryNum,
+			CategoryStr:         categoryStr,
+		}
+
+		contents = append(contents, content)
+	}
+
+	// Fill Category
+	categoryNum, err := models.GetCategoryMatrixByAssetId(uint(assetId))
+	if err != nil {
+		return err
+	}
+
+	category1 = categoryNum[0]
+	category2 = categoryNum[1]
+	category3 = categoryNum[2]
+	category4 = categoryNum[3]
+
+	data := map[string]interface{}{
+		"AssetId":   assetId,
+		"Contents":  contents,
+		"Category1": category1,
+		"Category2": category2,
+		"Category3": category3,
+		"Category4": category4,
+	}
+
+	return c.Render("renderContentByAsset", data)
+}
+
+func DeleteAsset(c *fiber.Ctx) error {
+	assetIdStr := c.Params("assetId")
+
+	assetId, err := strconv.Atoi(assetIdStr)
+	if err != nil {
+		return err
+	}
+
+	err = models.DeleteAssetByAssetId(uint(assetId))
 	if err != nil {
 		return err
 	}
@@ -277,7 +519,7 @@ func FormPost(c *fiber.Ctx) error {
 }
 
 func Notification(ctx *fiber.Ctx) error {
-	return ctx.Redirect("dashboard")
+	return ctx.Redirect("/")
 }
 
 // Asset Container Page
@@ -394,9 +636,10 @@ type AddRiskRequest struct {
 	Area3               string `form:"area3"`
 	Area4               string `form:"area4"`
 	Area5               string `form:"area5"`
-	TechnicalMitigation string `form:"technical_mitigation"`
-	PhysicalMitigation  string `form:"physical_mitigation"`
-	PeopleMitigation    string `form:"people_mitigation"`
+	TotalScore          string `form:"total_score"`
+	TechnicalMitigation string `form:"technical"`
+	PhysicalMitigation  string `form:"physical"`
+	PeopleMitigation    string `form:"people"`
 }
 
 func PostRisk(c *fiber.Ctx) error {
@@ -422,7 +665,7 @@ func PostRisk(c *fiber.Ctx) error {
 		return err
 	}
 
-	riskId, err := models.InsertRisk(models.AssetRisk{ProjectID: uint(projectId), AssetID: uint(assetId), AreaOfConcern: r.Concern, Actor: r.Actor, Means: r.Means, Motive: r.Motive, Outcome: r.Outcome, SecurityRequirements: r.SecurityReq, Probability: r.Probability, Consequences: r.Consequences, ReputationConfidence: r.Area1, Financial: r.Area2, Productivity: r.Area3, SafetyHealth: r.Area4, FinesLegalPenalties: r.Area5})
+	riskId, err := models.InsertRisk(models.AssetRisk{ProjectID: uint(projectId), AssetID: uint(assetId), AreaOfConcern: r.Concern, Actor: r.Actor, Means: r.Means, Motive: r.Motive, Outcome: r.Outcome, SecurityRequirements: r.SecurityReq, Probability: r.Probability, Consequences: r.Consequences, RelativeScore: r.TotalScore})
 	if err != nil {
 		return err
 	}

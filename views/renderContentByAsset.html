@@ -1,0 +1,136 @@
+<!-- Delete Asset Button -->
+{{ if .AssetId }}
+<button
+  class="delete-asset"
+  id="delete-asset"
+  hx-delete="/asset/{{ .AssetId }}"
+  hx-swap-oob="true"
+>
+  Delete Asset
+</button>
+{{ else }}
+<button id="delete-asset" class="delete-asset" hx-swap-oob="true">
+  Delete Asset
+</button>
+{{ end }}
+
+<!-- Content -->
+<div class="container-content" id="container-content" hx-swap-oob="true">
+  {{ range .Contents }}
+  <div class="content">
+    <div class="front">
+      <div class="bot">
+        <div class="sec" style="min-width: 10rem; max-width: 14rem">
+          <h3>Area of Concern:</h3>
+          <p>{{ .AreaOfConcern }}</p>
+        </div>
+
+        <div class="sec" style="min-width: 9rem">
+          <h5>Actor:</h5>
+          <p>{{ .Actor }}</p>
+
+          <h5>Motive:</h5>
+          <p>{{ .Motive }}</p>
+        </div>
+
+        <div class="sec" style="min-width: 9rem">
+          <h5>Means:</h5>
+          <p>{{ .Means }}</p>
+          <h5>Outcome:</h5>
+          <p>{{ .Outcome }}</p>
+        </div>
+
+        <div class="sec">
+          <h5 style="min-width: 10rem">Security Requirement:</h5>
+          <p>{{ .SecurityRequirement }}</p>
+          <h5>Probability:</h5>
+          <p>{{ .Probability }}</p>
+        </div>
+
+        <div class="sec" style="min-width: 9rem">
+          <h5>Consequences:</h5>
+          <p>{{ .Consequences }}</p>
+          <h5>Relative Score:</h5>
+          <p>{{ .RelativeScore }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="back">
+      <h3>Mitigation Approach: {{ .CategoryStr }}</h3>
+
+      <div class="bot">
+        <div class="sec">
+          <h5>Action/Control (Technical):</h5>
+          <p>{{ .TechnicalAction }}</p>
+        </div>
+
+        <div class="sec">
+          <h5>Action/Control (Physical):</h5>
+          <p>{{ .PhysicalAction }}</p>
+        </div>
+
+        <div class="sec">
+          <h5>Action/Control (People):</h5>
+          <p>{{ .PeopleAction }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  {{ else }}
+  <div style="background-color: var(--mirage)">
+    <h1 style="margin: 10rem 28rem">NONE</h1>
+  </div>
+  {{ end }}
+</div>
+
+<!-- Script -->
+<div class="container-chart" id="container-chart" hx-swap-oob="true">
+  <canvas id="myChart" width="130" height="130"></canvas>
+</div>
+
+<script id="script" hx-swap-oob="true" hx-on="htmx:afterSwap">
+  function myCallBack() {
+    const ctx = document.getElementById("myChart");
+
+    Chart.defaults.color = "#FFFFFF";
+    Chart.defaults.borderColor = "rgba(255, 255, 255, 0.3)";
+    Chart.defaults.font.size = 10;
+
+    new Chart(ctx, {
+      type: "bar",
+      data: {
+        labels: ["Category 1", "Category 2", "Category 3", "Category 4"],
+        datasets: [
+          {
+            label: "Risks",
+            data: [
+              "{{ .Category1 }}",
+              "{{ .Category2 }}",
+              "{{ .Category3 }}",
+              "{{ .Category4 }}",
+            ],
+            borderWidth: 1,
+          },
+        ],
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true,
+          },
+        },
+        plugins: {
+          legend: {
+            labels: {
+              font: {
+                size: 14,
+              },
+            },
+          },
+        },
+      },
+    });
+  }
+
+  myCallBack();
+</script>
