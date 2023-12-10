@@ -4,11 +4,14 @@
 
 A proof of concept HTMX app with a Go Fiber backend. This project is an application of risk management using a well-defined framework that is already popular in the field of cybersecurity, namely OCVATE ALLEGRO.
 
-<img width="960" alt="image" src="https://github.com/AliNicholas/risk-management-octave-allegro/assets/109023698/a04b539e-b07f-4a39-a249-5693fde0f8b9">
+<img width="959" alt="image" src="https://github.com/AliNicholas/risk-management-octave-allegro/assets/109023698/f44876c2-d297-425b-97ed-fbaa60a5b351">
 
 <img width="960" alt="image" src="https://github.com/AliNicholas/risk-management-octave-allegro/assets/109023698/9ffcd334-aac7-432e-b417-cb2b6fb55896">
 
 <img width="960" alt="image" src="https://github.com/AliNicholas/risk-management-octave-allegro/assets/109023698/0f3f3702-8bb6-41db-bcde-1bb3ef4efd4d">
+
+<img width="554" alt="image" src="https://github.com/AliNicholas/risk-management-octave-allegro/assets/109023698/b7c3734c-3e32-42d3-b327-b8a7399ec94c">
+
 
 ## Requirements
 
